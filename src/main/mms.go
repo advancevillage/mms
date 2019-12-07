@@ -1,6 +1,6 @@
 // @title mms
 // @version 0.0.1
-// @description �商品中心
+// @description 商品中心
 // @contact.name richard sun
 // @contact.email cugriver@163.com
 // @license.name Apache 2.0
@@ -10,11 +10,13 @@
 // @schemes http https
 package main
 
+import "mms/src/route"
+
 var (
     commit  = "000000"
     version = "v0.0.1"
 )
 
 func main() {
-
+    route.InitRoute("localhost", 13147)
 }

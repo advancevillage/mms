@@ -2,7 +2,8 @@
  * mms
 
 #### 项目描述
-    �商品中心
+    商品中心
+    @link: http://www.woshipm.com/pd/508411.html
 
 #### 代码规范
     1: 命名规范
@@ -54,3 +55,4 @@
 #### 参考文件
     1: swag Download: https://github.com/swaggo/swag/releases  [1.6.2]
        $ cp swag  /usr/sbin/
+              
