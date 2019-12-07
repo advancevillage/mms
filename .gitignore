@@ -1,0 +1,5 @@
+.idea*
+.idea/vcs.xml
+.DS_Store
+pkg
+*.log

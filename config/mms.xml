@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configure>
+	<mms>
+		<host>0.0.0.0</host>
+		<port>13147</port>
+	</mms>
+</configure>
