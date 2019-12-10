@@ -6,10 +6,10 @@ const (
 	CategorySchema = "categories"
 )
 
-type CategorizeFactory interface {
-	CreateCategory(category *Category) error
-	DeleteCategory(category *Category) error
-	UpdateCategory(category *Category) error
+type ICategory interface {
+	CreateCategory(*Category) error
+	DeleteCategory(*Category) error
+	UpdateCategory(*Category) error
 }
 
 type Category struct {
