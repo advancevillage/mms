@@ -1,9 +1,14 @@
 //author: richard
 package repo
 
-import "mms/src/component/category"
+import (
+	"github.com/advancevillage/3rd/storages"
+	"mms/src/component/category"
+)
 
-type CategoryRepoEs7 struct {}
+type CategoryRepoEs7 struct {
+	repo *storages.TES
+}
 
 func (c *CategoryRepoEs7) CreateCategory(cat *category.Category) error {
 	return nil

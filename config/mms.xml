@@ -3,5 +3,10 @@
 	<mms>
 		<host>0.0.0.0</host>
 		<port>13147</port>
+		<es>
+			<url>http://localhost:9200</url>
+			<url>http://localhost:9200</url>
+			<url>http://localhost:9200</url>
+		</es>
 	</mms>
 </configure>
