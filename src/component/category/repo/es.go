@@ -7,7 +7,11 @@ import (
 )
 
 type CategoryRepoEs7 struct {
-	repo *storages.TES
+	storage storages.Storage
+}
+
+func NewCategoryRepoEs7(storage storages.Storage) *CategoryRepoEs7 {
+	return &CategoryRepoEs7{storage:storage}
 }
 
 func (c *CategoryRepoEs7) CreateCategory(cat *category.Category) error {
