@@ -11,9 +11,7 @@
 package main
 
 import (
-    "fmt"
     "mms/src/config"
-    "os"
 )
 
 var (
@@ -27,20 +25,15 @@ const (
     ErrorLoadConfigure = "error: load configure file failed"
 )
 
-
 func main() {
     var err error
     err = config.LoadArgs(commit, version, buildTime)
     if err != nil {
-        exitWithInfo(ErrorLoadArgs)
+        config.ExitWithInfo(ErrorLoadArgs)
     }
     err = config.LoadConfigure()
     if err != nil {
-        exitWithInfo(ErrorLoadConfigure)
+        config.ExitWithInfo(ErrorLoadConfigure)
     }
 }
 
-func exitWithInfo(format string, a ...interface{}) {
-    fmt.Printf(format, a ...)
-    os.Exit(0)
-}

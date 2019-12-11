@@ -22,7 +22,7 @@ func LoadArgs(commit, version, buildTime string) error {
 				defaultConfigure.File = args[j]
 			}
 		case "--version", "-v":
-			fmt.Printf("commit=%s, version=%s, buildTime=%s", commit, version, buildTime)
+			ExitWithInfo("commit=%s, version=%s, buildTime=%s", commit, version, buildTime)
 			os.Exit(0)
 		default:
 			continue
@@ -41,4 +41,9 @@ func LoadConfigure() error {
 		return err
 	}
 	return nil
+}
+
+func ExitWithInfo(format string, a ...interface{}) {
+	fmt.Printf(format, a ...)
+	os.Exit(0)
 }
