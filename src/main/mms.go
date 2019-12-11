@@ -10,13 +10,37 @@
 // @schemes http https
 package main
 
-import "mms/src/route"
+import (
+    "fmt"
+    "mms/src/config"
+    "os"
+)
 
 var (
     commit  = "000000"
     version = "v0.0.1"
+    buildTime = "2006-01-03 16:05:06"
 )
 
+const (
+    ErrorLoadArgs = "error: load args failed"
+    ErrorLoadConfigure = "error: load configure file failed"
+)
+
+
 func main() {
-    route.InitRoute("localhost", 13147)
+    var err error
+    err = config.LoadArgs(commit, version, buildTime)
+    if err != nil {
+        exitWithInfo(ErrorLoadArgs)
+    }
+    err = config.LoadConfigure()
+    if err != nil {
+        exitWithInfo(ErrorLoadConfigure)
+    }
+}
+
+func exitWithInfo(format string, a ...interface{}) {
+    fmt.Printf(format, a ...)
+    os.Exit(0)
 }

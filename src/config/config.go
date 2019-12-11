@@ -1,4 +1,4 @@
-package init
+package config
 
 import (
 	"encoding/xml"
@@ -7,6 +7,8 @@ import (
 	"github.com/advancevillage/3rd/storages"
 	"mms/src/component/category"
 )
+
+var defaultConfigure Configure
 //初始化地址和端口
 //初始化存储配置
 //初始化缓存配置
@@ -27,6 +29,10 @@ type Configure struct {
 	Es7   struct{
 		DSN []string	 `xml:"dsn"`
 	}	`xml:"es7"`
+	File 	  	string 	 `xml:"-"`
+	commit 		string   `xml:"-"`
+	version 	string 	 `xml:"-"`
+	buildTime 	string   `xml:"-"`
 }
 
 

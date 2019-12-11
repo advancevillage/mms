@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mms>
+	<httpHost>0.0.0.0</httpHost>
+	<httpPort>13147</httpPort>
+	<es7>
+		<dsn>http://localhost:9200</dsn>
+	</es7>
+</mms>
