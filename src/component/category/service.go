@@ -18,11 +18,12 @@ func NewCategoryService(storage storages.Storage, logger logs.Logs) *Service {
 	return &Service{repo:NewCategoryRepoEs7(storage), logger:logger}
 }
 
-func (s *Service) CreateCategory(cat *Category) error {
-	err := s.repo.CreateCategory(cat)
+func (s *Service) QueryCategoryById(categoryId int64) (*Category, error) {
+	cat, err := s.repo.QueryCategory(categoryId)
 	if err != nil {
 		s.logger.Error(err.Error())
-		return err
+		return nil, err
 	}
-	return nil
+	return cat, nil
 }
+

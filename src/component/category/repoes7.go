@@ -39,3 +39,16 @@ func (s *RepoEs7) UpdateCategory(cat *Category) error {
 	return s.storage.UpdateStorageV2(Schema, fmt.Sprintf("%d", cat.CategoryId), body)
 }
 
+func (s *RepoEs7) QueryCategory(categoryId int64) (*Category, error) {
+	buf, err := s.storage.QueryStorageV2(Schema, fmt.Sprintf("%d", categoryId))
+	if err != nil {
+		return nil, err
+	}
+	cat := Category{}
+	err = json.Unmarshal(buf, &cat)
+	if err != nil {
+		return nil, err
+	}
+	return &cat, nil
+}
+

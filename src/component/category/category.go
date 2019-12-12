@@ -10,6 +10,7 @@ type ICategory interface {
 	CreateCategory(*Category) error
 	DeleteCategory(...*Category) error
 	UpdateCategory(*Category) error
+	QueryCategory(int64) (*Category, error)
 }
 
 type Category struct {
