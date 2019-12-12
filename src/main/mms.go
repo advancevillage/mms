@@ -12,6 +12,7 @@ package main
 
 import (
     "mms/src/config"
+    "mms/src/route"
 )
 
 var (
@@ -23,6 +24,8 @@ var (
 const (
     ErrorLoadArgs = "error: load args failed"
     ErrorLoadConfigure = "error: load configure file failed"
+    ErrorLoadObject = "error: load object failed"
+    ErrorInitServer = "error: load router failed"
 )
 
 func main() {
@@ -34,6 +37,14 @@ func main() {
     err = config.LoadConfigure()
     if err != nil {
         config.ExitWithInfo(ErrorLoadConfigure)
+    }
+    err = config.LoadObject()
+    if err != nil {
+        config.ExitWithInfo(ErrorLoadObject)
+    }
+    err = route.LoadRouter(config.GetMMSObject().GetHttpHost(), config.GetMMSObject().GetHttpPort())
+    if err != nil {
+        config.ExitWithInfo(ErrorInitServer)
     }
 }
 

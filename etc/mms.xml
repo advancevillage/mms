@@ -5,4 +5,5 @@
 	<es7>
 		<dsn>http://localhost:9200</dsn>
 	</es7>
+	<log>log/mms.log</log>
 </mms>

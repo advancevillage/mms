@@ -9,13 +9,12 @@ import (
 )
 
 var defaultConfigure Configure
+var defaultMMS		 MMS
 //初始化地址和端口
 //初始化存储配置
 //初始化缓存配置
 //初始化日志配置
 type MMS struct {
-	host  string
-	port  int
 	cache  	   caches.Cache
 	logger 	   logs.Logs
 	es7    	   storages.Storage
@@ -29,6 +28,7 @@ type Configure struct {
 	Es7   struct{
 		DSN []string	 `xml:"dsn"`
 	}	`xml:"es7"`
+	Log 		string   `xml:"log"`
 	File 	  	string 	 `xml:"-"`
 	commit 		string   `xml:"-"`
 	version 	string 	 `xml:"-"`

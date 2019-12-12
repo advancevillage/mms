@@ -5,8 +5,15 @@ import (
 	"encoding/xml"
 	"fmt"
 	"github.com/advancevillage/3rd/files"
+	"github.com/advancevillage/3rd/logs"
+	"github.com/advancevillage/3rd/storages"
+	"mms/src/component/category"
 	"os"
 )
+
+func GetMMSObject() *MMS {
+	return &defaultMMS
+}
 
 func LoadArgs(commit, version, buildTime string) error {
 	var args = os.Args
@@ -43,7 +50,37 @@ func LoadConfigure() error {
 	return nil
 }
 
+func LoadObject() error {
+	var err error
+	defaultMMS.logger, err = logs.NewTxtLogger(defaultConfigure.Log, 4096, 4)
+	if err != nil {
+		return err
+	}
+	defaultMMS.es7, err = storages.NewTES(defaultConfigure.Es7.DSN, defaultMMS.logger)
+	if err != nil {
+		return err
+	}
+	defaultMMS.category = category.NewCategoryService(defaultMMS.es7)
+	return nil
+}
+
 func ExitWithInfo(format string, a ...interface{}) {
-	fmt.Printf(format, a ...)
+	fmt.Printf(format + "\n\n\t", a ...)
 	os.Exit(0)
+}
+
+func (mms *MMS) GetHttpHost() string {
+	return defaultConfigure.HttpHost
+}
+
+func (mms *MMS) GetHttpPort() int {
+	return defaultConfigure.HttpPort
+}
+
+func (mms *MMS) GetCategoryService() *category.Service {
+	return mms.category
+}
+
+func (mms *MMS) GetVersion() string {
+	return fmt.Sprintf("commit=%s version=%s buildTime=%s", defaultConfigure.commit, defaultConfigure.version, defaultConfigure.buildTime)
 }
