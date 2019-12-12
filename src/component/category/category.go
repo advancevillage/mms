@@ -3,12 +3,12 @@
 package category
 
 const (
-	CategorySchema = "categories"
+	Schema = "categories"
 )
 
 type ICategory interface {
 	CreateCategory(*Category) error
-	DeleteCategory(*Category) error
+	DeleteCategory(...*Category) error
 	UpdateCategory(*Category) error
 }
 

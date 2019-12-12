@@ -60,7 +60,7 @@ func LoadObject() error {
 	if err != nil {
 		return err
 	}
-	defaultMMS.category = category.NewCategoryService(defaultMMS.es7)
+	defaultMMS.category = category.NewCategoryService(defaultMMS.es7, defaultMMS.logger)
 	return nil
 }
 
