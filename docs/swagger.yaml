@@ -1,0 +1,109 @@
+basePath: /
+definitions:
+  route.HttpError:
+    properties:
+      code:
+        type: integer
+      message:
+        type: string
+    type: object
+  route.HttpOk:
+    properties:
+      code:
+        type: integer
+      message:
+        type: string
+    type: object
+  route.RequestCategory:
+    properties:
+      categoryName:
+        type: string
+      categoryStatus:
+        type: integer
+      childCategories:
+        items:
+          type: integer
+        type: array
+      parentCategories:
+        items:
+          type: integer
+        type: array
+    type: object
+  route.ResponseVersion:
+    properties:
+      info:
+        type: string
+    type: object
+host: localhost:13147
+info:
+  contact:
+    email: cugriver@163.com
+    name: richard sun
+  description: 商品中心
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: mms
+  version: 0.0.1
+paths:
+  /v1/categories:
+    post:
+      parameters:
+      - description: CreateCategory
+        in: body
+        name: '{}'
+        required: true
+        schema:
+          $ref: '#/definitions/route.RequestCategory'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/route.HttpOk'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+      summary: 创建分类
+  /v1/merchandises/version:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/route.ResponseVersion'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+      summary: 显示当前服务的版本和代码版本号
+swagger: "2.0"

@@ -3,7 +3,7 @@
 	<httpHost>0.0.0.0</httpHost>
 	<httpPort>13147</httpPort>
 	<es7>
-		<dsn>http://localhost:9200</dsn>
+		<dsn>http://192.168.1.101:9200</dsn>
 	</es7>
 	<log>log/mms.log</log>
 </mms>

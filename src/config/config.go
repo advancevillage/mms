@@ -35,6 +35,3 @@ type Configure struct {
 	buildTime 	string   `xml:"-"`
 }
 
-
-
-

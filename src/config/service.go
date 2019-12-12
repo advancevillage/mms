@@ -84,3 +84,7 @@ func (mms *MMS) GetCategoryService() *category.Service {
 func (mms *MMS) GetVersion() string {
 	return fmt.Sprintf("commit=%s version=%s buildTime=%s", defaultConfigure.commit, defaultConfigure.version, defaultConfigure.buildTime)
 }
+
+func (mms *MMS) GetLogger() logs.Logs {
+	return mms.logger
+}

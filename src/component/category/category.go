@@ -4,6 +4,9 @@ package category
 
 const (
 	Schema = "categories"
+
+	StatusActived = 0x101
+	StatusDeleted = 0x102
 )
 
 type ICategory interface {
