@@ -15,7 +15,6 @@ type IBrand interface {
 	QueryBrand(int64) (*Brand, error)
 }
 
-
 type Brand struct {
 	BrandId 	int64 	`json:"brandId"`
 	BrandName 	string 	`json:"brandName"`

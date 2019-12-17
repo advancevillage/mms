@@ -8,7 +8,10 @@ import (
 	"mms/src/component/brand"
 	"mms/src/component/category"
 	"mms/src/component/color"
+	"mms/src/component/goods"
 	"mms/src/component/image"
+	"mms/src/component/manufacturer"
+	"mms/src/component/size"
 	"mms/src/component/tag"
 )
 
@@ -27,6 +30,9 @@ type MMS struct {
 	tag 	   *tag.Service
 	color 	   *color.Service
 	image 	   *image.Service
+	manufacturer *manufacturer.Service
+	size 	   *size.Service
+	goods 	   *goods.Service
 }
 
 type Configure struct {

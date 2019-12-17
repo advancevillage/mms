@@ -4,6 +4,7 @@ package route
 import (
 	"encoding/json"
 	"github.com/advancevillage/3rd/https"
+	"mms/src/component/category"
 	"mms/src/config"
 	"net/http"
 )
@@ -49,7 +50,12 @@ func (s *service) CreateCategory(ctx *https.Context) {
 		ctx.JsonResponse(http.StatusBadRequest, &HttpError{Code: CategoryCreateErrorCode, Message: CategoryCreateErrorMsg})
 		return
 	}
-	err = config.GetMMSObject().GetCategoryService().CreateCategory(rc.CategoryName, rc.CategoryStatus, rc.ChildCategories, rc.ParentCategories)
+	cat := category.Category{}
+	cat.CategoryName = rc.CategoryName
+	cat.CategoryStatus = rc.CategoryStatus
+	cat.ChildCategories = rc.ChildCategories
+	cat.ParentCategories = rc.ParentCategories
+	err = config.GetMMSObject().GetCategoryService().CreateCategory(&cat)
 	if err != nil {
 		config.GetMMSObject().GetLogger().Warning(err.Error())
 		ctx.JsonResponse(http.StatusBadRequest, &HttpError{Code: CategoryCreateErrorCode, Message: CategoryCreateErrorMsg})

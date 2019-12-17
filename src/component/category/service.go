@@ -43,13 +43,8 @@ func (s *Service) QueryCategories(categoryId ...int64) ([]*Category, error) {
 	return cats, nil
 }
 
-func (s *Service) CreateCategory(categoryName string, categoryStatus int, childCategory []int64, parentCategory []int64) error {
-	cat := &Category{}
+func (s *Service) CreateCategory(cat *Category) error {
 	cat.CategoryId = utils.SnowFlakeId()
-	cat.CategoryName = categoryName
-	cat.CategoryStatus = categoryStatus
-	cat.ChildCategories = childCategory
-	cat.ParentCategories = parentCategory
 	cat.CategoryCreateTime = times.Timestamp()
 	cat.CategoryUpdateTime = times.Timestamp()
 	cat.CategoryDeleteTime = 0

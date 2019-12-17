@@ -40,14 +40,8 @@ func (s *Service) QueryImages(imgId ...int64) ([]*Image, error) {
 	return img, nil
 }
 
-func (s *Service) CreateImage(imgName string, imgStatus int, imgDirection int, imgSize string, imgType string) error {
-	img := &Image{}
+func (s *Service) CreateImage(img *Image) error {
 	img.ImageId = utils.SnowFlakeId()
-	img.ImageName = imgName
-	img.ImageStatus = imgStatus
-	img.ImageCustomDirection  = imgDirection
-	img.ImageCustomSize = imgSize
-	img.ImageCustomType = imgType
 	img.ImageCreateTime = times.Timestamp()
 	img.ImageUpdateTime = times.Timestamp()
 	img.ImageDeleteTime = 0

@@ -40,12 +40,8 @@ func (s *Service) QueryColors(colorId ...int64) ([]*Color, error) {
 	return colors, nil
 }
 
-func (s *Service) CreateColor(colorName string, colorStatus int, colorValue string) error {
-	color := &Color{}
+func (s *Service) CreateColor(color *Color) error {
 	color.ColorId = utils.SnowFlakeId()
-	color.ColorName = colorName
-	color.ColorStatus = colorStatus
-	color.ColorValue  = colorValue
 	color.ColorCreateTime = times.Timestamp()
 	color.ColorUpdateTime = times.Timestamp()
 	color.ColorDeleteTime = 0

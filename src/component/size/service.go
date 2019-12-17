@@ -41,11 +41,8 @@ func (s *Service) QuerySizes(sizeId ...int64) ([]*Size, error) {
 	return sizes, nil
 }
 
-func (s *Service) CreateSize(sizeName string, sizeStatus int) error {
-	size := &Size{}
+func (s *Service) CreateSize(size *Size) error {
 	size.SizeId = utils.SnowFlakeId()
-	size.SizeName = sizeName
-	size.SizeStatus = sizeStatus
 	size.SizeCreateTime = times.Timestamp()
 	size.SizeUpdateTime = times.Timestamp()
 	size.SizeDeleteTime = 0

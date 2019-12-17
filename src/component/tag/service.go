@@ -40,11 +40,8 @@ func (s *Service) QueryTags(tagId ...int64) ([]*Tag, error) {
 	return tags, nil
 }
 
-func (s *Service) CreateTag(tagName string, tagStatus int) error {
-	tag := &Tag{}
+func (s *Service) CreateTag(tag *Tag) error {
 	tag.TagId = utils.SnowFlakeId()
-	tag.TagName = tagName
-	tag.TagStatus = tagStatus
 	tag.TagCreateTime = times.Timestamp()
 	tag.TagUpdateTime = times.Timestamp()
 	tag.TagDeleteTime = 0

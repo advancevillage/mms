@@ -11,7 +11,10 @@ import (
 	"mms/src/component/brand"
 	"mms/src/component/category"
 	"mms/src/component/color"
+	"mms/src/component/goods"
 	"mms/src/component/image"
+	"mms/src/component/manufacturer"
+	"mms/src/component/size"
 	"mms/src/component/tag"
 	"os"
 )
@@ -69,11 +72,14 @@ func LoadObject() error {
 	if err != nil {
 		return err
 	}
+	defaultMMS.manufacturer = manufacturer.NewManufacturerService(defaultMMS.es7, defaultMMS.logger)
 	defaultMMS.category = category.NewCategoryService(defaultMMS.es7, defaultMMS.logger)
 	defaultMMS.brand    = brand.NewBrandService(defaultMMS.es7, defaultMMS.logger)
 	defaultMMS.tag      = tag.NewTagService(defaultMMS.es7, defaultMMS.logger)
 	defaultMMS.color    = color.NewColorService(defaultMMS.es7, defaultMMS.logger)
 	defaultMMS.image    = image.NewImageService(defaultMMS.es7, defaultMMS.logger)
+	defaultMMS.goods    = goods.NewGoodsService(defaultMMS.es7, defaultMMS.logger)
+	defaultMMS.size     = size.NewSizeService(defaultMMS.es7, defaultMMS.logger)
 	return nil
 }
 

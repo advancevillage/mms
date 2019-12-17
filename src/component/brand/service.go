@@ -40,11 +40,8 @@ func (s *Service) QueryBrands(BrandId ...int64) ([]*Brand, error) {
 	return brands, nil
 }
 
-func (s *Service) CreateBrand(brandName string, BrandStatus int) error {
-	brd := &Brand{}
+func (s *Service) CreateBrand(brd *Brand) error {
 	brd.BrandId = utils.SnowFlakeId()
-	brd.BrandName = brandName
-	brd.BrandStatus = BrandStatus
 	brd.BrandCreateTime = times.Timestamp()
 	brd.BrandUpdateTime = times.Timestamp()
 	brd.BrandDeleteTime = 0
