@@ -9,7 +9,6 @@ import (
 	"github.com/advancevillage/3rd/storages"
 	"github.com/advancevillage/3rd/times"
 	"github.com/advancevillage/3rd/utils"
-
 )
 
 type Service struct {
@@ -44,7 +43,6 @@ func (s *Service) QueryCategories(categoryId ...int64) ([]*Category, error) {
 	return cats, nil
 }
 
-//TODO 函数幂等性
 func (s *Service) CreateCategory(categoryName string, categoryStatus int, childCategory []int64, parentCategory []int64) error {
 	cat := &Category{}
 	cat.CategoryId = utils.SnowFlakeId()

@@ -4,10 +4,15 @@ package config
 import (
 	"encoding/xml"
 	"fmt"
+	"github.com/advancevillage/3rd/caches"
 	"github.com/advancevillage/3rd/files"
 	"github.com/advancevillage/3rd/logs"
 	"github.com/advancevillage/3rd/storages"
+	"mms/src/component/brand"
 	"mms/src/component/category"
+	"mms/src/component/color"
+	"mms/src/component/image"
+	"mms/src/component/tag"
 	"os"
 )
 
@@ -60,7 +65,15 @@ func LoadObject() error {
 	if err != nil {
 		return err
 	}
+	defaultMMS.cache, err = caches.NewRedis(defaultConfigure.Redis.Host, defaultConfigure.Redis.Port, defaultConfigure.Redis.Auth, defaultConfigure.Redis.Schema, defaultMMS.logger, defaultMMS.es7)
+	if err != nil {
+		return err
+	}
 	defaultMMS.category = category.NewCategoryService(defaultMMS.es7, defaultMMS.logger)
+	defaultMMS.brand    = brand.NewBrandService(defaultMMS.es7, defaultMMS.logger)
+	defaultMMS.tag      = tag.NewTagService(defaultMMS.es7, defaultMMS.logger)
+	defaultMMS.color    = color.NewColorService(defaultMMS.es7, defaultMMS.logger)
+	defaultMMS.image    = image.NewImageService(defaultMMS.es7, defaultMMS.logger)
 	return nil
 }
 

@@ -5,7 +5,11 @@ import (
 	"github.com/advancevillage/3rd/caches"
 	"github.com/advancevillage/3rd/logs"
 	"github.com/advancevillage/3rd/storages"
+	"mms/src/component/brand"
 	"mms/src/component/category"
+	"mms/src/component/color"
+	"mms/src/component/image"
+	"mms/src/component/tag"
 )
 
 var defaultConfigure Configure
@@ -19,6 +23,10 @@ type MMS struct {
 	logger 	   logs.Logs
 	es7    	   storages.Storage
 	category   *category.Service
+	brand 	   *brand.Service
+	tag 	   *tag.Service
+	color 	   *color.Service
+	image 	   *image.Service
 }
 
 type Configure struct {
@@ -28,6 +36,12 @@ type Configure struct {
 	Es7   struct{
 		DSN []string	 `xml:"dsn"`
 	}	`xml:"es7"`
+	Redis struct{
+		Host string `xml:"host"`
+		Port int 	`xml:"port"`
+		Auth string `xml:"auth"`
+		Schema int `xml:"schema"`
+	}	`xml:"redis"`
 	Log 		string   `xml:"log"`
 	File 	  	string 	 `xml:"-"`
 	commit 		string   `xml:"-"`
