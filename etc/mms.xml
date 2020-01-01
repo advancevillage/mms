@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mms>
 	<httpHost>0.0.0.0</httpHost>
-	<httpPort>13147</httpPort>
+	<httpPort>13170</httpPort>
 	<log>log/mms.log</log>
-	<mongo>mongodb://admin:password@localhost:27017</mongo>
+	<mongo>mongodb://admin:password@192.168.1.103:27017</mongo>
 </mms>

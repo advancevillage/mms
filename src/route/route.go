@@ -2,7 +2,6 @@ package route
 
 import (
 	"github.com/advancevillage/3rd/https"
-	"mms/src/config"
 )
 
 
@@ -23,10 +22,8 @@ func LoadRouter(host string, port int, mode string) error {
 	var err error
 	switch mode {
 	case "lambda":
-		config.GetMMSObject().GetLogger().Info("%s", "loadLambdaRouter")
 		err = LoadLambdaRouter()
 	default:
-		config.GetMMSObject().GetLogger().Info("%s", "loadHttpRouter")
 		err =  LoadHttpRouter(host, port)
 	}
 	return err

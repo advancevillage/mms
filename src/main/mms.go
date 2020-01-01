@@ -16,7 +16,7 @@ import (
 )
 
 var (
-    mode    = "lambda"
+    mode    = "http"
     commit  = "000000"
     version = "v0.0.1"
     buildTime = "2006-01-03 16:05:06"
