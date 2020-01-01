@@ -53,4 +53,3 @@ func (s *Service) CreateSize(size *Size) error {
 	}
 	return nil
 }
-
