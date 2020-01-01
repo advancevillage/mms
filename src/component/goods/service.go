@@ -14,11 +14,11 @@ type Service struct {
 }
 
 func NewGoodsService(storage storages.Storage, logger logs.Logs) *Service {
-	return &Service{repo:NewGoodsRepoEs7(storage), logger:logger}
+	return &Service{repo:NewGoodsRepoMgo(storage), logger:logger}
 }
 
-func (s *Service) QueryGood(gId int64) (*Goods, error) {
-	g, err := s.repo.QueryGoods(gId)
+func (s *Service) QueryGood(goodsId string) (*Goods, error) {
+	g, err := s.repo.QueryGoods(goodsId)
 	if err != nil {
 		s.logger.Error(err.Error())
 		return nil, err
@@ -26,22 +26,22 @@ func (s *Service) QueryGood(gId int64) (*Goods, error) {
 	return g, nil
 }
 
-func (s *Service) QueryGoods(gId ...int64) ([]*Goods, error) {
-	var length = len(gId)
-	var g = make([]*Goods, 0, length)
+func (s *Service) QueryGoods(goodsIds ...string) ([]*Goods, error) {
+	var length = len(goodsIds)
+	var goods = make([]*Goods, 0, length)
 	for i := 0; i < length; i++ {
-		brd , err := s.repo.QueryGoods(gId[i])
+		good , err := s.repo.QueryGoods(goodsIds[i])
 		if err != nil {
 			s.logger.Info(err.Error())
 		} else {
-			g = append(g, brd)
+			goods = append(goods, good)
 		}
 	}
-	return g, nil
+	return goods, nil
 }
 
 func (s *Service) CreateGoods(g *Goods) error {
-	g.GoodsId = utils.SnowFlakeId()
+	g.GoodsId = utils.SnowFlakeIdString()
 	g.GoodsCreateTime = times.Timestamp()
 	g.GoodsUpdateTime = times.Timestamp()
 	g.GoodsDeleteTime = 0

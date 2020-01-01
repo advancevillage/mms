@@ -16,6 +16,7 @@ import (
 )
 
 var (
+    mode    = "lambda"
     commit  = "000000"
     version = "v0.0.1"
     buildTime = "2006-01-03 16:05:06"
@@ -30,7 +31,7 @@ const (
 
 func main() {
     var err error
-    err = config.LoadArgs(commit, version, buildTime)
+    err = config.LoadArgs(commit, version, buildTime, mode)
     if err != nil {
         config.ExitWithInfo(ErrorLoadArgs)
     }
@@ -42,7 +43,7 @@ func main() {
     if err != nil {
         config.ExitWithInfo(ErrorLoadObject)
     }
-    err = route.LoadRouter(config.GetMMSObject().GetHttpHost(), config.GetMMSObject().GetHttpPort())
+    err = route.LoadRouter(config.GetMMSObject().GetHttpHost(), config.GetMMSObject().GetHttpPort(), config.GetMMSObject().GetMode())
     if err != nil {
         config.ExitWithInfo(ErrorInitServer)
     }

@@ -14,10 +14,10 @@ type Service struct {
 }
 
 func NewManufacturerService(storage storages.Storage, logger logs.Logs) *Service {
-	return &Service{repo:NewManufacturerRepoEs7(storage), logger:logger}
+	return &Service{repo:NewManufacturerRepoMgo(storage), logger:logger}
 }
 
-func (s *Service) QueryManufacturer(mfId int64) (*Manufacturer, error) {
+func (s *Service) QueryManufacturer(mfId string) (*Manufacturer, error) {
 	mf, err := s.repo.QueryManufacturer(mfId)
 	if err != nil {
 		s.logger.Error(err.Error())
@@ -26,22 +26,22 @@ func (s *Service) QueryManufacturer(mfId int64) (*Manufacturer, error) {
 	return mf, nil
 }
 
-func (s *Service) QueryManufacturers(mfId ...int64) ([]*Manufacturer, error) {
+func (s *Service) QueryManufacturers(mfId ...string) ([]*Manufacturer, error) {
 	var length = len(mfId)
-	var mf = make([]*Manufacturer, 0, length)
+	var mfs = make([]*Manufacturer, 0, length)
 	for i := 0; i < length; i++ {
-		brd , err := s.repo.QueryManufacturer(mfId[i])
+		mf , err := s.repo.QueryManufacturer(mfId[i])
 		if err != nil {
 			s.logger.Info(err.Error())
 		} else {
-			mf = append(mf, brd)
+			mfs = append(mfs, mf)
 		}
 	}
-	return mf, nil
+	return mfs, nil
 }
 
 func (s *Service) CreatManufacturer(mf *Manufacturer) error {
-	mf.ManufacturerId = utils.SnowFlakeId()
+	mf.ManufacturerId = utils.SnowFlakeIdString()
 	mf.ManufacturerCreateTime = times.Timestamp()
 	mf.ManufacturerUpdateTime = times.Timestamp()
 	mf.ManufacturerDeleteTime = 0

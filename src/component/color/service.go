@@ -14,10 +14,10 @@ type Service struct {
 }
 
 func NewColorService(storage storages.Storage, logger logs.Logs) *Service {
-	return &Service{repo:NewColorRepoEs7(storage), logger:logger}
+	return &Service{repo:NewColorRepoMgo(storage), logger:logger}
 }
 
-func (s *Service) QueryColor(colorId int64) (*Color, error) {
+func (s *Service) QueryColor(colorId string) (*Color, error) {
 	color, err := s.repo.QueryColor(colorId)
 	if err != nil {
 		s.logger.Error(err.Error())
@@ -26,22 +26,22 @@ func (s *Service) QueryColor(colorId int64) (*Color, error) {
 	return color, nil
 }
 
-func (s *Service) QueryColors(colorId ...int64) ([]*Color, error) {
-	var length = len(colorId)
+func (s *Service) QueryColors(colorIds ...string) ([]*Color, error) {
+	var length = len(colorIds)
 	var colors = make([]*Color, 0, length)
 	for i := 0; i < length; i++ {
-		brd , err := s.repo.QueryColor(colorId[i])
+		color , err := s.repo.QueryColor(colorIds[i])
 		if err != nil {
 			s.logger.Info(err.Error())
 		} else {
-			colors = append(colors, brd)
+			colors = append(colors, color)
 		}
 	}
 	return colors, nil
 }
 
 func (s *Service) CreateColor(color *Color) error {
-	color.ColorId = utils.SnowFlakeId()
+	color.ColorId = utils.SnowFlakeIdString()
 	color.ColorCreateTime = times.Timestamp()
 	color.ColorUpdateTime = times.Timestamp()
 	color.ColorDeleteTime = 0

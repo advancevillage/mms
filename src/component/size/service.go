@@ -15,10 +15,10 @@ type Service struct {
 }
 
 func NewSizeService(storage storages.Storage, logger logs.Logs) *Service {
-	return &Service{repo:NewSizeRepoEs7(storage), logger:logger}
+	return &Service{repo:NewSizeRepoMgo(storage), logger:logger}
 }
 
-func (s *Service) QuerySize(sizeId int64) (*Size, error) {
+func (s *Service) QuerySize(sizeId string) (*Size, error) {
 	size, err := s.repo.QuerySize(sizeId)
 	if err != nil {
 		s.logger.Error(err.Error())
@@ -27,22 +27,22 @@ func (s *Service) QuerySize(sizeId int64) (*Size, error) {
 	return size, nil
 }
 
-func (s *Service) QuerySizes(sizeId ...int64) ([]*Size, error) {
-	var length = len(sizeId)
+func (s *Service) QuerySizes(sizeIds ...string) ([]*Size, error) {
+	var length = len(sizeIds)
 	var sizes = make([]*Size, 0, length)
 	for i := 0; i < length; i++ {
-		brd , err := s.repo.QuerySize(sizeId[i])
+		size , err := s.repo.QuerySize(sizeIds[i])
 		if err != nil {
 			s.logger.Info(err.Error())
 		} else {
-			sizes = append(sizes, brd)
+			sizes = append(sizes, size)
 		}
 	}
 	return sizes, nil
 }
 
 func (s *Service) CreateSize(size *Size) error {
-	size.SizeId = utils.SnowFlakeId()
+	size.SizeId = utils.SnowFlakeIdString()
 	size.SizeCreateTime = times.Timestamp()
 	size.SizeUpdateTime = times.Timestamp()
 	size.SizeDeleteTime = 0

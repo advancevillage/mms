@@ -50,7 +50,7 @@
             |--- args.go        //初始化命令行参数
 
 #### 构建编译
-    go build -o bin/mms -gcflags "-N -l" -ldflags "-X main.commit=4d399017 -X main.version=v5.0.0"  src/main/mms.go
+    go build -o bin/mms -gcflags "-N -l" -ldflags "-X main.commit=4d399017 -X main.version=v5.0.0 -X main.mode=http"  src/main/mms.go
 
 #### 参考文件
     1: swag Download: https://github.com/swaggo/swag/releases  [1.6.2]

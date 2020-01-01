@@ -8,23 +8,23 @@ import (
 	"github.com/advancevillage/3rd/storages"
 )
 
-type RepoEs7 struct {
+type RepoMgo struct {
 	storage storages.Storage
 }
 
-func NewBrandRepoEs7(storage storages.Storage) *RepoEs7 {
-	return &RepoEs7{storage:storage}
+func NewBrandRepoMgo(storage storages.Storage) *RepoMgo {
+	return &RepoMgo{storage:storage}
 }
 
-func (s *RepoEs7) CreateBrand(brd *Brand) error {
+func (s *RepoMgo) CreateBrand(brd *Brand) error {
 	body, err := json.Marshal(brd)
 	if err != nil {
 		return err
 	}
-	return s.storage.CreateStorageV2(Schema, fmt.Sprintf("%d", brd.BrandId), body)
+	return s.storage.CreateStorageV2(Schema, brd.BrandId, body)
 }
 
-func (s *RepoEs7) DeleteBrand(brd ... *Brand) error {
+func (s *RepoMgo) DeleteBrand(brd ... *Brand) error {
 	var key = make([]string, 0, len(brd))
 	for i := range brd {
 		key = append(key, fmt.Sprintf("%d", brd[i].BrandId))
@@ -32,15 +32,15 @@ func (s *RepoEs7) DeleteBrand(brd ... *Brand) error {
 	return s.storage.DeleteStorageV2(Schema, key ...)
 }
 
-func (s *RepoEs7) UpdateBrand(brd *Brand) error {
+func (s *RepoMgo) UpdateBrand(brd *Brand) error {
 	body, err := json.Marshal(brd)
 	if err != nil {
 		return err
 	}
-	return s.storage.UpdateStorageV2(Schema, fmt.Sprintf("%d", brd.BrandId), body)
+	return s.storage.UpdateStorageV2(Schema, brd.BrandId, body)
 }
 
-func (s *RepoEs7) QueryBrand(BrandId int64) (*Brand, error) {
+func (s *RepoMgo) QueryBrand(BrandId int64) (*Brand, error) {
 	buf, err := s.storage.QueryStorageV2(Schema, fmt.Sprintf("%d", BrandId))
 	if err != nil {
 		return nil, err

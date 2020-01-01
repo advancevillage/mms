@@ -17,10 +17,10 @@ type Service struct {
 }
 
 func NewCategoryService(storage storages.Storage, logger logs.Logs) *Service {
-	return &Service{repo:NewCategoryRepoEs7(storage), logger:logger}
+	return &Service{repo:NewCategoryRepoMgo(storage), logger:logger}
 }
 
-func (s *Service) QueryCategory(categoryId int64) (*Category, error) {
+func (s *Service) QueryCategory(categoryId string) (*Category, error) {
 	cat, err := s.repo.QueryCategory(categoryId)
 	if err != nil {
 		s.logger.Error(err.Error())
@@ -29,11 +29,11 @@ func (s *Service) QueryCategory(categoryId int64) (*Category, error) {
 	return cat, nil
 }
 
-func (s *Service) QueryCategories(categoryId ...int64) ([]*Category, error) {
-	var length = len(categoryId)
+func (s *Service) QueryCategories(categoryIds ...string) ([]*Category, error) {
+	var length = len(categoryIds)
 	var cats = make([]*Category, 0, length)
 	for i := 0; i < length; i++ {
-		cat , err := s.repo.QueryCategory(categoryId[i])
+		cat , err := s.repo.QueryCategory(categoryIds[i])
 		if err != nil {
 			s.logger.Info(err.Error())
 		} else {
@@ -44,7 +44,7 @@ func (s *Service) QueryCategories(categoryId ...int64) ([]*Category, error) {
 }
 
 func (s *Service) CreateCategory(cat *Category) error {
-	cat.CategoryId = utils.SnowFlakeId()
+	cat.CategoryId = utils.SnowFlakeIdString()
 	cat.CategoryCreateTime = times.Timestamp()
 	cat.CategoryUpdateTime = times.Timestamp()
 	cat.CategoryDeleteTime = 0
@@ -55,5 +55,3 @@ func (s *Service) CreateCategory(cat *Category) error {
 	}
 	return nil
 }
-
-

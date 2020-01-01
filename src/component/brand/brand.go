@@ -4,8 +4,8 @@ package brand
 const (
 	Schema = "brands"
 
-	StatusActived = 0x201
-	StatusDeleted = 0x202
+	StatusActived = 0x701
+	StatusDeleted = 0x702
 )
 
 type IBrand interface {
@@ -16,7 +16,7 @@ type IBrand interface {
 }
 
 type Brand struct {
-	BrandId 	int64 	`json:"brandId"`
+	BrandId 	string 	`json:"brandId"`
 	BrandName 	string 	`json:"brandName"`
 	BrandStatus int 	`json:"brandStatus"`
 	BrandCreateTime int64 `json:"brandCreateTime"`

@@ -14,10 +14,10 @@ type Service struct {
 }
 
 func NewImageService(storage storages.Storage, logger logs.Logs) *Service {
-	return &Service{repo:NewImageRepoEs7(storage), logger:logger}
+	return &Service{repo:NewImageRepoMgo(storage), logger:logger}
 }
 
-func (s *Service) QueryImage(imgId int64) (*Image, error) {
+func (s *Service) QueryImage(imgId string) (*Image, error) {
 	img, err := s.repo.QueryImage(imgId)
 	if err != nil {
 		s.logger.Error(err.Error())
@@ -26,22 +26,22 @@ func (s *Service) QueryImage(imgId int64) (*Image, error) {
 	return img, nil
 }
 
-func (s *Service) QueryImages(imgId ...int64) ([]*Image, error) {
-	var length = len(imgId)
-	var img = make([]*Image, 0, length)
+func (s *Service) QueryImages(imgIds ...string) ([]*Image, error) {
+	var length = len(imgIds)
+	var images = make([]*Image, 0, length)
 	for i := 0; i < length; i++ {
-		brd , err := s.repo.QueryImage(imgId[i])
+		image , err := s.repo.QueryImage(imgIds[i])
 		if err != nil {
 			s.logger.Info(err.Error())
 		} else {
-			img = append(img, brd)
+			images = append(images, image)
 		}
 	}
-	return img, nil
+	return images, nil
 }
 
 func (s *Service) CreateImage(img *Image) error {
-	img.ImageId = utils.SnowFlakeId()
+	img.ImageId = utils.SnowFlakeIdString()
 	img.ImageCreateTime = times.Timestamp()
 	img.ImageUpdateTime = times.Timestamp()
 	img.ImageDeleteTime = 0

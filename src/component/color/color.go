@@ -4,21 +4,20 @@ package color
 const (
 	Schema = "colors"
 
-	StatusActived = 0x401
-	StatusDeleted = 0x402
+	StatusActived = 0x301
+	StatusDeleted = 0x302
 )
 
 type IColor interface {
 	CreateColor(*Color) error
 	DeleteColor(...*Color) error
 	UpdateColor(*Color) error
-	QueryColor(int64) (*Color, error)
+	QueryColor(string) (*Color, error)
 }
 
-
 type Color struct {
-	ColorId 	int64 	`json:"colorId"`
-	ColorName string 	`json:"colorName"`
+	ColorId 	string 	`json:"colorId"`
+	ColorName   string 	`json:"colorName"`
 	ColorStatus int 	`json:"colorStatus"`
 	ColorValue  string  `json:"colorValue"` //色值 eg: #rgba(255,255,25,0)
 	ColorCreateTime int64 `json:"colorCreateTime"`

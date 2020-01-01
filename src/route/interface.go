@@ -24,8 +24,8 @@ type ResponseVersion struct {
 type RequestCategory struct {
 	CategoryName	string	`json:"categoryName,omitempty"`
 	CategoryStatus  int 	`json:"categoryStatus,omitempty"`
-	ChildCategories  []int64 `json:"childCategories,omitempty"`
-	ParentCategories []int64 `json:"parentCategories,omitempty"`
+	ChildCategories  []string `json:"childCategories,omitempty"`
+	ParentCategories []string `json:"parentCategories,omitempty"`
 }
 
 

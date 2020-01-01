@@ -14,11 +14,11 @@ type Service struct {
 }
 
 func NewBrandService(storage storages.Storage, logger logs.Logs) *Service {
-	return &Service{repo:NewBrandRepoEs7(storage), logger:logger}
+	return &Service{repo:NewBrandRepoMgo(storage), logger:logger}
 }
 
-func (s *Service) QueryBrand(BrandId int64) (*Brand, error) {
-	brd, err := s.repo.QueryBrand(BrandId)
+func (s *Service) QueryBrand(brandId int64) (*Brand, error) {
+	brd, err := s.repo.QueryBrand(brandId)
 	if err != nil {
 		s.logger.Error(err.Error())
 		return nil, err
@@ -26,11 +26,11 @@ func (s *Service) QueryBrand(BrandId int64) (*Brand, error) {
 	return brd, nil
 }
 
-func (s *Service) QueryBrands(BrandId ...int64) ([]*Brand, error) {
-	var length = len(BrandId)
+func (s *Service) QueryBrands(brandId ...int64) ([]*Brand, error) {
+	var length = len(brandId)
 	var brands = make([]*Brand, 0, length)
 	for i := 0; i < length; i++ {
-		brd , err := s.repo.QueryBrand(BrandId[i])
+		brd , err := s.repo.QueryBrand(brandId[i])
 		if err != nil {
 			s.logger.Info(err.Error())
 		} else {
@@ -41,7 +41,7 @@ func (s *Service) QueryBrands(BrandId ...int64) ([]*Brand, error) {
 }
 
 func (s *Service) CreateBrand(brd *Brand) error {
-	brd.BrandId = utils.SnowFlakeId()
+	brd.BrandId = utils.SnowFlakeIdString()
 	brd.BrandCreateTime = times.Timestamp()
 	brd.BrandUpdateTime = times.Timestamp()
 	brd.BrandDeleteTime = 0

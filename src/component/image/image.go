@@ -4,20 +4,20 @@ package image
 const (
 	Schema = "images"
 
-	StatusActived = 0x601
-	StatusDeleted = 0x602
+	StatusActived = 0x401
+	StatusDeleted = 0x402
 )
 
 type IImage interface {
 	CreateImage(*Image) error
 	DeleteImage(...*Image) error
 	UpdateImage(*Image) error
-	QueryImage(int64) (*Image, error)
+	QueryImage(string) (*Image, error)
 }
 
 
 type Image struct {
-	ImageId 	int64 	`json:"colorId"`
+	ImageId 	string 	`json:"imageId"`
 	ImageUrl	string 	`json:"imageUrl"`
 	ImageName 	string  `json:"imageName"`
 	ImageIsDefault int  `json:"imageIsDefault"`

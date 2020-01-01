@@ -14,21 +14,21 @@ import (
 const (
 	Schema = "goods"
 
-	StatusActived = 0x901
-	StatusDeleted = 0x902
+	StatusActived = 0x101
+	StatusDeleted = 0x102
 )
 
 type IGoods interface {
 	CreateGoods(*Goods) error
 	DeleteGoods(...*Goods) error
 	UpdateGoods(*Goods) error
-	QueryGoods(int64) (*Goods, error)
+	QueryGoods(string) (*Goods, error)
 }
 
 type Goods struct {
-	GoodsId int64 `json:"goodsId"` 	//商品标识
+	GoodsId    string `json:"goodsId"` 	//商品标识
 	GoodsTitle string `json:"goodsTitle"` //商品标题
-	GoodsSummaryDescription string `json:"goodsSummaryDescription"` //商品概要描述
+	GoodsSummaryDescription  string `json:"goodsSummaryDescription"` //商品概要描述
 	GoodsDetailedDescription string `json:"goodsDetailedDescription"` //商品详细描述
 	GoodsTags []*tag.Tag `json:"goodsTags"` //商品标签
 	GoodsKeywords []string `json:"goodsKeywords"` //商品关键字

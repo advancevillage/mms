@@ -25,6 +25,7 @@ type MMS struct {
 	cache  	   caches.Cache
 	logger 	   logs.Logs
 	es7    	   storages.Storage
+	mgo 	   storages.Storage
 	category   *category.Service
 	brand 	   *brand.Service
 	tag 	   *tag.Service
@@ -48,10 +49,12 @@ type Configure struct {
 		Auth string `xml:"auth"`
 		Schema int `xml:"schema"`
 	}	`xml:"redis"`
+	Mongo string	`xml:"mongo"`
 	Log 		string   `xml:"log"`
 	File 	  	string 	 `xml:"-"`
 	commit 		string   `xml:"-"`
 	version 	string 	 `xml:"-"`
 	buildTime 	string   `xml:"-"`
+	mode 		string 	 `xml:"-"`
 }
 

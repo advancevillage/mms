@@ -4,19 +4,19 @@ package manufacturer
 const (
 	Schema = "manufacturers"
 
-	StatusActived = 0x701
-	StatusDeleted = 0x702
+	StatusActived = 0x801
+	StatusDeleted = 0x802
 )
 
 type IManufacturer interface {
 	CreateManufacturer(*Manufacturer) error
 	DeleteManufacturer(...*Manufacturer) error
 	UpdateManufacturer(*Manufacturer) error
-	QueryManufacturer(int64) (*Manufacturer, error)
+	QueryManufacturer(string) (*Manufacturer, error)
 }
 
 type Manufacturer struct {
-	ManufacturerId   int64 `json:"manufacturerId"`
+	ManufacturerId   string `json:"manufacturerId"`
 	ManufacturerName string `json:"manufacturerName"`	//生产商名称
 	ManufacturerContact string `json:"manufacturerContact"` //生产商联系人
 	ContactPhone string `json:"contactPhone"`	//联系人联系电话

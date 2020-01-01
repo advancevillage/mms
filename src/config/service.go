@@ -4,7 +4,6 @@ package config
 import (
 	"encoding/xml"
 	"fmt"
-	"github.com/advancevillage/3rd/caches"
 	"github.com/advancevillage/3rd/files"
 	"github.com/advancevillage/3rd/logs"
 	"github.com/advancevillage/3rd/storages"
@@ -23,9 +22,10 @@ func GetMMSObject() *MMS {
 	return &defaultMMS
 }
 
-func LoadArgs(commit, version, buildTime string) error {
+func LoadArgs(commit, version, buildTime string, mode string) error {
 	var args = os.Args
 	var length = len(args)
+	defaultConfigure.mode 	   = mode
 	defaultConfigure.commit    = commit
 	defaultConfigure.version   = version
 	defaultConfigure.buildTime = buildTime
@@ -60,27 +60,34 @@ func LoadConfigure() error {
 
 func LoadObject() error {
 	var err error
-	defaultMMS.logger, err = logs.NewTxtLogger(defaultConfigure.Log, 4096, 4)
+	defaultMMS.logger, err = logs.NewTxtLogger(defaultConfigure.Log, 1024, 4)
 	if err != nil {
 		return err
 	}
-	defaultMMS.es7, err = storages.NewTES(defaultConfigure.Es7.DSN, defaultMMS.logger)
+	//@es7
+	//defaultMMS.es7, err = storages.NewTES(defaultConfigure.Es7.DSN, defaultMMS.logger)
+	//if err != nil {
+	//	return err
+	//}
+	//@cache
+	//defaultMMS.cache, err = caches.NewRedis(defaultConfigure.Redis.Host, defaultConfigure.Redis.Port, defaultConfigure.Redis.Auth, defaultConfigure.Redis.Schema, defaultMMS.logger, defaultMMS.es7)
+	//if err != nil {
+	//	return err
+	//}
+	//@mongo
+	defaultMMS.mgo, err = storages.NewMongoDB(defaultConfigure.Mongo, defaultMMS.logger)
 	if err != nil {
 		return err
 	}
-	defaultMMS.cache, err = caches.NewRedis(defaultConfigure.Redis.Host, defaultConfigure.Redis.Port, defaultConfigure.Redis.Auth, defaultConfigure.Redis.Schema, defaultMMS.logger, defaultMMS.es7)
-	if err != nil {
-		return err
-	}
-	defaultMMS.manufacturer = manufacturer.NewManufacturerService(defaultMMS.es7, defaultMMS.logger)
-	defaultMMS.category = category.NewCategoryService(defaultMMS.es7, defaultMMS.logger)
-	defaultMMS.brand    = brand.NewBrandService(defaultMMS.es7, defaultMMS.logger)
-	defaultMMS.tag      = tag.NewTagService(defaultMMS.es7, defaultMMS.logger)
-	defaultMMS.color    = color.NewColorService(defaultMMS.es7, defaultMMS.logger)
-	defaultMMS.image    = image.NewImageService(defaultMMS.es7, defaultMMS.logger)
-	defaultMMS.goods    = goods.NewGoodsService(defaultMMS.es7, defaultMMS.logger)
-	defaultMMS.size     = size.NewSizeService(defaultMMS.es7, defaultMMS.logger)
-	return nil
+	defaultMMS.manufacturer = manufacturer.NewManufacturerService(defaultMMS.mgo, defaultMMS.logger)
+	defaultMMS.category = category.NewCategoryService(defaultMMS.mgo, defaultMMS.logger)
+	defaultMMS.brand    = brand.NewBrandService(defaultMMS.mgo, defaultMMS.logger)
+	defaultMMS.tag      = tag.NewTagService(defaultMMS.mgo, defaultMMS.logger)
+	defaultMMS.color    = color.NewColorService(defaultMMS.mgo, defaultMMS.logger)
+	defaultMMS.image    = image.NewImageService(defaultMMS.mgo, defaultMMS.logger)
+	defaultMMS.goods    = goods.NewGoodsService(defaultMMS.mgo, defaultMMS.logger)
+	defaultMMS.size     = size.NewSizeService(defaultMMS.mgo, defaultMMS.logger)
+	return err
 }
 
 func ExitWithInfo(format string, a ...interface{}) {
@@ -101,7 +108,11 @@ func (mms *MMS) GetCategoryService() *category.Service {
 }
 
 func (mms *MMS) GetVersion() string {
-	return fmt.Sprintf("commit=%s version=%s buildTime=%s", defaultConfigure.commit, defaultConfigure.version, defaultConfigure.buildTime)
+	return fmt.Sprintf("commit=%s version=%s buildTime=%s mode=%s", defaultConfigure.commit, defaultConfigure.version, defaultConfigure.buildTime, defaultConfigure.mode)
+}
+
+func (mms *MMS) GetMode() string {
+	return defaultConfigure.mode
 }
 
 func (mms *MMS) GetLogger() logs.Logs {

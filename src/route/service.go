@@ -23,6 +23,7 @@ func NewApiService() *service {
 //@Failure 500 {object} route.HttpError
 //@Router /v1/merchandises/version [get]
 func (s *service) Version(ctx *https.Context) {
+	config.GetMMSObject().GetLogger().Info("%s", 4444)
 	version := ResponseVersion{}
 	version.Info = config.GetMMSObject().GetVersion()
 	ctx.JsonResponse(http.StatusOK, version)
@@ -37,6 +38,7 @@ func (s *service) Version(ctx *https.Context) {
 //@Failure 500 {object} route.HttpError
 //@Router /v1/categories [post]
 func (s *service) CreateCategory(ctx *https.Context) {
+	config.GetMMSObject().GetLogger().Info("%s", 5555)
 	buf, err := ctx.Body()
 	if err != nil {
 		config.GetMMSObject().GetLogger().Warning(err.Error())

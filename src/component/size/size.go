@@ -4,19 +4,19 @@ package size
 const (
 	Schema = "sizes"
 
-	StatusActived = 0x301
-	StatusDeleted = 0x302
+	StatusActived = 0x501
+	StatusDeleted = 0x502
 )
 
 type ISize interface {
 	CreateSize(*Size) error
 	DeleteSize(...*Size) error
 	UpdateSize(*Size) error
-	QuerySize(int64) (*Size, error)
+	QuerySize(string) (*Size, error)
 }
 
 type Size struct {
-	SizeId 	 int64 	`json:"sizeId"`
+	SizeId 	 string 	`json:"sizeId"`
 	SizeName string 	`json:"sizeName"`
 	SizeStatus int 	`json:"sizeStatus"`
 	SizeCreateTime int64 `json:"sizeCreateTime"`
