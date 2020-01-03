@@ -4,6 +4,7 @@ package config
 import (
 	"encoding/xml"
 	"fmt"
+	"github.com/advancevillage/3rd/caches"
 	"github.com/advancevillage/3rd/files"
 	"github.com/advancevillage/3rd/logs"
 	"github.com/advancevillage/3rd/storages"
@@ -13,28 +14,29 @@ import (
 	"mms/src/component/goods"
 	"mms/src/component/image"
 	"mms/src/component/manufacturer"
+	"mms/src/component/session"
 	"mms/src/component/size"
 	"mms/src/component/tag"
 	"os"
 )
 
-func GetMMSObject() *MMS {
-	return &defaultMMS
+func Services() *Service {
+	return &service
 }
 
 func LoadArgs(commit, version, buildTime string, mode string) error {
 	var args = os.Args
 	var length = len(args)
-	defaultConfigure.mode 	   = mode
-	defaultConfigure.commit    = commit
-	defaultConfigure.version   = version
-	defaultConfigure.buildTime = buildTime
-	defaultConfigure.File = "./etc/mms.xml"
+	configure.mode 	    = mode
+	configure.commit    = commit
+	configure.version   = version
+	configure.buildTime = buildTime
+	configure.File = "./etc/mms.xml"
 	for i := 0; i < length; i += 2 {
 		switch args[i] {
 		case "--config", "-c":
 			if j := i+1; j < length {
-				defaultConfigure.File = args[j]
+				configure.File = args[j]
 			}
 		case "--version", "-v":
 			ExitWithInfo("commit=%s, version=%s, buildTime=%s", commit, version, buildTime)
@@ -47,46 +49,42 @@ func LoadArgs(commit, version, buildTime string, mode string) error {
 }
 
 func LoadConfigure() error {
-	buf, err := files.NewXMLFile().ReadFile(defaultConfigure.File)
+	buf, err := files.NewXMLFile().ReadFile(configure.File)
 	if err != nil {
 		return err
 	}
-	err = xml.Unmarshal(buf, &defaultConfigure)
+	err = xml.Unmarshal(buf, &configure)
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func LoadObject() error {
+func LoadServices() error {
 	var err error
-	defaultMMS.logger, err = logs.NewTxtLogger(defaultConfigure.Log, 1024, 4)
+	service.logger, err = logs.NewTxtLogger(configure.Log, 1024, 4)
 	if err != nil {
 		return err
 	}
-	//@es7
-	//defaultMMS.es7, err = storages.NewTES(defaultConfigure.Es7.DSN, defaultMMS.logger)
-	//if err != nil {
-	//	return err
-	//}
-	//@cache
-	//defaultMMS.cache, err = caches.NewRedis(defaultConfigure.Redis.Host, defaultConfigure.Redis.Port, defaultConfigure.Redis.Auth, defaultConfigure.Redis.Schema, defaultMMS.logger, defaultMMS.es7)
-	//if err != nil {
-	//	return err
-	//}
 	//@mongo
-	defaultMMS.mgo, err = storages.NewMongoDB(defaultConfigure.Mongo, defaultMMS.logger)
+	service.mgo, err = storages.NewMongoDB(configure.Mongo, service.logger)
 	if err != nil {
 		return err
 	}
-	defaultMMS.manufacturer = manufacturer.NewManufacturerService(defaultMMS.mgo, defaultMMS.logger)
-	defaultMMS.category = category.NewCategoryService(defaultMMS.mgo, defaultMMS.logger)
-	defaultMMS.brand    = brand.NewBrandService(defaultMMS.mgo, defaultMMS.logger)
-	defaultMMS.tag      = tag.NewTagService(defaultMMS.mgo, defaultMMS.logger)
-	defaultMMS.color    = color.NewColorService(defaultMMS.mgo, defaultMMS.logger)
-	defaultMMS.image    = image.NewImageService(defaultMMS.mgo, defaultMMS.logger)
-	defaultMMS.goods    = goods.NewGoodsService(defaultMMS.mgo, defaultMMS.logger)
-	defaultMMS.size     = size.NewSizeService(defaultMMS.mgo, defaultMMS.logger)
+	//@cache
+	service.cache, err = caches.NewRedisStorage(configure.Redis.Host, configure.Redis.Port, configure.Redis.Auth, configure.Redis.Schema, service.logger)
+	if err != nil {
+		return err
+	}
+	service.manufacturer = manufacturer.NewManufacturerService(service.mgo, service.logger)
+	service.category = category.NewCategoryService(service.mgo, service.logger)
+	service.brand    = brand.NewBrandService(service.mgo, service.logger)
+	service.tag      = tag.NewTagService(service.mgo, service.logger)
+	service.color    = color.NewColorService(service.mgo, service.logger)
+	service.image    = image.NewImageService(service.mgo, service.logger)
+	service.goods    = goods.NewGoodsService(service.mgo, service.logger)
+	service.size     = size.NewSizeService(service.mgo, service.logger)
+	service.session  = session.NewSessionService(service.cache, service.logger)
 	return err
 }
 
@@ -95,26 +93,26 @@ func ExitWithInfo(format string, a ...interface{}) {
 	os.Exit(0)
 }
 
-func (mms *MMS) GetHttpHost() string {
-	return defaultConfigure.HttpHost
+func (s *Service) GetHttpHost() string {
+	return configure.HttpHost
 }
 
-func (mms *MMS) GetHttpPort() int {
-	return defaultConfigure.HttpPort
+func (s *Service) GetHttpPort() int {
+	return configure.HttpPort
 }
 
-func (mms *MMS) GetCategoryService() *category.Service {
-	return mms.category
+func (s *Service) GetMode() string {
+	return configure.mode
 }
 
-func (mms *MMS) GetVersion() string {
-	return fmt.Sprintf("commit=%s version=%s buildTime=%s mode=%s", defaultConfigure.commit, defaultConfigure.version, defaultConfigure.buildTime, defaultConfigure.mode)
+func (s *Service) Version() string {
+	return fmt.Sprintf("commit=%s version=%s buildTime=%s mode=%s", configure.commit, configure.version, configure.buildTime, configure.mode)
 }
 
-func (mms *MMS) GetMode() string {
-	return defaultConfigure.mode
+func (s *Service) LogService() logs.Logs {
+	return s.logger
 }
 
-func (mms *MMS) GetLogger() logs.Logs {
-	return mms.logger
+func (s *Service) CategoryService() *category.Service {
+	return s.category
 }

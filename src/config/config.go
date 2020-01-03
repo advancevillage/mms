@@ -11,20 +11,20 @@ import (
 	"mms/src/component/goods"
 	"mms/src/component/image"
 	"mms/src/component/manufacturer"
+	"mms/src/component/session"
 	"mms/src/component/size"
 	"mms/src/component/tag"
 )
 
-var defaultConfigure Configure
-var defaultMMS		 MMS
+var service  Service
+var configure Configure
 //初始化地址和端口
 //初始化存储配置
 //初始化缓存配置
 //初始化日志配置
-type MMS struct {
-	cache  	   caches.Cache
+type Service struct {
+	cache  	   caches.ICache
 	logger 	   logs.Logs
-	es7    	   storages.Storage
 	mgo 	   storages.Storage
 	category   *category.Service
 	brand 	   *brand.Service
@@ -34,6 +34,7 @@ type MMS struct {
 	manufacturer *manufacturer.Service
 	size 	   *size.Service
 	goods 	   *goods.Service
+	session    *session.Service
 }
 
 type Configure struct {

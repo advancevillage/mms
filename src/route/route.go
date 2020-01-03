@@ -7,7 +7,14 @@ import (
 
 var router = func (api API) []https.Router{
 	return []https.Router {
+		//商品路由
 		{"GET", "/v1/merchandises/version", api.Version},
+		{"GET", "/v1/merchandises", api.QueryMerchandises},
+		{"POST", "/v1/merchandises", api.CreateMerchandise},
+		{"PUT", "/v1/merchandise/:goodsId", api.UpdateMerchandise},
+		{"GET", "/v1/merchandise/:goodsId", api.QueryMerchandise},
+		{"Delete", "/v1/merchandise/:goodsId", api.DeleteMerchandise},
+		//分类路由
 		{"POST", "/v1/categories", api.CreateCategory},
 	}
 }
@@ -15,6 +22,12 @@ var router = func (api API) []https.Router{
 type API interface {
 	//merchandises
 	Version(ctx *https.Context)
+	QueryMerchandises(ctx *https.Context)
+	CreateMerchandise(ctx *https.Context)
+	QueryMerchandise (ctx *https.Context)
+	UpdateMerchandise(ctx *https.Context)
+	DeleteMerchandise(ctx *https.Context)
+	//categories
 	CreateCategory(ctx *https.Context)
 }
 

@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mms>
 	<httpHost>0.0.0.0</httpHost>
-	<httpPort>13170</httpPort>
+	<httpPort>13171</httpPort>
 	<log>log/mms.log</log>
+	<redis>
+		<host>localhost</host>
+		<port>6379</port>
+		<auth></auth>
+		<schema>0</schema>
+	</redis>
 	<mongo>mongodb://admin:password@192.168.1.103:27017</mongo>
 </mms>

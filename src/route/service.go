@@ -23,9 +23,8 @@ func NewApiService() *service {
 //@Failure 500 {object} route.HttpError
 //@Router /v1/merchandises/version [get]
 func (s *service) Version(ctx *https.Context) {
-	config.GetMMSObject().GetLogger().Info("%s", 4444)
 	version := ResponseVersion{}
-	version.Info = config.GetMMSObject().GetVersion()
+	version.Info = config.Services().Version()
 	ctx.JsonResponse(http.StatusOK, version)
 }
 
@@ -38,17 +37,16 @@ func (s *service) Version(ctx *https.Context) {
 //@Failure 500 {object} route.HttpError
 //@Router /v1/categories [post]
 func (s *service) CreateCategory(ctx *https.Context) {
-	config.GetMMSObject().GetLogger().Info("%s", 5555)
 	buf, err := ctx.Body()
 	if err != nil {
-		config.GetMMSObject().GetLogger().Warning(err.Error())
+		config.Services().LogService().Warning(err.Error())
 		ctx.JsonResponse(http.StatusBadRequest, &HttpError{Code: CategoryCreateErrorCode, Message: CategoryCreateErrorMsg})
 		return
 	}
 	rc := RequestCategory{}
 	err = json.Unmarshal(buf, &rc)
 	if err != nil {
-		config.GetMMSObject().GetLogger().Warning(err.Error())
+		config.Services().LogService().Warning(err.Error())
 		ctx.JsonResponse(http.StatusBadRequest, &HttpError{Code: CategoryCreateErrorCode, Message: CategoryCreateErrorMsg})
 		return
 	}
@@ -57,9 +55,9 @@ func (s *service) CreateCategory(ctx *https.Context) {
 	cat.CategoryStatus = rc.CategoryStatus
 	cat.ChildCategories = rc.ChildCategories
 	cat.ParentCategories = rc.ParentCategories
-	err = config.GetMMSObject().GetCategoryService().CreateCategory(&cat)
+	err = config.Services().CategoryService().CreateCategory(&cat)
 	if err != nil {
-		config.GetMMSObject().GetLogger().Warning(err.Error())
+		config.Services().LogService().Warning(err.Error())
 		ctx.JsonResponse(http.StatusBadRequest, &HttpError{Code: CategoryCreateErrorCode, Message: CategoryCreateErrorMsg})
 		return
 	}

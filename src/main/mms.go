@@ -39,11 +39,11 @@ func main() {
     if err != nil {
         config.ExitWithInfo(ErrorLoadConfigure)
     }
-    err = config.LoadObject()
+    err = config.LoadServices()
     if err != nil {
         config.ExitWithInfo(ErrorLoadObject)
     }
-    err = route.LoadRouter(config.GetMMSObject().GetHttpHost(), config.GetMMSObject().GetHttpPort(), config.GetMMSObject().GetMode())
+    err = route.LoadRouter(config.Services().GetHttpHost(), config.Services().GetHttpPort(), config.Services().GetMode())
     if err != nil {
         config.ExitWithInfo(ErrorInitServer)
     }
