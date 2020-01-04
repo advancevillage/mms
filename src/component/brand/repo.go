@@ -22,14 +22,6 @@ func (s *RepoMgo) CreateBrand(brd *Brand) error {
 	return s.storage.CreateStorageV2(Schema, brd.BrandId, body)
 }
 
-func (s *RepoMgo) DeleteBrand(brd ... *Brand) error {
-	var key = make([]string, 0, len(brd))
-	for i := range brd {
-		key = append(key, brd[i].BrandId)
-	}
-	return s.storage.DeleteStorageV2(Schema, key ...)
-}
-
 func (s *RepoMgo) UpdateBrand(brd *Brand) error {
 	body, err := json.Marshal(brd)
 	if err != nil {
@@ -38,15 +30,38 @@ func (s *RepoMgo) UpdateBrand(brd *Brand) error {
 	return s.storage.UpdateStorageV2(Schema, brd.BrandId, body)
 }
 
+func (s *RepoMgo) DeleteBrand(brandId ...string) error {
+	return s.storage.DeleteStorageV2(Schema, brandId ...)
+}
+
 func (s *RepoMgo) QueryBrand(brandId string) (*Brand, error) {
 	buf, err := s.storage.QueryStorageV2(Schema, brandId)
 	if err != nil {
 		return nil, err
 	}
-	cat := Brand{}
-	err = json.Unmarshal(buf, &cat)
+	brd := Brand{}
+	err = json.Unmarshal(buf, &brd)
 	if err != nil {
 		return nil, err
 	}
-	return &cat, nil
+	return &brd, nil
+}
+
+func (s *RepoMgo) QueryBrands(where map[string]interface{}, page int, perPage int) ([]Brand, error) {
+	items, err := s.storage.QueryStorageV3(Schema, where, perPage, page * perPage)
+	if err != nil {
+		return nil, err
+	}
+	brands := make([]Brand, 0, len(items))
+	for i := range items {
+		buf := items[i]
+		brd := Brand{}
+		err = json.Unmarshal(buf, &brd)
+		if err != nil {
+			return nil, err
+		} else {
+			brands = append(brands, brd)
+		}
+	}
+	return brands, nil
 }

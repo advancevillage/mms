@@ -15,12 +15,21 @@ var router = func (api API) []https.Router{
 		{"DELETE", "/v1/merchandises/:goodsId", api.DeleteMerchandise},
 		//分类路由
 		{"POST", "/v1/categories", api.CreateCategory},
+		//品牌路由
+		{"GET", "/v1/brands", api.QueryBrands},
+		{"POST", "/v1/brands", api.CreateBrand},
+		{"PUT", "/v1/brands/:pathId", api.UpdateBrand},
+		{"DELETE", "/v1/brands/:pathId", api.DeleteBrand},
+		{"GET", "/v1/brands/:pathId", api.QueryBrand},
+		//路由服务
+		{"GET", "/v1/services/version", api.Version},
 	}
 }
 
 type API interface {
-	//merchandises
+	//services
 	Version(ctx *https.Context)
+	//merchandises
 	QueryMerchandises(ctx *https.Context)
 	CreateMerchandise(ctx *https.Context)
 	QueryMerchandise (ctx *https.Context)
@@ -28,6 +37,12 @@ type API interface {
 	DeleteMerchandise(ctx *https.Context)
 	//categories
 	CreateCategory(ctx *https.Context)
+	//brands
+	QueryBrands(ctx *https.Context)
+	CreateBrand(ctx *https.Context)
+	UpdateBrand(ctx *https.Context)
+	DeleteBrand(ctx *https.Context)
+	QueryBrand (ctx *https.Context)
 }
 
 func LoadRouter(host string, port int, mode string) error {

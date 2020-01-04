@@ -118,3 +118,7 @@ func (s *Service) LogService() logs.Logs {
 func (s *Service) CategoryService() *category.Service {
 	return s.category
 }
+
+func (s *Service) BrandService() *brand.Service {
+	return s.brand
+}

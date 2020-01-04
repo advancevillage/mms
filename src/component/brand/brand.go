@@ -6,15 +6,17 @@ import "mms/src/component/language"
 const (
 	Schema = "brands"
 
-	StatusActived = 0x701
+	StatusActive  = 0x701
 	StatusDeleted = 0x702
+	StatusInvalid = 0x799
 )
 
 type IBrand interface {
 	CreateBrand(*Brand) error
-	DeleteBrand(...*Brand) error
 	UpdateBrand(*Brand) error
 	QueryBrand(string) (*Brand, error)
+	DeleteBrand(...string) error
+	QueryBrands(where map[string]interface{}, page int, perPage int) ([]Brand, error)
 }
 
 type Brand struct {

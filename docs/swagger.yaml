@@ -3,7 +3,7 @@ definitions:
   route.HttpError:
     properties:
       code:
-        type: integer
+        type: string
       message:
         type: string
     type: object
@@ -14,6 +14,15 @@ definitions:
       message:
         type: string
     type: object
+  route.RequestBrand:
+    properties:
+      brandNameCn:
+        type: string
+      brandNameEn:
+        type: string
+      brandStatus:
+        type: integer
+    type: object
   route.RequestCategory:
     properties:
       categoryName:
@@ -22,11 +31,11 @@ definitions:
         type: integer
       childCategories:
         items:
-          type: integer
+          type: string
         type: array
       parentCategories:
         items:
-          type: integer
+          type: string
         type: array
     type: object
   route.ResponseVersion:
@@ -46,6 +55,169 @@ info:
   title: mms
   version: 0.0.1
 paths:
+  /v1/brands:
+    get:
+      parameters:
+      - description: QueryBrands
+        in: body
+        name: '{}'
+        required: true
+        schema:
+          $ref: '#/definitions/route.RequestBrand'
+          type: object
+      - description: 页码
+        in: query
+        name: page
+        type: integer
+      - description: 每页条数
+        in: query
+        name: perPage
+        type: integer
+      - description: 状态
+        in: query
+        name: status
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/route.HttpOk'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+      summary: 查询品牌列表
+    post:
+      parameters:
+      - description: CreateBrand
+        in: body
+        name: '{}'
+        required: true
+        schema:
+          $ref: '#/definitions/route.RequestBrand'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/route.HttpOk'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+      summary: 创建品牌
+  /v1/brands/{pathId}:
+    delete:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/route.HttpOk'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+      summary: 删除品牌
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/route.HttpOk'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+      summary: 查询品牌
+    put:
+      parameters:
+      - description: UpdateBrand
+        in: body
+        name: '{}'
+        required: true
+        schema:
+          $ref: '#/definitions/route.RequestBrand'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/route.HttpOk'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+      summary: 更新品牌
   /v1/categories:
     post:
       parameters:
@@ -80,7 +252,174 @@ paths:
             $ref: '#/definitions/route.HttpError'
             type: object
       summary: 创建分类
-  /v1/merchandises/version:
+  /v1/merchandises:
+    get:
+      parameters:
+      - description: QueryMerchandises
+        in: body
+        name: '{}'
+        required: true
+        schema:
+          $ref: '#/definitions/route.RequestCategory'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/route.HttpOk'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+      summary: 查询商品列表
+    post:
+      parameters:
+      - description: CreateMerchandise
+        in: body
+        name: '{}'
+        required: true
+        schema:
+          $ref: '#/definitions/route.RequestCategory'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/route.HttpOk'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+      summary: 创建商品
+  /v1/merchandises/{goodsId}:
+    delete:
+      parameters:
+      - description: DeleteMerchandise
+        in: body
+        name: '{}'
+        required: true
+        schema:
+          $ref: '#/definitions/route.RequestCategory'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/route.HttpOk'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+      summary: 删除商品
+    get:
+      parameters:
+      - description: QueryMerchandise
+        in: body
+        name: '{}'
+        required: true
+        schema:
+          $ref: '#/definitions/route.RequestCategory'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/route.HttpOk'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+      summary: 查询商品
+    put:
+      parameters:
+      - description: UpdateMerchandise
+        in: body
+        name: '{}'
+        required: true
+        schema:
+          $ref: '#/definitions/route.RequestCategory'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/route.HttpOk'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+      summary: 更新商品
+  /v1/services/version:
     get:
       produces:
       - application/json
