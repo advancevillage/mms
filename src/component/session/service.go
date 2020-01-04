@@ -31,7 +31,6 @@ func (s *Service) CreateSession(body []byte) (string, error) {
 	return session.Key, nil
 }
 
-
 func (s *Service) CreateSessionKey() string {
 	return fmt.Sprintf("%s%s%s", "sid", times.TimeFormatString(times.YYYYMMddHHmmss), utils.RandsNumberString(8))
 }

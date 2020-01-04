@@ -42,9 +42,9 @@ func (s *Service) QueryGoods(goodsIds ...string) ([]*Goods, error) {
 
 func (s *Service) CreateGoods(g *Goods) error {
 	g.GoodsId = utils.SnowFlakeIdString()
-	g.GoodsCreateTime = times.Timestamp()
-	g.GoodsUpdateTime = times.Timestamp()
-	g.GoodsDeleteTime = 0
+	g.CreateTime = times.Timestamp()
+	g.UpdateTime = times.Timestamp()
+	g.DeleteTime = 0
 	err := s.repo.CreateGoods(g)
 	if err != nil {
 		s.logger.Error(err.Error())

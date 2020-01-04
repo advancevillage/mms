@@ -13,6 +13,7 @@ import (
 	"mms/src/component/manufacturer"
 	"mms/src/component/session"
 	"mms/src/component/size"
+	"mms/src/component/style"
 	"mms/src/component/tag"
 )
 
@@ -35,6 +36,7 @@ type Service struct {
 	size 	   *size.Service
 	goods 	   *goods.Service
 	session    *session.Service
+	style      *style.Service
 }
 
 type Configure struct {

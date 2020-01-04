@@ -2,6 +2,8 @@
 //@link: https://my.oschina.net/u/2410867/blog/1647801
 package category
 
+import "mms/src/component/language"
+
 const (
 	Schema = "categories"
 
@@ -10,20 +12,20 @@ const (
 )
 
 type ICategory interface {
-	CreateCategory(*Category) error
-	DeleteCategory(...*Category) error
-	UpdateCategory(*Category) error
+	CreateCategory(category *Category) error
+	DeleteCategory(category ...*Category) error
+	UpdateCategory(category *Category) error
 	QueryCategory(string) (*Category, error)
 }
 
 type Category struct {
 	CategoryId 	   string  `json:"categoryId"`	  		//分类标识
-	CategoryName   string `json:"categoryName"`   		//分类名称
 	CategoryStatus int    `json:"categoryStatus"`  		//分类状态
-	CategoryLevel  int 	  `json:"categoryLevel"`		//分类级别
+	CategoryLevel  int 	  `json:"categoryLevel"`		//分类层级
 	ChildCategories  []string `json:"childCategories"`	//子分类
 	ParentCategories []string `json:"parentCategories"`	//父分类
-	CategoryCreateTime int64 `json:"categoryCreateTime"`  //分类创建时间
-	CategoryUpdateTime int64 `json:"categoryUpdateTime"`  //分类修复时间
-	CategoryDeleteTime int64 `json:"categoryDeleteTime"`  //分类删除时间
+	CreateTime int64 `json:"categoryCreateTime"`  //分类创建时间
+	UpdateTime int64 `json:"categoryUpdateTime"`  //分类更新时间
+	DeleteTime int64 `json:"categoryDeleteTime"`  //分类删除时间
+	CategoryName   language.Languages `json:"categoryName"`  //分类名称
 }

@@ -16,6 +16,7 @@ import (
 	"mms/src/component/manufacturer"
 	"mms/src/component/session"
 	"mms/src/component/size"
+	"mms/src/component/style"
 	"mms/src/component/tag"
 	"os"
 )
@@ -85,6 +86,7 @@ func LoadServices() error {
 	service.goods    = goods.NewGoodsService(service.mgo, service.logger)
 	service.size     = size.NewSizeService(service.mgo, service.logger)
 	service.session  = session.NewSessionService(service.cache, service.logger)
+	service.style    = style.NewStyleService(service.mgo, service.logger)
 	return err
 }
 

@@ -1,6 +1,8 @@
 //author: richard
 package manufacturer
 
+import "mms/src/component/language"
+
 const (
 	Schema = "manufacturers"
 
@@ -17,13 +19,13 @@ type IManufacturer interface {
 
 type Manufacturer struct {
 	ManufacturerId   string `json:"manufacturerId"`
-	ManufacturerName string `json:"manufacturerName"`	//生产商名称
 	ManufacturerContact string `json:"manufacturerContact"` //生产商联系人
 	ContactPhone string `json:"contactPhone"`	//联系人联系电话
 	ContactEmail string `json:"contactEmail"` 	//联系人邮箱
-	ManufacturerStatus int `json:"manufacturerStatus"`	//生产商状态
-	ManufacturerAddress string `json:"manufacturerAddress"` //生产商地址
-	ManufacturerCreateTime int64 `json:"manufacturerCreateTime"` //生产商录入记录时间
-	ManufacturerUpdateTime int64 `json:"manufacturerUpdateTime"` //生产商编辑时间
-	ManufacturerDeleteTime int64 `json:"manufacturerDeleteTime"` //生产商移除系统时间
+	ManufacturerStatus int `json:"manufacturerStatus"` //生产商状态
+	CreateTime int64 `json:"manufacturerCreateTime"` //生产商录入记录时间
+	UpdateTime int64 `json:"manufacturerUpdateTime"` //生产商编辑时间
+	DeleteTime int64 `json:"manufacturerDeleteTime"` //生产商移除系统时间
+	ManufacturerName language.Languages    `json:"manufacturerName"`	//生产商名称
+	ManufacturerAddress language.Languages `json:"manufacturerAddress"` //生产商地址
 }

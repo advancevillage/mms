@@ -42,9 +42,9 @@ func (s *Service) QueryManufacturers(mfId ...string) ([]*Manufacturer, error) {
 
 func (s *Service) CreatManufacturer(mf *Manufacturer) error {
 	mf.ManufacturerId = utils.SnowFlakeIdString()
-	mf.ManufacturerCreateTime = times.Timestamp()
-	mf.ManufacturerUpdateTime = times.Timestamp()
-	mf.ManufacturerDeleteTime = 0
+	mf.CreateTime = times.Timestamp()
+	mf.UpdateTime = times.Timestamp()
+	mf.DeleteTime = 0
 	err := s.repo.CreateManufacturer(mf)
 	if err != nil {
 		s.logger.Error(err.Error())

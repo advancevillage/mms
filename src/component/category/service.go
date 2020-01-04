@@ -45,9 +45,9 @@ func (s *Service) QueryCategories(categoryIds ...string) ([]*Category, error) {
 
 func (s *Service) CreateCategory(cat *Category) error {
 	cat.CategoryId = utils.SnowFlakeIdString()
-	cat.CategoryCreateTime = times.Timestamp()
-	cat.CategoryUpdateTime = times.Timestamp()
-	cat.CategoryDeleteTime = 0
+	cat.CreateTime = times.Timestamp()
+	cat.UpdateTime = times.Timestamp()
+	cat.DeleteTime = 0
 	err := s.repo.CreateCategory(cat)
 	if err != nil {
 		s.logger.Error(err.Error())

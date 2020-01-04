@@ -42,9 +42,9 @@ func (s *Service) QueryTags(tagId ...string) ([]*Tag, error) {
 
 func (s *Service) CreateTag(tag *Tag) error {
 	tag.TagId = utils.SnowFlakeIdString()
-	tag.TagCreateTime = times.Timestamp()
-	tag.TagUpdateTime = times.Timestamp()
-	tag.TagDeleteTime = 0
+	tag.CreateTime = times.Timestamp()
+	tag.UpdateTime = times.Timestamp()
+	tag.DeleteTime = 0
 	err := s.repo.CreateTag(tag)
 	if err != nil {
 		s.logger.Error(err.Error())

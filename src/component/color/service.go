@@ -42,9 +42,9 @@ func (s *Service) QueryColors(colorIds ...string) ([]*Color, error) {
 
 func (s *Service) CreateColor(color *Color) error {
 	color.ColorId = utils.SnowFlakeIdString()
-	color.ColorCreateTime = times.Timestamp()
-	color.ColorUpdateTime = times.Timestamp()
-	color.ColorDeleteTime = 0
+	color.CreateTime = times.Timestamp()
+	color.UpdateTime = times.Timestamp()
+	color.DeleteTime = 0
 	err := s.repo.CreateColor(color)
 	if err != nil {
 		s.logger.Error(err.Error())

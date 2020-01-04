@@ -42,9 +42,9 @@ func (s *Service) QueryImages(imgIds ...string) ([]*Image, error) {
 
 func (s *Service) CreateImage(img *Image) error {
 	img.ImageId = utils.SnowFlakeIdString()
-	img.ImageCreateTime = times.Timestamp()
-	img.ImageUpdateTime = times.Timestamp()
-	img.ImageDeleteTime = 0
+	img.CreateTime = times.Timestamp()
+	img.UpdateTime = times.Timestamp()
+	img.DeleteTime = 0
 	err := s.repo.CreateImage(img)
 	if err != nil {
 		s.logger.Error(err.Error())

@@ -25,7 +25,7 @@ type Image struct {
 	ImageCustomSize string `json:"imageCustomSize"`
 	ImageCustomType string `json:"imageCustomType"`
 	ImageCustomDirection int `json:"imageCustomDirection"`
-	ImageCreateTime int64 `json:"imageCreateTime"`
-	ImageUpdateTime int64 `json:"imageUpdateTime"`
-	ImageDeleteTime int64 `json:"imageDeleteTime"`
+	CreateTime int64 `json:"imageCreateTime"`
+	UpdateTime int64 `json:"imageUpdateTime"`
+	DeleteTime int64 `json:"imageDeleteTime"`
 }

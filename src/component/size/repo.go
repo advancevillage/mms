@@ -50,5 +50,3 @@ func (s *RepoMgo) QuerySize(sizeId string) (*Size, error) {
 	}
 	return &size, nil
 }
-
-

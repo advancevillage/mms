@@ -1,6 +1,8 @@
 //author: richard
 package size
 
+import "mms/src/component/language"
+
 const (
 	Schema = "sizes"
 
@@ -17,9 +19,9 @@ type ISize interface {
 
 type Size struct {
 	SizeId 	 string 	`json:"sizeId"`
-	SizeName string 	`json:"sizeName"`
-	SizeStatus int 	`json:"sizeStatus"`
-	SizeCreateTime int64 `json:"sizeCreateTime"`
-	SizeUpdateTime int64 `json:"sizeUpdateTime"`
-	SizeDeleteTime int64 `json:"sizeDeleteTime"`
+	SizeStatus int 		`json:"sizeStatus"`
+	CreateTime int64 `json:"sizeCreateTime"`
+	UpdateTime int64 `json:"sizeUpdateTime"`
+	DeleteTime int64 `json:"sizeDeleteTime"`
+	SizeName language.Languages `json:"sizeName"`
 }

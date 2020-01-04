@@ -43,9 +43,9 @@ func (s *Service) QuerySizes(sizeIds ...string) ([]*Size, error) {
 
 func (s *Service) CreateSize(size *Size) error {
 	size.SizeId = utils.SnowFlakeIdString()
-	size.SizeCreateTime = times.Timestamp()
-	size.SizeUpdateTime = times.Timestamp()
-	size.SizeDeleteTime = 0
+	size.CreateTime = times.Timestamp()
+	size.UpdateTime = times.Timestamp()
+	size.DeleteTime = 0
 	err := s.repo.CreateSize(size)
 	if err != nil {
 		s.logger.Error(err.Error())

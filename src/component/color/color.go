@@ -1,6 +1,8 @@
 //author: richard
 package color
 
+import "mms/src/component/language"
+
 const (
 	Schema = "colors"
 
@@ -17,10 +19,10 @@ type IColor interface {
 
 type Color struct {
 	ColorId 	string 	`json:"colorId"`
-	ColorName   string 	`json:"colorName"`
 	ColorStatus int 	`json:"colorStatus"`
 	ColorValue  string  `json:"colorValue"` //色值 eg: #rgba(255,255,25,0)
-	ColorCreateTime int64 `json:"colorCreateTime"`
-	ColorUpdateTime int64 `json:"colorUpdateTime"`
-	ColorDeleteTime int64 `json:"colorDeleteTime"`
+	CreateTime int64 `json:"colorCreateTime"`
+	UpdateTime int64 `json:"colorUpdateTime"`
+	DeleteTime int64 `json:"colorDeleteTime"`
+	ColorName   language.Languages 	`json:"colorName"`
 }

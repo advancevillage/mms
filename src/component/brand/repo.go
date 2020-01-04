@@ -1,10 +1,8 @@
 //author: richard
 package brand
 
-
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/advancevillage/3rd/storages"
 )
 
@@ -27,7 +25,7 @@ func (s *RepoMgo) CreateBrand(brd *Brand) error {
 func (s *RepoMgo) DeleteBrand(brd ... *Brand) error {
 	var key = make([]string, 0, len(brd))
 	for i := range brd {
-		key = append(key, fmt.Sprintf("%d", brd[i].BrandId))
+		key = append(key, brd[i].BrandId)
 	}
 	return s.storage.DeleteStorageV2(Schema, key ...)
 }
@@ -40,8 +38,8 @@ func (s *RepoMgo) UpdateBrand(brd *Brand) error {
 	return s.storage.UpdateStorageV2(Schema, brd.BrandId, body)
 }
 
-func (s *RepoMgo) QueryBrand(BrandId int64) (*Brand, error) {
-	buf, err := s.storage.QueryStorageV2(Schema, fmt.Sprintf("%d", BrandId))
+func (s *RepoMgo) QueryBrand(brandId string) (*Brand, error) {
+	buf, err := s.storage.QueryStorageV2(Schema, brandId)
 	if err != nil {
 		return nil, err
 	}
