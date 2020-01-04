@@ -38,6 +38,28 @@ definitions:
           type: string
         type: array
     type: object
+  route.RequestSize:
+    properties:
+      sizeNameCn:
+        type: string
+      sizeNameEn:
+        type: string
+      sizeStatus:
+        type: integer
+    type: object
+  route.RequestStyle:
+    properties:
+      sizeNameCn:
+        type: string
+      sizeNameEn:
+        type: string
+      sizeStatus:
+        type: integer
+      styleDescriptionCn:
+        type: string
+      styleDescriptionEn:
+        type: string
+    type: object
   route.ResponseVersion:
     properties:
       info:
@@ -58,13 +80,6 @@ paths:
   /v1/brands:
     get:
       parameters:
-      - description: QueryBrands
-        in: body
-        name: '{}'
-        required: true
-        schema:
-          $ref: '#/definitions/route.RequestBrand'
-          type: object
       - description: 页码
         in: query
         name: page
@@ -445,4 +460,316 @@ paths:
             $ref: '#/definitions/route.HttpError'
             type: object
       summary: 显示当前服务的版本和代码版本号
+  /v1/sizes:
+    get:
+      parameters:
+      - description: 页码
+        in: query
+        name: page
+        type: integer
+      - description: 每页条数
+        in: query
+        name: perPage
+        type: integer
+      - description: 状态
+        in: query
+        name: status
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/route.HttpOk'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+      summary: 查询尺码列表
+    post:
+      parameters:
+      - description: CreateSize
+        in: body
+        name: '{}'
+        required: true
+        schema:
+          $ref: '#/definitions/route.RequestSize'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/route.HttpOk'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+      summary: 创建尺码
+  /v1/sizes/{pathId}:
+    delete:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/route.HttpOk'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+      summary: 删除尺码
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/route.HttpOk'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+      summary: 查询尺码
+    put:
+      parameters:
+      - description: UpdateSize
+        in: body
+        name: '{}'
+        required: true
+        schema:
+          $ref: '#/definitions/route.RequestSize'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/route.HttpOk'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+      summary: 更新品牌
+  /v1/styles:
+    get:
+      parameters:
+      - description: 页码
+        in: query
+        name: page
+        type: integer
+      - description: 每页条数
+        in: query
+        name: perPage
+        type: integer
+      - description: 状态
+        in: query
+        name: status
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/route.HttpOk'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+      summary: 查询款式列表
+    post:
+      parameters:
+      - description: CreateStyle
+        in: body
+        name: '{}'
+        required: true
+        schema:
+          $ref: '#/definitions/route.RequestStyle'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/route.HttpOk'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+      summary: 创建款式
+  /v1/styles/{pathId}:
+    delete:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/route.HttpOk'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+      summary: 删除款式
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/route.HttpOk'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+      summary: 查询款式
+    put:
+      parameters:
+      - description: UpdateStyle
+        in: body
+        name: '{}'
+        required: true
+        schema:
+          $ref: '#/definitions/route.RequestStyle'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/route.HttpOk'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+      summary: 更新款式
 swagger: "2.0"

@@ -122,3 +122,11 @@ func (s *Service) CategoryService() *category.Service {
 func (s *Service) BrandService() *brand.Service {
 	return s.brand
 }
+
+func (s *Service) SizeService() *size.Service {
+	return s.size
+}
+
+func (s *Service) StyleService() *style.Service {
+	return s.style
+}

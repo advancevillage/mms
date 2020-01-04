@@ -14,24 +14,20 @@ func NewBrandRepoMgo(storage storages.Storage) *RepoMgo {
 	return &RepoMgo{storage:storage}
 }
 
-func (s *RepoMgo) CreateBrand(brd *Brand) error {
-	body, err := json.Marshal(brd)
+func (s *RepoMgo) CreateBrand(brand *Brand) error {
+	body, err := json.Marshal(brand)
 	if err != nil {
 		return err
 	}
-	return s.storage.CreateStorageV2(Schema, brd.BrandId, body)
+	return s.storage.CreateStorageV2(Schema, brand.Id, body)
 }
 
-func (s *RepoMgo) UpdateBrand(brd *Brand) error {
-	body, err := json.Marshal(brd)
+func (s *RepoMgo) UpdateBrand(brand *Brand) error {
+	body, err := json.Marshal(brand)
 	if err != nil {
 		return err
 	}
-	return s.storage.UpdateStorageV2(Schema, brd.BrandId, body)
-}
-
-func (s *RepoMgo) DeleteBrand(brandId ...string) error {
-	return s.storage.DeleteStorageV2(Schema, brandId ...)
+	return s.storage.UpdateStorageV2(Schema, brand.Id, body)
 }
 
 func (s *RepoMgo) QueryBrand(brandId string) (*Brand, error) {

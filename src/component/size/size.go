@@ -6,22 +6,23 @@ import "mms/src/component/language"
 const (
 	Schema = "sizes"
 
-	StatusActived = 0x501
+	StatusActive  = 0x501
 	StatusDeleted = 0x502
+	StatusInvalid = 0x599
 )
 
 type ISize interface {
-	CreateSize(*Size) error
-	DeleteSize(...*Size) error
-	UpdateSize(*Size) error
-	QuerySize(string) (*Size, error)
+	CreateSize(size *Size) error
+	UpdateSize(size *Size) error
+	QuerySize(sizeId string) (*Size, error)
+	QuerySizes(where map[string]interface{}, page int, perPage int) ([]Size, error)
 }
 
 type Size struct {
-	SizeId 	 string 	`json:"sizeId"`
-	SizeStatus int 		`json:"sizeStatus"`
+	Id 	   string 	`json:"sizeId"`
+	Status int 		`json:"sizeStatus"`
 	CreateTime int64 `json:"sizeCreateTime"`
 	UpdateTime int64 `json:"sizeUpdateTime"`
 	DeleteTime int64 `json:"sizeDeleteTime"`
-	SizeName language.Languages `json:"sizeName"`
+	Name   language.Languages `json:"sizeName"`
 }

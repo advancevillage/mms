@@ -6,23 +6,24 @@ import "mms/src/component/language"
 const (
 	Schema = "styles"
 
-	StatusActived = 0x901
+	StatusActive  = 0x901
 	StatusDeleted = 0x902
+	StatusInvalid = 0x599
 )
 
 type IStyle interface {
 	CreateStyle(style *Style) error
-	DeleteStyle(style ...*Style) error
 	UpdateStyle(style *Style) error
 	QueryStyle(styleId string) (*Style, error)
+	QueryStyles(where map[string]interface{}, page int, perPage int) ([]Style, error)
 }
 
 type Style struct {
-	StyleId 	string 	`json:"styleId"`
-	StyleStatus int 	`json:"styleStatus"`
+	Id 	string 	`json:"styleId"`
+	Status int 	`json:"styleStatus"`
 	CreateTime  int64 `json:"styleCreateTime"`
 	UpdateTime  int64 `json:"styleUpdateTime"`
 	DeleteTime  int64 `json:"styleDeleteTime"`
-	StyleName language.Languages `json:"styleName"`
-	StyleDescription language.Languages `json:"styleDescription"`
+	Name language.Languages `json:"styleName"`
+	Description language.Languages `json:"styleDescription"`
 }

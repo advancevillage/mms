@@ -28,7 +28,7 @@ func (s *Service) QueryBrandById(brandId string) (*Brand, error) {
 
 func (s *Service) QueryBrands(status int, page int, perPage int) ([]Brand, error) {
 	where := make(map[string]interface{})
-	where["brandStatus"] = s.brandStatus(status)
+	where["brandStatus"] = s.Status(status)
 	brands, err := s.repo.QueryBrands(where, page, perPage)
 	if err != nil {
 		s.logger.Error(err.Error())
@@ -37,15 +37,15 @@ func (s *Service) QueryBrands(status int, page int, perPage int) ([]Brand, error
 	return brands, nil
 }
 
-func (s *Service) CreateBrand(brandNameEn string) error {
-	brd := &Brand{}
-	brd.BrandId = utils.SnowFlakeIdString()
-	brd.BrandName.English = brandNameEn
-	brd.BrandStatus = StatusActive
-	brd.CreateTime = times.Timestamp()
-	brd.UpdateTime = times.Timestamp()
-	brd.DeleteTime = 0
-	err := s.repo.CreateBrand(brd)
+func (s *Service) CreateBrand(english string) error {
+	value := &Brand{}
+	value.Id = utils.SnowFlakeIdString()
+	value.Name.English = english
+	value.Status = StatusActive
+	value.CreateTime = times.Timestamp()
+	value.UpdateTime = times.Timestamp()
+	value.DeleteTime = 0
+	err := s.repo.CreateBrand(value)
 	if err != nil {
 		s.logger.Error(err.Error())
 		return err
@@ -53,19 +53,19 @@ func (s *Service) CreateBrand(brandNameEn string) error {
 	return nil
 }
 
-func (s *Service) UpdateBrand(brandId string, brandNameEn, brandNameCn string, status int) error {
-	brand, err := s.QueryBrandById(brandId)
+func (s *Service) UpdateBrand(id string, english, chinese string, status int) error {
+	value, err := s.QueryBrandById(id)
 	if err != nil {
 		s.logger.Error(err.Error())
 		return err
 	}
-	status = s.brandStatus(status)
-	brand.BrandName.English = brandNameEn
-	brand.BrandName.Chinese = brandNameCn
+	status = s.Status(status)
+	value.Name.English = english
+	value.Name.Chinese = chinese
 	if status != StatusInvalid {
-		brand.BrandStatus = status
+		value.Status = status
 	}
-	err = s.repo.UpdateBrand(brand)
+	err = s.repo.UpdateBrand(value)
 	if err != nil {
 		s.logger.Error(err.Error())
 		return err
@@ -74,15 +74,15 @@ func (s *Service) UpdateBrand(brandId string, brandNameEn, brandNameCn string, s
 }
 
 func (s *Service) DeleteBrand(brandId string) error {
-	brand, err := s.QueryBrandById(brandId)
+	value, err := s.QueryBrandById(brandId)
 	if err != nil {
 		s.logger.Error(err.Error())
 		return err
 	}
-	brand.BrandStatus = StatusDeleted
-	brand.UpdateTime  = times.Timestamp()
-	brand.DeleteTime  = times.Timestamp()
-	err = s.repo.UpdateBrand(brand)
+	value.Status = StatusDeleted
+	value.UpdateTime  = times.Timestamp()
+	value.DeleteTime  = times.Timestamp()
+	err = s.repo.UpdateBrand(value)
 	if err != nil {
 		s.logger.Error(err.Error())
 		return err
@@ -90,7 +90,7 @@ func (s *Service) DeleteBrand(brandId string) error {
 	return nil
 }
 
-func (s *Service) brandStatus(status int) int {
+func (s *Service) Status(status int) int {
 	switch status {
 	case StatusActive:
 		status = StatusActive

@@ -17,7 +17,7 @@ import (
 //@Failure 500 {object} route.HttpError
 //@Router /v1/brands [post]
 func (s *service) CreateBrand(ctx *https.Context) {
-	body, err := ctx.Body()
+	body, err := s.body(ctx)
 	if err != nil {
 		ctx.JsonResponse(http.StatusBadRequest, s.NewHttpError(BrandCode, BrandMsg, RequestBodyErrorCode, RequestBodyErrorMsg))
 		return
@@ -38,7 +38,6 @@ func (s *service) CreateBrand(ctx *https.Context) {
 
 //@Summary 查询品牌列表
 //@Produce json
-//@Param {} body route.RequestBrand true "QueryBrands"
 //@Param page    query int false "页码" default "0"
 //@Param perPage query int false "每页条数" default "20"
 //@Param status  query int false "状态"

@@ -14,39 +14,50 @@ func NewSizeRepoMgo(storage storages.Storage) *RepoMgo {
 	return &RepoMgo{storage:storage}
 }
 
-func (s *RepoMgo) CreateSize(size *Size) error {
-	body, err := json.Marshal(size)
+func (s *RepoMgo) CreateSize(value *Size) error {
+	body, err := json.Marshal(value)
 	if err != nil {
 		return err
 	}
-	return s.storage.CreateStorageV2(Schema, size.SizeId, body)
+	return s.storage.CreateStorageV2(Schema, value.Id, body)
 }
 
-func (s *RepoMgo) DeleteSize(size ... *Size) error {
-	var key = make([]string, 0, len(size))
-	for i := range size {
-		key = append(key, size[i].SizeId)
-	}
-	return s.storage.DeleteStorageV2(Schema, key ...)
-}
-
-func (s *RepoMgo) UpdateSize(size *Size) error {
-	body, err := json.Marshal(size)
+func (s *RepoMgo) UpdateSize(value *Size) error {
+	body, err := json.Marshal(value)
 	if err != nil {
 		return err
 	}
-	return s.storage.UpdateStorageV2(Schema, size.SizeId, body)
+	return s.storage.UpdateStorageV2(Schema, value.Id, body)
 }
 
-func (s *RepoMgo) QuerySize(sizeId string) (*Size, error) {
-	buf, err := s.storage.QueryStorageV2(Schema, sizeId)
+func (s *RepoMgo) QuerySize(id string) (*Size, error) {
+	buf, err := s.storage.QueryStorageV2(Schema, id)
 	if err != nil {
 		return nil, err
 	}
-	size := Size{}
-	err = json.Unmarshal(buf, &size)
+	value := Size{}
+	err = json.Unmarshal(buf, &value)
 	if err != nil {
 		return nil, err
 	}
-	return &size, nil
+	return &value, nil
+}
+
+func (s *RepoMgo) QuerySizes(where map[string]interface{}, page int, perPage int) ([]Size, error) {
+	items, err := s.storage.QueryStorageV3(Schema, where, perPage, page * perPage)
+	if err != nil {
+		return nil, err
+	}
+	values := make([]Size, 0, len(items))
+	for i := range items {
+		buf := items[i]
+		value := Size{}
+		err = json.Unmarshal(buf, &value)
+		if err != nil {
+			return nil, err
+		} else {
+			values = append(values, value)
+		}
+	}
+	return values, nil
 }

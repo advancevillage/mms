@@ -5,6 +5,12 @@ const (
 	//品牌 brands
 	BrandCode = 1100
 	BrandMsg  = "brand"
+	//尺码 sizes
+	SizeCode  = 1200
+	SizeMsg   = "size"
+	//款式 styles
+	StyleCode = 1300
+	StyleMsg  = "style"
 
 	SnowFlakeIdLength = 18
 )
@@ -59,4 +65,16 @@ type RequestBrand struct {
 	Status 		int    `json:"brandStatus,omitempty"`
 }
 
+type RequestSize struct {
+	SizeNameEn string `json:"sizeNameEn"`
+	SizeNameCn string `json:"sizeNameCn,omitempty"`
+	Status 		int   `json:"sizeStatus,omitempty"`
+}
 
+type RequestStyle struct {
+	StyleNameEn string `json:"sizeNameEn"`
+	StyleNameCn  string `json:"sizeNameCn,omitempty"`
+	StyleDescriptionEn string `json:"styleDescriptionEn"`
+	StyleDescriptionCn string `json:"styleDescriptionCn"`
+	Status 		int   `json:"sizeStatus,omitempty"`
+}

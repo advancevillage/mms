@@ -17,7 +17,7 @@ func NewStyleService(storage storages.Storage, logger logs.Logs) *Service {
 	return &Service{repo:NewStyleRepoMgo(storage), logger:logger}
 }
 
-func (s *Service) QuerySize(styleId string) (*Style, error) {
+func (s *Service) QueryStyleById(styleId string) (*Style, error) {
 	style, err := s.repo.QueryStyle(styleId)
 	if err != nil {
 		s.logger.Error(err.Error())
@@ -26,29 +26,82 @@ func (s *Service) QuerySize(styleId string) (*Style, error) {
 	return style, nil
 }
 
-func (s *Service) QuerySizes(styleIds ...string) ([]*Style, error) {
-	var length = len(styleIds)
-	var styles = make([]*Style, 0, length)
-	for i := 0; i < length; i++ {
-		style , err := s.repo.QueryStyle(styleIds[i])
-		if err != nil {
-			s.logger.Info(err.Error())
-		} else {
-			styles = append(styles, style)
-		}
+func (s *Service) QueryStyles(status int, page int, perPage int) ([]Style, error) {
+	where := make(map[string]interface{})
+	where["styleStatus"] = s.Status(status)
+	styles, err := s.repo.QueryStyles(where, page, perPage)
+	if err != nil {
+		s.logger.Error(err.Error())
+		return nil, err
 	}
 	return styles, nil
 }
 
-func (s *Service) CreateSize(style *Style) error {
-	style.StyleId = utils.SnowFlakeIdString()
-	style.CreateTime = times.Timestamp()
-	style.UpdateTime = times.Timestamp()
-	style.DeleteTime = 0
-	err := s.repo.CreateStyle(style)
+func (s *Service) CreateStyle(name string, description string) error {
+	value := &Style{}
+	value.Id = utils.SnowFlakeIdString()
+	value.Name.English = name
+	value.Description.English = description
+	value.Status = StatusActive
+	value.CreateTime = times.Timestamp()
+	value.UpdateTime = times.Timestamp()
+	value.DeleteTime = 0
+	err := s.repo.CreateStyle(value)
 	if err != nil {
 		s.logger.Error(err.Error())
 		return err
 	}
 	return nil
+}
+
+func (s *Service) UpdateStyle(id string, nameEn, nameCn string, descEn, descCn string, status int) error {
+	value, err := s.QueryStyleById(id)
+	if err != nil {
+		s.logger.Error(err.Error())
+		return err
+	}
+	status = s.Status(status)
+	value.Name.English = nameEn
+	value.Name.Chinese = nameCn
+	value.Description.English = descEn
+	value.Description.Chinese = descCn
+	value.UpdateTime   = times.Timestamp()
+	if status != StatusInvalid {
+		value.Status = status
+	}
+	err = s.repo.UpdateStyle(value)
+	if err != nil {
+		s.logger.Error(err.Error())
+		return err
+	}
+	return nil
+}
+
+func (s *Service) DeleteStyle(id string) error {
+	value, err := s.QueryStyleById(id)
+	if err != nil {
+		s.logger.Error(err.Error())
+		return err
+	}
+	value.Status = StatusDeleted
+	value.UpdateTime  = times.Timestamp()
+	value.DeleteTime  = times.Timestamp()
+	err = s.repo.UpdateStyle(value)
+	if err != nil {
+		s.logger.Error(err.Error())
+		return err
+	}
+	return nil
+}
+
+func (s *Service) Status(status int) int {
+	switch status {
+	case StatusActive:
+		status = StatusActive
+	case StatusDeleted:
+		status = StatusDeleted
+	default:
+		status = StatusInvalid
+	}
+	return status
 }

@@ -15,15 +15,14 @@ type IBrand interface {
 	CreateBrand(*Brand) error
 	UpdateBrand(*Brand) error
 	QueryBrand(string) (*Brand, error)
-	DeleteBrand(...string) error
 	QueryBrands(where map[string]interface{}, page int, perPage int) ([]Brand, error)
 }
 
 type Brand struct {
-	BrandId 	string 	`json:"brandId"`
-	BrandStatus int 	`json:"brandStatus"`
+	Id 	   string 	`json:"brandId"`
+	Status int 		`json:"brandStatus"`
 	CreateTime int64 `json:"brandCreateTime"`
 	UpdateTime int64 `json:"brandUpdateTime"`
 	DeleteTime int64 `json:"brandDeleteTime"`
-	BrandName 	language.Languages 	`json:"brandName"`
+	Name   language.Languages `json:"brandName"`
 }
