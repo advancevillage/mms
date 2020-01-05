@@ -25,7 +25,11 @@ definitions:
     type: object
   route.RequestCategory:
     properties:
-      categoryName:
+      categoryLevel:
+        type: integer
+      categoryNameCn:
+        type: string
+      categoryNameEn:
         type: string
       categoryStatus:
         type: integer
@@ -38,6 +42,60 @@ definitions:
           type: string
         type: array
     type: object
+  route.RequestColor:
+    properties:
+      colorNameCn:
+        type: string
+      colorNameEn:
+        type: string
+      colorStatus:
+        type: integer
+      rgba:
+        type: string
+    type: object
+  route.RequestGoods:
+    properties:
+      costPrice:
+        type: number
+      descEn:
+        type: string
+      titleEn:
+        type: string
+    type: object
+  route.RequestImage:
+    properties:
+      imageDescriptionCn:
+        type: string
+      imageDescriptionEn:
+        type: string
+      imageDirection:
+        type: integer
+      imageStatus:
+        type: integer
+      imageType:
+        type: string
+      imageUrl:
+        type: string
+      isDefault:
+        type: boolean
+    type: object
+  route.RequestManufacturer:
+    properties:
+      addressCn:
+        type: string
+      addressEn:
+        type: string
+      concat:
+        type: string
+      email:
+        type: string
+      nameEn:
+        type: string
+      phone:
+        type: string
+      styleStatus:
+        type: integer
+    type: object
   route.RequestSize:
     properties:
       sizeNameCn:
@@ -49,16 +107,25 @@ definitions:
     type: object
   route.RequestStyle:
     properties:
-      sizeNameCn:
-        type: string
-      sizeNameEn:
-        type: string
-      sizeStatus:
-        type: integer
       styleDescriptionCn:
         type: string
       styleDescriptionEn:
         type: string
+      styleNameCn:
+        type: string
+      styleNameEn:
+        type: string
+      styleStatus:
+        type: integer
+    type: object
+  route.RequestTag:
+    properties:
+      tagNameCn:
+        type: string
+      tagNameEn:
+        type: string
+      tagStatus:
+        type: integer
     type: object
   route.ResponseVersion:
     properties:
@@ -234,6 +301,44 @@ paths:
             type: object
       summary: 更新品牌
   /v1/categories:
+    get:
+      parameters:
+      - description: 页码
+        in: query
+        name: page
+        type: integer
+      - description: 每页条数
+        in: query
+        name: perPage
+        type: integer
+      - description: 状态
+        in: query
+        name: status
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/route.HttpOk'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+      summary: 查询分类列表
     post:
       parameters:
       - description: CreateCategory
@@ -266,17 +371,574 @@ paths:
           schema:
             $ref: '#/definitions/route.HttpError'
             type: object
-      summary: 创建分类
-  /v1/merchandises:
+      summary: 新增分类
+  /v1/categories/{pathId}:
+    delete:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/route.HttpOk'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+      summary: 删除分类
     get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/route.HttpOk'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+      summary: 查询分类
+    put:
       parameters:
-      - description: QueryMerchandises
+      - description: UpdateCategory
         in: body
         name: '{}'
         required: true
         schema:
           $ref: '#/definitions/route.RequestCategory'
           type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/route.HttpOk'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+      summary: 更新分类
+  /v1/colors:
+    get:
+      parameters:
+      - description: 页码
+        in: query
+        name: page
+        type: integer
+      - description: 每页条数
+        in: query
+        name: perPage
+        type: integer
+      - description: 状态
+        in: query
+        name: status
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/route.HttpOk'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+      summary: 查询颜色列表
+    post:
+      parameters:
+      - description: CreateColor
+        in: body
+        name: '{}'
+        required: true
+        schema:
+          $ref: '#/definitions/route.RequestColor'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/route.HttpOk'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+      summary: 新增颜色
+  /v1/colors/{pathId}:
+    delete:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/route.HttpOk'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+      summary: 删除颜色
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/route.HttpOk'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+      summary: 查询颜色
+    put:
+      parameters:
+      - description: UpdateColor
+        in: body
+        name: '{}'
+        required: true
+        schema:
+          $ref: '#/definitions/route.RequestColor'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/route.HttpOk'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+      summary: 更新颜色
+  /v1/images:
+    get:
+      parameters:
+      - description: 页码
+        in: query
+        name: page
+        type: integer
+      - description: 每页条数
+        in: query
+        name: perPage
+        type: integer
+      - description: 状态
+        in: query
+        name: status
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/route.HttpOk'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+      summary: 查询图片列表
+    post:
+      parameters:
+      - description: CreateImage
+        in: body
+        name: '{}'
+        required: true
+        schema:
+          $ref: '#/definitions/route.RequestImage'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/route.HttpOk'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+      summary: 新增图片
+  /v1/images/{pathId}:
+    delete:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/route.HttpOk'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+      summary: 删除图片
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/route.HttpOk'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+      summary: 查询图片
+    put:
+      parameters:
+      - description: UpdateImage
+        in: body
+        name: '{}'
+        required: true
+        schema:
+          $ref: '#/definitions/route.RequestImage'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/route.HttpOk'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+      summary: 更新图片
+  /v1/manufacturers:
+    get:
+      parameters:
+      - description: 页码
+        in: query
+        name: page
+        type: integer
+      - description: 每页条数
+        in: query
+        name: perPage
+        type: integer
+      - description: 状态
+        in: query
+        name: status
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/route.HttpOk'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+      summary: 查询生产商列表
+    post:
+      parameters:
+      - description: CreateManufacturer
+        in: body
+        name: '{}'
+        required: true
+        schema:
+          $ref: '#/definitions/route.RequestManufacturer'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/route.HttpOk'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+      summary: 新增生产商
+  /v1/manufacturers/{pathId}:
+    delete:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/route.HttpOk'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+      summary: 删除生产商
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/route.HttpOk'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+      summary: 查询生产商
+    put:
+      parameters:
+      - description: UpdateManufacturer
+        in: body
+        name: '{}'
+        required: true
+        schema:
+          $ref: '#/definitions/route.RequestManufacturer'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/route.HttpOk'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+      summary: 更新生产商
+  /v1/merchandises:
+    get:
+      parameters:
+      - description: 页码
+        in: query
+        name: page
+        type: integer
+      - description: 每页条数
+        in: query
+        name: perPage
+        type: integer
+      - description: 状态
+        in: query
+        name: status
+        type: integer
       produces:
       - application/json
       responses:
@@ -303,12 +965,12 @@ paths:
       summary: 查询商品列表
     post:
       parameters:
-      - description: CreateMerchandise
+      - description: CreateGoods
         in: body
         name: '{}'
         required: true
         schema:
-          $ref: '#/definitions/route.RequestCategory'
+          $ref: '#/definitions/route.RequestGoods'
           type: object
       produces:
       - application/json
@@ -333,17 +995,9 @@ paths:
           schema:
             $ref: '#/definitions/route.HttpError'
             type: object
-      summary: 创建商品
-  /v1/merchandises/{goodsId}:
+      summary: 新增商品
+  /v1/merchandises/{pathId}:
     delete:
-      parameters:
-      - description: DeleteMerchandise
-        in: body
-        name: '{}'
-        required: true
-        schema:
-          $ref: '#/definitions/route.RequestCategory'
-          type: object
       produces:
       - application/json
       responses:
@@ -369,14 +1023,6 @@ paths:
             type: object
       summary: 删除商品
     get:
-      parameters:
-      - description: QueryMerchandise
-        in: body
-        name: '{}'
-        required: true
-        schema:
-          $ref: '#/definitions/route.RequestCategory'
-          type: object
       produces:
       - application/json
       responses:
@@ -401,39 +1047,6 @@ paths:
             $ref: '#/definitions/route.HttpError'
             type: object
       summary: 查询商品
-    put:
-      parameters:
-      - description: UpdateMerchandise
-        in: body
-        name: '{}'
-        required: true
-        schema:
-          $ref: '#/definitions/route.RequestCategory'
-          type: object
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/route.HttpOk'
-            type: object
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/route.HttpError'
-            type: object
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/route.HttpError'
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/route.HttpError'
-            type: object
-      summary: 更新商品
   /v1/services/version:
     get:
       produces:
@@ -772,4 +1385,160 @@ paths:
             $ref: '#/definitions/route.HttpError'
             type: object
       summary: 更新款式
+  /v1/tags:
+    get:
+      parameters:
+      - description: 页码
+        in: query
+        name: page
+        type: integer
+      - description: 每页条数
+        in: query
+        name: perPage
+        type: integer
+      - description: 状态
+        in: query
+        name: status
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/route.HttpOk'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+      summary: 查询标签列表
+    post:
+      parameters:
+      - description: CreateTag
+        in: body
+        name: '{}'
+        required: true
+        schema:
+          $ref: '#/definitions/route.RequestTag'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/route.HttpOk'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+      summary: 创建标签
+  /v1/tags/{pathId}:
+    delete:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/route.HttpOk'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+      summary: 删除标签
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/route.HttpOk'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+      summary: 查询标签
+    put:
+      parameters:
+      - description: UpdateTag
+        in: body
+        name: '{}'
+        required: true
+        schema:
+          $ref: '#/definitions/route.RequestTag'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/route.HttpOk'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+      summary: 更新标签
 swagger: "2.0"

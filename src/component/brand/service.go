@@ -62,9 +62,7 @@ func (s *Service) UpdateBrand(id string, english, chinese string, status int) er
 	status = s.Status(status)
 	value.Name.English = english
 	value.Name.Chinese = chinese
-	if status != StatusInvalid {
-		value.Status = status
-	}
+	value.Status = s.Status(status)
 	err = s.repo.UpdateBrand(value)
 	if err != nil {
 		s.logger.Error(err.Error())

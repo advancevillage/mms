@@ -17,40 +17,91 @@ func NewImageService(storage storages.Storage, logger logs.Logs) *Service {
 	return &Service{repo:NewImageRepoMgo(storage), logger:logger}
 }
 
-func (s *Service) QueryImage(imgId string) (*Image, error) {
-	img, err := s.repo.QueryImage(imgId)
+func (s *Service) QueryImageById(id string) (*Image, error) {
+	color, err := s.repo.QueryImage(id)
 	if err != nil {
 		s.logger.Error(err.Error())
 		return nil, err
 	}
-	return img, nil
+	return color, nil
 }
 
-func (s *Service) QueryImages(imgIds ...string) ([]*Image, error) {
-	var length = len(imgIds)
-	var images = make([]*Image, 0, length)
-	for i := 0; i < length; i++ {
-		image , err := s.repo.QueryImage(imgIds[i])
-		if err != nil {
-			s.logger.Info(err.Error())
-		} else {
-			images = append(images, image)
-		}
+func (s *Service) QueryImages(status int, page int, perPage int) ([]Image, error) {
+	where := make(map[string]interface{})
+	where["imageStatus"] = s.Status(status)
+	colors, err := s.repo.QueryImages(where, page, perPage)
+	if err != nil {
+		s.logger.Error(err.Error())
+		return nil, err
 	}
-	return images, nil
+	return colors, nil
 }
 
-func (s *Service) CreateImage(img *Image) error {
-	img.ImageId = utils.SnowFlakeIdString()
-	img.CreateTime = times.Timestamp()
-	img.UpdateTime = times.Timestamp()
-	img.DeleteTime = 0
-	err := s.repo.CreateImage(img)
+func (s *Service) CreateImage(descEn string, isDefault bool, url string, customType string, customDirection int) error {
+	value := &Image{}
+	value.Id = utils.SnowFlakeIdString()
+	value.Description.English = descEn
+	value.Status = StatusActive
+	value.Url = url
+	value.IsDefault = isDefault
+	value.CustomType = customType
+	value.CustomDirection = customDirection
+	value.CreateTime = times.Timestamp()
+	value.UpdateTime = times.Timestamp()
+	value.DeleteTime = 0
+	err := s.repo.CreateImage(value)
 	if err != nil {
 		s.logger.Error(err.Error())
 		return err
 	}
 	return nil
+}
+
+func (s *Service) UpdateImage(id string, descEn, descCn string, status int) error {
+	value, err := s.QueryImageById(id)
+	if err != nil {
+		s.logger.Error(err.Error())
+		return err
+	}
+	value.Status = s.Status(status)
+	value.Description.English = descEn
+	value.Description.Chinese = descCn
+	value.UpdateTime   = times.Timestamp()
+	err = s.repo.UpdateImage(value)
+	if err != nil {
+		s.logger.Error(err.Error())
+		return err
+	}
+	return nil
+}
+
+func (s *Service) DeleteImage(id string) error {
+	value, err := s.QueryImageById(id)
+	if err != nil {
+		s.logger.Error(err.Error())
+		return err
+	}
+	value.Status = StatusDeleted
+	value.UpdateTime  = times.Timestamp()
+	value.DeleteTime  = times.Timestamp()
+	err = s.repo.UpdateImage(value)
+	if err != nil {
+		s.logger.Error(err.Error())
+		return err
+	}
+	return nil
+}
+
+func (s *Service) Status(status int) int {
+	switch status {
+	case StatusActive:
+		status = StatusActive
+	case StatusDeleted:
+		status = StatusDeleted
+	default:
+		status = StatusInvalid
+	}
+	return status
 }
 
 

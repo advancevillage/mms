@@ -14,41 +14,52 @@ func NewImageRepoMgo(storage storages.Storage) *RepoMgo {
 	return &RepoMgo{storage:storage}
 }
 
-func (s *RepoMgo) CreateImage(img *Image) error {
-	body, err := json.Marshal(img)
+func (s *RepoMgo) CreateImage(value *Image) error {
+	body, err := json.Marshal(value)
 	if err != nil {
 		return err
 	}
-	return s.storage.CreateStorageV2(Schema, img.ImageId, body)
+	return s.storage.CreateStorageV2(Schema, value.Id, body)
 }
 
-func (s *RepoMgo) DeleteImage(img ... *Image) error {
-	var key = make([]string, 0, len(img))
-	for i := range img {
-		key = append(key, img[i].ImageId)
-	}
-	return s.storage.DeleteStorageV2(Schema, key ...)
-}
-
-func (s *RepoMgo) UpdateImage(img *Image) error {
-	body, err := json.Marshal(img)
+func (s *RepoMgo) UpdateImage(value *Image) error {
+	body, err := json.Marshal(value)
 	if err != nil {
 		return err
 	}
-	return s.storage.UpdateStorageV2(Schema, img.ImageId, body)
+	return s.storage.UpdateStorageV2(Schema, value.Id, body)
 }
 
-func (s *RepoMgo) QueryImage(imgId string) (*Image, error) {
-	buf, err := s.storage.QueryStorageV2(Schema, imgId)
+func (s *RepoMgo) QueryImage(id string) (*Image, error) {
+	buf, err := s.storage.QueryStorageV2(Schema, id)
 	if err != nil {
 		return nil, err
 	}
-	img := Image{}
-	err = json.Unmarshal(buf, &img)
+	value := Image{}
+	err = json.Unmarshal(buf, &value)
 	if err != nil {
 		return nil, err
 	}
-	return &img, nil
+	return &value, nil
+}
+
+func (s *RepoMgo) QueryImages(where map[string]interface{}, page int, perPage int) ([]Image, error) {
+	items, err := s.storage.QueryStorageV3(Schema, where, perPage, page * perPage)
+	if err != nil {
+		return nil, err
+	}
+	values := make([]Image, 0, len(items))
+	for i := range items {
+		buf := items[i]
+		value := Image{}
+		err = json.Unmarshal(buf, &value)
+		if err != nil {
+			return nil, err
+		} else {
+			values = append(values, value)
+		}
+	}
+	return values, nil
 }
 
 

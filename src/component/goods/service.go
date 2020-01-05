@@ -9,7 +9,7 @@ import (
 )
 
 type Service struct {
-	repo   IGoods
+	repo   IMerchandise
 	logger logs.Logs
 }
 
@@ -17,40 +17,71 @@ func NewGoodsService(storage storages.Storage, logger logs.Logs) *Service {
 	return &Service{repo:NewGoodsRepoMgo(storage), logger:logger}
 }
 
-func (s *Service) QueryGood(goodsId string) (*Goods, error) {
-	g, err := s.repo.QueryGoods(goodsId)
+func (s *Service) QueryManufacturerById(goodsId string) (*Goods, error) {
+	goods, err := s.repo.QueryMerchandise(goodsId)
 	if err != nil {
 		s.logger.Error(err.Error())
 		return nil, err
 	}
-	return g, nil
+	return goods, nil
 }
 
-func (s *Service) QueryGoods(goodsIds ...string) ([]*Goods, error) {
-	var length = len(goodsIds)
-	var goods = make([]*Goods, 0, length)
-	for i := 0; i < length; i++ {
-		good , err := s.repo.QueryGoods(goodsIds[i])
-		if err != nil {
-			s.logger.Info(err.Error())
-		} else {
-			goods = append(goods, good)
-		}
+func (s *Service) QueryManufacturers(status int, page int, perPage int) ([]Goods, error) {
+	where := make(map[string]interface{})
+	where["goodsStatus"] = s.Status(status)
+	goods, err := s.repo.QueryMerchandises(where, page, perPage)
+	if err != nil {
+		s.logger.Error(err.Error())
+		return nil, err
 	}
 	return goods, nil
 }
 
-func (s *Service) CreateGoods(g *Goods) error {
-	g.GoodsId = utils.SnowFlakeIdString()
-	g.CreateTime = times.Timestamp()
-	g.UpdateTime = times.Timestamp()
-	g.DeleteTime = 0
-	err := s.repo.CreateGoods(g)
+func (s *Service) CreateManufacturer(titleEn string, descEn string, costPrice float64) error {
+	value := &Goods{}
+	value.Id = utils.SnowFlakeIdString()
+	value.Title.English = titleEn
+	value.DetailedDescription.English = descEn
+	value.Status = StatusActive
+	value.CostPrice = costPrice
+	value.CreateTime = times.Timestamp()
+	value.UpdateTime = times.Timestamp()
+	value.DeleteTime = 0
+	err := s.repo.CreateMerchandise(value)
 	if err != nil {
 		s.logger.Error(err.Error())
 		return err
 	}
 	return nil
+}
+
+func (s *Service) DeleteManufacturer(id string) error {
+	value, err := s.QueryManufacturerById(id)
+	if err != nil {
+		s.logger.Error(err.Error())
+		return err
+	}
+	value.Status = StatusDeleted
+	value.UpdateTime  = times.Timestamp()
+	value.DeleteTime  = times.Timestamp()
+	err = s.repo.UpdateMerchandise(value)
+	if err != nil {
+		s.logger.Error(err.Error())
+		return err
+	}
+	return nil
+}
+
+func (s *Service) Status(status int) int {
+	switch status {
+	case StatusActive:
+		status = StatusActive
+	case StatusDeleted:
+		status = StatusDeleted
+	default:
+		status = StatusInvalid
+	}
+	return status
 }
 
 

@@ -14,40 +14,51 @@ func NewGoodsRepoMgo(storage storages.Storage) *RepoMgo {
 	return &RepoMgo{storage:storage}
 }
 
-func (s *RepoMgo) CreateGoods(g *Goods) error {
-	body, err := json.Marshal(g)
+func (s *RepoMgo) CreateMerchandise(value *Goods) error {
+	body, err := json.Marshal(value)
 	if err != nil {
 		return err
 	}
-	return s.storage.CreateStorageV2(Schema, g.GoodsId, body)
+	return s.storage.CreateStorageV2(Schema, value.Id, body)
 }
 
-func (s *RepoMgo) DeleteGoods(g ... *Goods) error {
-	var key = make([]string, 0, len(g))
-	for i := range g {
-		key = append(key, g[i].GoodsId)
-	}
-	return s.storage.DeleteStorageV2(Schema, key ...)
-}
-
-func (s *RepoMgo) UpdateGoods(g *Goods) error {
-	body, err := json.Marshal(g)
+func (s *RepoMgo) UpdateMerchandise(value *Goods) error {
+	body, err := json.Marshal(value)
 	if err != nil {
 		return err
 	}
-	return s.storage.UpdateStorageV2(Schema, g.GoodsId, body)
+	return s.storage.UpdateStorageV2(Schema, value.Id, body)
 }
 
-func (s *RepoMgo) QueryGoods(goodsId string) (*Goods, error) {
-	buf, err := s.storage.QueryStorageV2(Schema, goodsId)
+func (s *RepoMgo) QueryMerchandise(id string) (*Goods, error) {
+	buf, err := s.storage.QueryStorageV2(Schema, id)
 	if err != nil {
 		return nil, err
 	}
-	g := Goods{}
-	err = json.Unmarshal(buf, &g)
+	value := Goods{}
+	err = json.Unmarshal(buf, &value)
 	if err != nil {
 		return nil, err
 	}
-	return &g, nil
+	return &value, nil
+}
+
+func (s *RepoMgo) QueryMerchandises(where map[string]interface{}, page int, perPage int) ([]Goods, error) {
+	items, err := s.storage.QueryStorageV3(Schema, where, perPage, page * perPage)
+	if err != nil {
+		return nil, err
+	}
+	values := make([]Goods, 0, len(items))
+	for i := range items {
+		buf := items[i]
+		value := Goods{}
+		err = json.Unmarshal(buf, &value)
+		if err != nil {
+			return nil, err
+		} else {
+			values = append(values, value)
+		}
+	}
+	return values, nil
 }
 

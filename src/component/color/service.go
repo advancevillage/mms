@@ -17,7 +17,7 @@ func NewColorService(storage storages.Storage, logger logs.Logs) *Service {
 	return &Service{repo:NewColorRepoMgo(storage), logger:logger}
 }
 
-func (s *Service) QueryColor(colorId string) (*Color, error) {
+func (s *Service) QueryColorById(colorId string) (*Color, error) {
 	color, err := s.repo.QueryColor(colorId)
 	if err != nil {
 		s.logger.Error(err.Error())
@@ -26,31 +26,81 @@ func (s *Service) QueryColor(colorId string) (*Color, error) {
 	return color, nil
 }
 
-func (s *Service) QueryColors(colorIds ...string) ([]*Color, error) {
-	var length = len(colorIds)
-	var colors = make([]*Color, 0, length)
-	for i := 0; i < length; i++ {
-		color , err := s.repo.QueryColor(colorIds[i])
-		if err != nil {
-			s.logger.Info(err.Error())
-		} else {
-			colors = append(colors, color)
-		}
+func (s *Service) QueryColors(status int, page int, perPage int) ([]Color, error) {
+	where := make(map[string]interface{})
+	where["colorStatus"] = s.Status(status)
+	colors, err := s.repo.QueryColors(where, page, perPage)
+	if err != nil {
+		s.logger.Error(err.Error())
+		return nil, err
 	}
 	return colors, nil
 }
 
-func (s *Service) CreateColor(color *Color) error {
-	color.ColorId = utils.SnowFlakeIdString()
-	color.CreateTime = times.Timestamp()
-	color.UpdateTime = times.Timestamp()
-	color.DeleteTime = 0
-	err := s.repo.CreateColor(color)
+func (s *Service) CreateColor(english string, rgba string) error {
+	value := &Color{}
+	value.Id = utils.SnowFlakeIdString()
+	value.Name.English = english
+	value.Status = StatusActive
+	value.Value  = rgba
+	value.CreateTime = times.Timestamp()
+	value.UpdateTime = times.Timestamp()
+	value.DeleteTime = 0
+	err := s.repo.CreateColor(value)
 	if err != nil {
 		s.logger.Error(err.Error())
 		return err
 	}
 	return nil
+}
+
+func (s *Service) UpdateColor(id string, english, chinese string, rgba string, status int) error {
+	value, err := s.QueryColorById(id)
+	if err != nil {
+		s.logger.Error(err.Error())
+		return err
+	}
+	status = s.Status(status)
+	value.Value = rgba
+	value.Name.English = english
+	value.Name.Chinese = chinese
+	value.UpdateTime   = times.Timestamp()
+	value.Status = s.Status(status)
+	err = s.repo.UpdateColor(value)
+	if err != nil {
+		s.logger.Error(err.Error())
+		return err
+	}
+	return nil
+}
+
+func (s *Service) DeleteColor(id string) error {
+	value, err := s.QueryColorById(id)
+	if err != nil {
+		s.logger.Error(err.Error())
+		return err
+	}
+	value.Status = StatusDeleted
+	value.UpdateTime  = times.Timestamp()
+	value.DeleteTime  = times.Timestamp()
+	err = s.repo.UpdateColor(value)
+	if err != nil {
+		s.logger.Error(err.Error())
+		return err
+	}
+	return nil
+}
+
+func (s *Service) Status(status int) int {
+	switch status {
+	case StatusActive:
+		status = StatusActive
+	case StatusDeleted:
+		status = StatusDeleted
+	default:
+		status = StatusInvalid
+	}
+	return status
 }
 
 

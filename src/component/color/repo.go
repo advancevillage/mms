@@ -14,40 +14,51 @@ func NewColorRepoMgo(storage storages.Storage) *RepoMgo {
 	return &RepoMgo{storage:storage}
 }
 
-func (s *RepoMgo) CreateColor(color *Color) error {
-	body, err := json.Marshal(color)
+func (s *RepoMgo) CreateColor(value *Color) error {
+	body, err := json.Marshal(value)
 	if err != nil {
 		return err
 	}
-	return s.storage.CreateStorageV2(Schema, color.ColorId, body)
+	return s.storage.CreateStorageV2(Schema, value.Id, body)
 }
 
-func (s *RepoMgo) DeleteColor(color ... *Color) error {
-	var key = make([]string, 0, len(color))
-	for i := range color {
-		key = append(key, color[i].ColorId)
-	}
-	return s.storage.DeleteStorageV2(Schema, key ...)
-}
-
-func (s *RepoMgo) UpdateColor(color *Color) error {
-	body, err := json.Marshal(color)
+func (s *RepoMgo) UpdateColor(value *Color) error {
+	body, err := json.Marshal(value)
 	if err != nil {
 		return err
 	}
-	return s.storage.UpdateStorageV2(Schema, color.ColorId, body)
+	return s.storage.UpdateStorageV2(Schema, value.Id, body)
 }
 
-func (s *RepoMgo) QueryColor(colorId string) (*Color, error) {
-	buf, err := s.storage.QueryStorageV2(Schema, colorId)
+func (s *RepoMgo) QueryColor(id string) (*Color, error) {
+	buf, err := s.storage.QueryStorageV2(Schema, id)
 	if err != nil {
 		return nil, err
 	}
-	color := Color{}
-	err = json.Unmarshal(buf, &color)
+	value := Color{}
+	err = json.Unmarshal(buf, &value)
 	if err != nil {
 		return nil, err
 	}
-	return &color, nil
+	return &value, nil
+}
+
+func (s *RepoMgo) QueryColors(where map[string]interface{}, page int, perPage int) ([]Color, error) {
+	items, err := s.storage.QueryStorageV3(Schema, where, perPage, page * perPage)
+	if err != nil {
+		return nil, err
+	}
+	values := make([]Color, 0, len(items))
+	for i := range items {
+		buf := items[i]
+		value := Color{}
+		err = json.Unmarshal(buf, &value)
+		if err != nil {
+			return nil, err
+		} else {
+			values = append(values, value)
+		}
+	}
+	return values, nil
 }
 

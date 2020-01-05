@@ -64,9 +64,7 @@ func (s *Service) UpdateSize(id string, english, chinese string, status int) err
 	value.Name.English = english
 	value.Name.Chinese = chinese
 	value.UpdateTime   = times.Timestamp()
-	if status != StatusInvalid {
-		value.Status = status
-	}
+	value.Status = s.Status(status)
 	err = s.repo.UpdateSize(value)
 	if err != nil {
 		s.logger.Error(err.Error())

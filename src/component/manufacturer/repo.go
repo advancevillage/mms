@@ -14,39 +14,50 @@ func NewManufacturerRepoMgo(storage storages.Storage) *RepoMgo {
 	return &RepoMgo{storage:storage}
 }
 
-func (s *RepoMgo) CreateManufacturer(mf *Manufacturer) error {
-	body, err := json.Marshal(mf)
+func (s *RepoMgo) CreateManufacturer(value *Manufacturer) error {
+	body, err := json.Marshal(value)
 	if err != nil {
 		return err
 	}
-	return s.storage.CreateStorageV2(Schema, mf.ManufacturerId, body)
+	return s.storage.CreateStorageV2(Schema, value.Id, body)
 }
 
-func (s *RepoMgo) DeleteManufacturer(mf ... *Manufacturer) error {
-	var key = make([]string, 0, len(mf))
-	for i := range mf {
-		key = append(key, mf[i].ManufacturerId)
-	}
-	return s.storage.DeleteStorageV2(Schema, key ...)
-}
-
-func (s *RepoMgo) UpdateManufacturer(mf *Manufacturer) error {
-	body, err := json.Marshal(mf)
+func (s *RepoMgo) UpdateManufacturer(value *Manufacturer) error {
+	body, err := json.Marshal(value)
 	if err != nil {
 		return err
 	}
-	return s.storage.UpdateStorageV2(Schema, mf.ManufacturerId, body)
+	return s.storage.UpdateStorageV2(Schema, value.Id, body)
 }
 
-func (s *RepoMgo) QueryManufacturer(mfId string) (*Manufacturer, error) {
-	buf, err := s.storage.QueryStorageV2(Schema, mfId)
+func (s *RepoMgo) QueryManufacturer(id string) (*Manufacturer, error) {
+	buf, err := s.storage.QueryStorageV2(Schema, id)
 	if err != nil {
 		return nil, err
 	}
-	mf := Manufacturer{}
-	err = json.Unmarshal(buf, &mf)
+	value := Manufacturer{}
+	err = json.Unmarshal(buf, &value)
 	if err != nil {
 		return nil, err
 	}
-	return &mf, nil
+	return &value, nil
+}
+
+func (s *RepoMgo) QueryManufacturers(where map[string]interface{}, page int, perPage int) ([]Manufacturer, error) {
+	items, err := s.storage.QueryStorageV3(Schema, where, perPage, page * perPage)
+	if err != nil {
+		return nil, err
+	}
+	values := make([]Manufacturer, 0, len(items))
+	for i := range items {
+		buf := items[i]
+		value := Manufacturer{}
+		err = json.Unmarshal(buf, &value)
+		if err != nil {
+			return nil, err
+		} else {
+			values = append(values, value)
+		}
+	}
+	return values, nil
 }

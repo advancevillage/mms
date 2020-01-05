@@ -28,7 +28,7 @@ func (s *service) CreateSize(ctx *https.Context) {
 		ctx.JsonResponse(http.StatusBadRequest, s.NewHttpError(SizeCode, SizeMsg, BodyStructureErrorCode, BodyStructureErrorMsg))
 		return
 	}
-	err = config.Services().SizeService().CreateSize(param.SizeNameEn)
+	err = config.Services().SizeService().CreateSize(param.NameEn)
 	if err != nil {
 		ctx.JsonResponse(http.StatusBadRequest, s.NewHttpError(SizeCode, SizeMsg, CreateErrorCode, CreateErrorMsg))
 		return
@@ -104,7 +104,7 @@ func (s *service) UpdateSize(ctx *https.Context) {
 		ctx.JsonResponse(http.StatusBadRequest, s.NewHttpError(SizeCode, SizeMsg, BodyStructureErrorCode, BodyStructureErrorMsg))
 		return
 	}
-	err = config.Services().SizeService().UpdateSize(sizeId, param.SizeNameEn, param.SizeNameCn, param.Status)
+	err = config.Services().SizeService().UpdateSize(sizeId, param.NameEn, param.NameCn, param.Status)
 	if err != nil {
 		ctx.JsonResponse(http.StatusBadRequest, s.NewHttpError(SizeCode, SizeMsg, UpdateErrorCode, UpdateErrorMsg))
 		return

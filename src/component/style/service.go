@@ -66,9 +66,7 @@ func (s *Service) UpdateStyle(id string, nameEn, nameCn string, descEn, descCn s
 	value.Description.English = descEn
 	value.Description.Chinese = descCn
 	value.UpdateTime   = times.Timestamp()
-	if status != StatusInvalid {
-		value.Status = status
-	}
+	value.Status = s.Status(status)
 	err = s.repo.UpdateStyle(value)
 	if err != nil {
 		s.logger.Error(err.Error())

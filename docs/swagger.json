@@ -245,11 +245,67 @@
             }
         },
         "/v1/categories": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "查询分类列表",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "页码",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "每页条数",
+                        "name": "perPage",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "状态",
+                        "name": "status",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpOk"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    }
+                }
+            },
             "post": {
                 "produces": [
                     "application/json"
                 ],
-                "summary": "创建分类",
+                "summary": "新增分类",
                 "parameters": [
                     {
                         "description": "CreateCategory",
@@ -294,122 +350,12 @@
                 }
             }
         },
-        "/v1/merchandises": {
+        "/v1/categories/{pathId}": {
             "get": {
                 "produces": [
                     "application/json"
                 ],
-                "summary": "查询商品列表",
-                "parameters": [
-                    {
-                        "description": "QueryMerchandises",
-                        "name": "{}",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "object",
-                            "$ref": "#/definitions/route.RequestCategory"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "object",
-                            "$ref": "#/definitions/route.HttpOk"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "type": "object",
-                            "$ref": "#/definitions/route.HttpError"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "type": "object",
-                            "$ref": "#/definitions/route.HttpError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "type": "object",
-                            "$ref": "#/definitions/route.HttpError"
-                        }
-                    }
-                }
-            },
-            "post": {
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "创建商品",
-                "parameters": [
-                    {
-                        "description": "CreateMerchandise",
-                        "name": "{}",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "object",
-                            "$ref": "#/definitions/route.RequestCategory"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "object",
-                            "$ref": "#/definitions/route.HttpOk"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "type": "object",
-                            "$ref": "#/definitions/route.HttpError"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "type": "object",
-                            "$ref": "#/definitions/route.HttpError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "type": "object",
-                            "$ref": "#/definitions/route.HttpError"
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/merchandises/{goodsId}": {
-            "get": {
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "查询商品",
-                "parameters": [
-                    {
-                        "description": "QueryMerchandise",
-                        "name": "{}",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "object",
-                            "$ref": "#/definitions/route.RequestCategory"
-                        }
-                    }
-                ],
+                "summary": "查询分类",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -445,10 +391,10 @@
                 "produces": [
                     "application/json"
                 ],
-                "summary": "更新商品",
+                "summary": "更新分类",
                 "parameters": [
                     {
-                        "description": "UpdateMerchandise",
+                        "description": "UpdateCategory",
                         "name": "{}",
                         "in": "body",
                         "required": true,
@@ -493,19 +439,871 @@
                 "produces": [
                     "application/json"
                 ],
-                "summary": "删除商品",
+                "summary": "删除分类",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpOk"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/colors": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "查询颜色列表",
                 "parameters": [
                     {
-                        "description": "DeleteMerchandise",
+                        "type": "integer",
+                        "description": "页码",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "每页条数",
+                        "name": "perPage",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "状态",
+                        "name": "status",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpOk"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "新增颜色",
+                "parameters": [
+                    {
+                        "description": "CreateColor",
                         "name": "{}",
                         "in": "body",
                         "required": true,
                         "schema": {
                             "type": "object",
-                            "$ref": "#/definitions/route.RequestCategory"
+                            "$ref": "#/definitions/route.RequestColor"
                         }
                     }
                 ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpOk"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/colors/{pathId}": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "查询颜色",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpOk"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "更新颜色",
+                "parameters": [
+                    {
+                        "description": "UpdateColor",
+                        "name": "{}",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.RequestColor"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpOk"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "删除颜色",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpOk"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/images": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "查询图片列表",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "页码",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "每页条数",
+                        "name": "perPage",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "状态",
+                        "name": "status",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpOk"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "新增图片",
+                "parameters": [
+                    {
+                        "description": "CreateImage",
+                        "name": "{}",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.RequestImage"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpOk"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/images/{pathId}": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "查询图片",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpOk"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "更新图片",
+                "parameters": [
+                    {
+                        "description": "UpdateImage",
+                        "name": "{}",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.RequestImage"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpOk"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "删除图片",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpOk"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/manufacturers": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "查询生产商列表",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "页码",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "每页条数",
+                        "name": "perPage",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "状态",
+                        "name": "status",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpOk"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "新增生产商",
+                "parameters": [
+                    {
+                        "description": "CreateManufacturer",
+                        "name": "{}",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.RequestManufacturer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpOk"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/manufacturers/{pathId}": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "查询生产商",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpOk"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "更新生产商",
+                "parameters": [
+                    {
+                        "description": "UpdateManufacturer",
+                        "name": "{}",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.RequestManufacturer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpOk"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "删除生产商",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpOk"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/merchandises": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "查询商品列表",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "页码",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "每页条数",
+                        "name": "perPage",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "状态",
+                        "name": "status",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpOk"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "新增商品",
+                "parameters": [
+                    {
+                        "description": "CreateGoods",
+                        "name": "{}",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.RequestGoods"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpOk"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/merchandises/{pathId}": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "查询商品",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpOk"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "删除商品",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1031,6 +1829,234 @@
                     }
                 }
             }
+        },
+        "/v1/tags": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "查询标签列表",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "页码",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "每页条数",
+                        "name": "perPage",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "状态",
+                        "name": "status",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpOk"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "创建标签",
+                "parameters": [
+                    {
+                        "description": "CreateTag",
+                        "name": "{}",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.RequestTag"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpOk"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/tags/{pathId}": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "查询标签",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpOk"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "更新标签",
+                "parameters": [
+                    {
+                        "description": "UpdateTag",
+                        "name": "{}",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.RequestTag"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpOk"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "删除标签",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpOk"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -1073,7 +2099,13 @@
         "route.RequestCategory": {
             "type": "object",
             "properties": {
-                "categoryName": {
+                "categoryLevel": {
+                    "type": "integer"
+                },
+                "categoryNameCn": {
+                    "type": "string"
+                },
+                "categoryNameEn": {
                     "type": "string"
                 },
                 "categoryStatus": {
@@ -1090,6 +2122,89 @@
                     "items": {
                         "type": "string"
                     }
+                }
+            }
+        },
+        "route.RequestColor": {
+            "type": "object",
+            "properties": {
+                "colorNameCn": {
+                    "type": "string"
+                },
+                "colorNameEn": {
+                    "type": "string"
+                },
+                "colorStatus": {
+                    "type": "integer"
+                },
+                "rgba": {
+                    "type": "string"
+                }
+            }
+        },
+        "route.RequestGoods": {
+            "type": "object",
+            "properties": {
+                "costPrice": {
+                    "type": "number"
+                },
+                "descEn": {
+                    "type": "string"
+                },
+                "titleEn": {
+                    "type": "string"
+                }
+            }
+        },
+        "route.RequestImage": {
+            "type": "object",
+            "properties": {
+                "imageDescriptionCn": {
+                    "type": "string"
+                },
+                "imageDescriptionEn": {
+                    "type": "string"
+                },
+                "imageDirection": {
+                    "type": "integer"
+                },
+                "imageStatus": {
+                    "type": "integer"
+                },
+                "imageType": {
+                    "type": "string"
+                },
+                "imageUrl": {
+                    "type": "string"
+                },
+                "isDefault": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "route.RequestManufacturer": {
+            "type": "object",
+            "properties": {
+                "addressCn": {
+                    "type": "string"
+                },
+                "addressEn": {
+                    "type": "string"
+                },
+                "concat": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "nameEn": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "styleStatus": {
+                    "type": "integer"
                 }
             }
         },
@@ -1110,20 +2225,34 @@
         "route.RequestStyle": {
             "type": "object",
             "properties": {
-                "sizeNameCn": {
-                    "type": "string"
-                },
-                "sizeNameEn": {
-                    "type": "string"
-                },
-                "sizeStatus": {
-                    "type": "integer"
-                },
                 "styleDescriptionCn": {
                     "type": "string"
                 },
                 "styleDescriptionEn": {
                     "type": "string"
+                },
+                "styleNameCn": {
+                    "type": "string"
+                },
+                "styleNameEn": {
+                    "type": "string"
+                },
+                "styleStatus": {
+                    "type": "integer"
+                }
+            }
+        },
+        "route.RequestTag": {
+            "type": "object",
+            "properties": {
+                "tagNameCn": {
+                    "type": "string"
+                },
+                "tagNameEn": {
+                    "type": "string"
+                },
+                "tagStatus": {
+                    "type": "integer"
                 }
             }
         },

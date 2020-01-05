@@ -16,41 +16,44 @@ import (
 const (
 	Schema = "goods"
 
-	StatusActived = 0x101
+	StatusActive  = 0x101
 	StatusDeleted = 0x102
+	StatusInvalid = 0x199
+
+	DefaultRank   = 9999
 )
 
-type IGoods interface {
-	CreateGoods(*Goods) error
-	DeleteGoods(...*Goods) error
-	UpdateGoods(*Goods) error
-	QueryGoods(string) (*Goods, error)
+type IMerchandise interface {
+	CreateMerchandise(goods *Goods) error
+	UpdateMerchandise(goods *Goods) error
+	QueryMerchandise (goodsId string) (*Goods, error)
+	QueryMerchandises(where map[string]interface{}, page int, perPage int) ([]Goods, error)
 }
 
 type Goods struct {
-	GoodsId    string `json:"goodsId"` 	//商品标识
-	GoodsTitle language.Languages `json:"goodsTitle"` //商品标题
-	GoodsSummaryDescription  language.Languages `json:"goodsSummaryDescription"` //商品概要描述
-	GoodsDetailedDescription language.Languages `json:"goodsDetailedDescription"` //商品详细描述
-	GoodsTags []tag.Tag `json:"goodsTags"` //商品标签
-	GoodsKeywords []language.Languages `json:"goodsKeywords"` //商品关键字
-	GoodsStatus int `json:"goodsStatus"` //商品状态
-	GoodsIsIntegral bool  `json:"goodsIsIntegral"` //商品是否是积分商品
-	GoodsIsReady bool  `json:"goodsIsReady"` //商品是否已经准备好
-	GoodsRank int `json:"goodsRank"` //商品排名
-	GoodsColors []color.Color `json:"goodsColors"` //商品颜色
-	GoodsSize  []size.Size `json:"goodsSize"` //商品尺码
-	GoodsOrigin language.Languages `json:"goodsOrigin"` //商品产地
-	GoodsMaterial language.Languages `json:"goodsMaterial"` //商品材质
-	GoodsManufacturers []manufacturer.Manufacturer `json:"goodsManufacturers"` //商品生产商
-	GoodsCategory []category.Category `json:"goodsCategory"` //商品分类
-	GoodsBarCode string `json:"goodsBarCode"` //商品条形码
-	GoodsBrand []brand.Brand `json:"goodsBrand"` //商品品牌
-	GoodsCostPrice float64 `json:"goodsCostPrice"` //商品成本
-	GoodsPrice float64 `json:"goodsPrice"` //商品标价
-	GoodsStock int `json:"goodsStock"` //商品库存
-	GoodsImages []image.Image `json:"goodsImages"` //商品图片
-	GoodsStyle  []style.Style `json:"goodsStyle"`  //商品款式
+	Id    string `json:"goodsId"` 	//商品标识
+	Title language.Languages `json:"goodsTitle"` //商品标题
+	SummaryDescription  language.Languages `json:"goodsSummaryDescription"` //商品概要描述
+	DetailedDescription language.Languages `json:"goodsDetailedDescription"` //商品详细描述
+	Tags []tag.Tag `json:"goodsTags"` //商品标签
+	Keywords []language.Languages `json:"goodsKeywords"` //商品关键字
+	Status int `json:"goodsStatus"` //商品状态
+	IsIntegral bool  `json:"goodsIsIntegral"` //商品是否是积分商品
+	IsReady bool  `json:"goodsIsReady"` //商品是否已经准备好
+	Rank int `json:"goodsRank"` //商品排名
+	Colors []color.Color `json:"goodsColors"` //商品颜色
+	Size  []size.Size `json:"goodsSize"` //商品尺码
+	Origin language.Languages `json:"goodsOrigin"` //商品产地
+	Material language.Languages `json:"goodsMaterial"` //商品材质
+	Manufacturers []manufacturer.Manufacturer `json:"goodsManufacturers"` //商品生产商
+	Category []category.Category `json:"goodsCategory"` //商品分类
+	BarCode string `json:"goodsBarCode"` //商品条形码
+	Brand []brand.Brand `json:"goodsBrand"` //商品品牌
+	CostPrice float64 `json:"goodsCostPrice"` //商品成本
+	Price float64 `json:"goodsPrice"` //商品标价
+	Stock int `json:"goodsStock"` //商品库存
+	Images []image.Image `json:"goodsImages"` //商品图片
+	Style  []style.Style `json:"goodsStyle"`  //商品款式
 	CreateTime int64 `json:"goodsCreateTime"` //商品创建时间
 	UpdateTime int64 `json:"goodsUpdateTime"` //商品更新时间
 	DeleteTime int64 `json:"goodsDeleteTime"` //商品删除时间

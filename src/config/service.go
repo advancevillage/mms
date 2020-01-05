@@ -130,3 +130,23 @@ func (s *Service) SizeService() *size.Service {
 func (s *Service) StyleService() *style.Service {
 	return s.style
 }
+
+func (s *Service) TagService() *tag.Service {
+	return s.tag
+}
+
+func (s *Service) ColorService() *color.Service {
+	return s.color
+}
+
+func (s *Service) ImageService() *image.Service {
+	return s.image
+}
+
+func (s *Service) ManufacturerService() *manufacturer.Service {
+	return s.manufacturer
+}
+
+func (s *Service) MerchandiseService() *goods.Service {
+	return s.goods
+}

@@ -1,31 +1,33 @@
 //author: richard
 package image
 
+import "mms/src/component/language"
+
 const (
 	Schema = "images"
 
-	StatusActived = 0x401
+	StatusActive  = 0x401
 	StatusDeleted = 0x402
+	StatusInvalid = 0x499
 )
 
 type IImage interface {
-	CreateImage(*Image) error
-	DeleteImage(...*Image) error
-	UpdateImage(*Image) error
-	QueryImage(string) (*Image, error)
+	CreateImage(image *Image) error
+	UpdateImage(image *Image) error
+	QueryImage(imageId string) (*Image, error)
+	QueryImages(where map[string]interface{}, page int, perPage int) ([]Image, error)
 }
 
-
 type Image struct {
-	ImageId 	string 	`json:"imageId"`
-	ImageUrl	string 	`json:"imageUrl"`
-	ImageName 	string  `json:"imageName"`
-	ImageIsDefault int  `json:"imageIsDefault"`
-	ImageStatus    int  `json:"imageStatus"`
-	ImageCustomSize string `json:"imageCustomSize"`
-	ImageCustomType string `json:"imageCustomType"`
-	ImageCustomDirection int `json:"imageCustomDirection"`
+	Id 	    string 	`json:"imageId"`
+	Url	    string 	`json:"imageUrl"`
+	IsDefault bool  `json:"imageIsDefault"`
+	Status     int  `json:"imageStatus"`
+	CustomSize string   `json:"imageCustomSize"`
+	CustomType string   `json:"imageCustomType"`
+	CustomDirection int `json:"imageCustomDirection"`
 	CreateTime int64 `json:"imageCreateTime"`
 	UpdateTime int64 `json:"imageUpdateTime"`
 	DeleteTime int64 `json:"imageDeleteTime"`
+	Description language.Languages `json:"imageDescription"`
 }

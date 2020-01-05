@@ -28,7 +28,7 @@ func (s *service) CreateStyle(ctx *https.Context) {
 		ctx.JsonResponse(http.StatusBadRequest, s.NewHttpError(StyleCode, StyleMsg, BodyStructureErrorCode, BodyStructureErrorMsg))
 		return
 	}
-	err = config.Services().StyleService().CreateStyle(param.StyleNameEn, param.StyleDescriptionEn)
+	err = config.Services().StyleService().CreateStyle(param.NameEn, param.DescriptionEn)
 	if err != nil {
 		ctx.JsonResponse(http.StatusBadRequest, s.NewHttpError(StyleCode, StyleMsg, CreateErrorCode, CreateErrorMsg))
 		return
@@ -104,7 +104,7 @@ func (s *service) UpdateStyle(ctx *https.Context) {
 		ctx.JsonResponse(http.StatusBadRequest, s.NewHttpError(StyleCode, StyleMsg, BodyStructureErrorCode, BodyStructureErrorMsg))
 		return
 	}
-	err = config.Services().StyleService().UpdateStyle(styleId, param.StyleNameEn, param.StyleNameCn, param.StyleDescriptionEn, param.StyleDescriptionCn, param.Status)
+	err = config.Services().StyleService().UpdateStyle(styleId, param.NameEn, param.NameCn, param.DescriptionEn, param.DescriptionCn, param.Status)
 	if err != nil {
 		ctx.JsonResponse(http.StatusBadRequest, s.NewHttpError(StyleCode, StyleMsg, UpdateErrorCode, UpdateErrorMsg))
 		return

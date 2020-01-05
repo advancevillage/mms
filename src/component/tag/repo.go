@@ -3,7 +3,6 @@ package tag
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/advancevillage/3rd/storages"
 )
 
@@ -20,15 +19,7 @@ func (s *RepoMgo) CreateTag(tag *Tag) error {
 	if err != nil {
 		return err
 	}
-	return s.storage.CreateStorageV2(Schema, tag.TagId, body)
-}
-
-func (s *RepoMgo) DeleteTag(tag ... *Tag) error {
-	var key = make([]string, 0, len(tag))
-	for i := range tag {
-		key = append(key, fmt.Sprintf("%d", tag[i].TagId))
-	}
-	return s.storage.DeleteStorageV2(Schema, key ...)
+	return s.storage.CreateStorageV2(Schema, tag.Id, body)
 }
 
 func (s *RepoMgo) UpdateTag(tag *Tag) error {
@@ -36,11 +27,11 @@ func (s *RepoMgo) UpdateTag(tag *Tag) error {
 	if err != nil {
 		return err
 	}
-	return s.storage.UpdateStorageV2(Schema, tag.TagId, body)
+	return s.storage.UpdateStorageV2(Schema, tag.Id, body)
 }
 
-func (s *RepoMgo) QueryTag(tagId string) (*Tag, error) {
-	buf, err := s.storage.QueryStorageV2(Schema, tagId)
+func (s *RepoMgo) QueryTag(id string) (*Tag, error) {
+	buf, err := s.storage.QueryStorageV2(Schema, id)
 	if err != nil {
 		return nil, err
 	}
@@ -52,3 +43,21 @@ func (s *RepoMgo) QueryTag(tagId string) (*Tag, error) {
 	return &tag, nil
 }
 
+func (s *RepoMgo) QueryTags(where map[string]interface{}, page int, perPage int) ([]Tag, error) {
+	items, err := s.storage.QueryStorageV3(Schema, where, perPage, page * perPage)
+	if err != nil {
+		return nil, err
+	}
+	tags := make([]Tag, 0, len(items))
+	for i := range items {
+		buf := items[i]
+		tag := Tag{}
+		err = json.Unmarshal(buf, &tag)
+		if err != nil {
+			return nil, err
+		} else {
+			tags = append(tags, tag)
+		}
+	}
+	return tags, nil
+}

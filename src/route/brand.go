@@ -28,7 +28,7 @@ func (s *service) CreateBrand(ctx *https.Context) {
 		ctx.JsonResponse(http.StatusBadRequest, s.NewHttpError(BrandCode, BrandMsg, BodyStructureErrorCode, BodyStructureErrorMsg))
 		return
 	}
-	err = config.Services().BrandService().CreateBrand(param.BrandNameEn)
+	err = config.Services().BrandService().CreateBrand(param.NameEn)
 	if err != nil {
 		ctx.JsonResponse(http.StatusBadRequest, s.NewHttpError(BrandCode, BrandMsg, CreateErrorCode, CreateErrorMsg))
 		return
@@ -104,7 +104,7 @@ func (s *service) UpdateBrand(ctx *https.Context) {
 		ctx.JsonResponse(http.StatusBadRequest, s.NewHttpError(BrandCode, BrandMsg, BodyStructureErrorCode, BodyStructureErrorMsg))
 		return
 	}
-	err = config.Services().BrandService().UpdateBrand(brandId, param.BrandNameEn, param.BrandNameCn, param.Status)
+	err = config.Services().BrandService().UpdateBrand(brandId, param.NameEn, param.NameCn, param.Status)
 	if err != nil {
 		ctx.JsonResponse(http.StatusBadRequest, s.NewHttpError(BrandCode, BrandMsg, UpdateErrorCode, UpdateErrorMsg))
 		return
