@@ -315,6 +315,10 @@ paths:
         in: query
         name: status
         type: integer
+      - description: 层级
+        in: query
+        name: level
+        type: integer
       produces:
       - application/json
       responses:

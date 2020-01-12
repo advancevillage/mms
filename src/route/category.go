@@ -41,6 +41,7 @@ func (s *service) CreateCategory(ctx *https.Context) {
 //@Param page    query int false "页码" default "0"
 //@Param perPage query int false "每页条数" default "20"
 //@Param status  query int false "状态"
+//@Param level   query int false "层级" default "1"
 //@Success 200 {object} route.HttpOk
 //@Failure 400 {object} route.HttpError
 //@Failure 404 {object} route.HttpError
@@ -50,7 +51,8 @@ func (s *service) QueryCategories(ctx *https.Context) {
 	page    := s.page(ctx)
 	perPage := s.perPage(ctx)
 	status  := s.status(ctx)
-	categories, err := config.Services().CategoryService().QueryCategories(status, page, perPage)
+	level   := s.level(ctx)
+	categories, err := config.Services().CategoryService().QueryCategories(status, page, perPage, level)
 	if err != nil {
 		ctx.JsonResponse(http.StatusBadRequest, s.NewHttpError(CategoryCode, CategoryMsg, QueryErrorCode, QueryErrorMsg))
 		return

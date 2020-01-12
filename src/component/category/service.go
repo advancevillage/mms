@@ -29,9 +29,10 @@ func (s *Service) QueryCategoryById(id string) (*Category, error) {
 	return color, nil
 }
 
-func (s *Service) QueryCategories(status int, page int, perPage int) ([]Category, error) {
+func (s *Service) QueryCategories(status int, page int, perPage int, level int) ([]Category, error) {
 	where := make(map[string]interface{})
 	where["categoryStatus"] = s.Status(status)
+	where["categoryLevel"] = level
 	categories, err := s.repo.QueryCategories(where, page, perPage)
 	if err != nil {
 		s.logger.Error(err.Error())

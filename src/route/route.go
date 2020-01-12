@@ -65,6 +65,10 @@ var router = func (api API) []https.Router{
 	}
 }
 
+var headers = map[string]string {
+	"Access-Control-Allow-Origin": "http://localhost:8080",
+}
+
 type API interface {
 	//services
 	Version(ctx *https.Context)
@@ -136,7 +140,7 @@ func LoadRouter(host string, port int, mode string) error {
 }
 
 func LoadHttpRouter(host string, port int) error {
-	server := https.NewServer(host, port, router(NewApiService()))
+	server := https.NewServer(host, port, router(NewApiService()), HeaderPlugin)
 	err := server.StartServer()
 	if err != nil {
 		return err
@@ -145,10 +149,16 @@ func LoadHttpRouter(host string, port int) error {
 }
 
 func LoadLambdaRouter() error {
-	server := https.NewAwsApiGatewayLambdaServer(router(NewApiService()))
+	server := https.NewAwsApiGatewayLambdaServer(router(NewApiService()), HeaderPlugin)
 	err := server.StartServer()
 	if err != nil {
 		return err
 	}
 	return nil
+}
+
+//响应插件
+func HeaderPlugin(ctx *https.Context) {
+	ctx.Header(headers)
+	ctx.Next()
 }

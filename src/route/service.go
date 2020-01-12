@@ -61,6 +61,15 @@ func (s *service) perPage(ctx *https.Context) int {
 	return perPage
 }
 
+func (s *service) level(ctx *https.Context) int {
+	value := ctx.Param("level")
+	level, err := strconv.Atoi(value)
+	if err != nil || level <= 0 || level > 3 {
+		level = 1
+	}
+	return level
+}
+
 func (s *service) status(ctx *https.Context) int {
 	value := ctx.Param("status")
 	status, err := strconv.Atoi(value)
