@@ -15,7 +15,7 @@ type IStyle interface {
 	CreateStyle(style *Style) error
 	UpdateStyle(style *Style) error
 	QueryStyle(styleId string) (*Style, error)
-	QueryStyles(where map[string]interface{}, page int, perPage int) ([]Style, error)
+	QueryStyles(where map[string]interface{}, page int, perPage int) ([]Style, int64, error)
 }
 
 type Style struct {

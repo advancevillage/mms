@@ -50,12 +50,12 @@ func (s *service) QueryColors(ctx *https.Context) {
 	page    := s.page(ctx)
 	perPage := s.perPage(ctx)
 	status  := s.status(ctx)
-	colors, err := config.Services().ColorService().QueryColors(status, page, perPage)
+	colors, total, err := config.Services().ColorService().QueryColors(status, page, perPage)
 	if err != nil {
 		ctx.JsonResponse(http.StatusBadRequest, s.NewHttpError(ColorCode, ColorMsg, QueryErrorCode, QueryErrorMsg))
 		return
 	}
-	ctx.JsonResponse(http.StatusOK, colors)
+	ctx.JsonResponse(http.StatusOK, s.response(colors, total))
 }
 
 //@Summary 查询颜色

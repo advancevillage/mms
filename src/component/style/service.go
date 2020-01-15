@@ -26,15 +26,15 @@ func (s *Service) QueryStyleById(styleId string) (*Style, error) {
 	return style, nil
 }
 
-func (s *Service) QueryStyles(status int, page int, perPage int) ([]Style, error) {
+func (s *Service) QueryStyles(status int, page int, perPage int) ([]Style, int64, error) {
 	where := make(map[string]interface{})
 	where["styleStatus"] = s.Status(status)
-	styles, err := s.repo.QueryStyles(where, page, perPage)
+	styles, total, err := s.repo.QueryStyles(where, page, perPage)
 	if err != nil {
 		s.logger.Error(err.Error())
-		return nil, err
+		return nil, 0, err
 	}
-	return styles, nil
+	return styles, total, nil
 }
 
 func (s *Service) CreateStyle(name string, description string) error {

@@ -29,6 +29,11 @@ func (s *service) Version(ctx *https.Context) {
 	ctx.JsonResponse(http.StatusOK, version)
 }
 
+func (s *service) Test(ctx *https.Context) {
+	ctx.JsonResponse(http.StatusOK, nil)
+}
+
+
 func (s *service) NewHttpError(apiCode int, apiMsg string, opCode int, opMsg string) *HttpError {
 	return &HttpError{
 		Code: fmt.Sprintf("%d%d", apiCode, opCode),
@@ -89,4 +94,11 @@ func (s *service) pathId(ctx *https.Context) (string, error) {
 
 func (s *service) body(ctx *https.Context) ([]byte, error) {
 	return ctx.Body()
+}
+
+func (s *service) response(items interface{}, total int64) interface{} {
+	response := make(map[string]interface{})
+	response["items"] = items
+	response["total"] = total
+	return response
 }

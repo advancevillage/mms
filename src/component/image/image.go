@@ -15,7 +15,7 @@ type IImage interface {
 	CreateImage(image *Image) error
 	UpdateImage(image *Image) error
 	QueryImage(imageId string) (*Image, error)
-	QueryImages(where map[string]interface{}, page int, perPage int) ([]Image, error)
+	QueryImages(where map[string]interface{}, page int, perPage int) ([]Image, int64, error)
 }
 
 type Image struct {

@@ -43,10 +43,10 @@ func (s *RepoMgo) QueryTag(id string) (*Tag, error) {
 	return &tag, nil
 }
 
-func (s *RepoMgo) QueryTags(where map[string]interface{}, page int, perPage int) ([]Tag, error) {
-	items, err := s.storage.QueryStorageV3(Schema, where, perPage, page * perPage)
+func (s *RepoMgo) QueryTags(where map[string]interface{}, page int, perPage int) ([]Tag, int64, error) {
+	items, total, err := s.storage.QueryStorageV3(Schema, where, perPage, page * perPage)
 	if err != nil {
-		return nil, err
+		return nil, 0, err
 	}
 	tags := make([]Tag, 0, len(items))
 	for i := range items {
@@ -54,10 +54,10 @@ func (s *RepoMgo) QueryTags(where map[string]interface{}, page int, perPage int)
 		tag := Tag{}
 		err = json.Unmarshal(buf, &tag)
 		if err != nil {
-			return nil, err
+			return nil, 0, err
 		} else {
 			tags = append(tags, tag)
 		}
 	}
-	return tags, nil
+	return tags, total, nil
 }

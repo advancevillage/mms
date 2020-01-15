@@ -15,7 +15,7 @@ type ITag interface {
 	CreateTag(tag *Tag) error
 	UpdateTag(tag *Tag) error
 	QueryTag(tagId string) (*Tag, error)
-	QueryTags(where map[string]interface{}, page int, perPage int) ([]Tag, error)
+	QueryTags(where map[string]interface{}, page int, perPage int) ([]Tag, int64, error)
 }
 
 type Tag struct {

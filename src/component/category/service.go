@@ -29,16 +29,16 @@ func (s *Service) QueryCategoryById(id string) (*Category, error) {
 	return color, nil
 }
 
-func (s *Service) QueryCategories(status int, page int, perPage int, level int) ([]Category, error) {
+func (s *Service) QueryCategories(status int, page int, perPage int, level int) ([]Category, int64, error) {
 	where := make(map[string]interface{})
 	where["categoryStatus"] = s.Status(status)
 	where["categoryLevel"] = level
-	categories, err := s.repo.QueryCategories(where, page, perPage)
+	categories, total, err := s.repo.QueryCategories(where, page, perPage)
 	if err != nil {
 		s.logger.Error(err.Error())
-		return nil, err
+		return nil, 0, err
 	}
-	return categories, nil
+	return categories, total, nil
 }
 
 func (s *Service) CreateCategory(nameEn string, level int, child, parent []string) error {

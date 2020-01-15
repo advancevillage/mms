@@ -15,7 +15,7 @@ type ISize interface {
 	CreateSize(size *Size) error
 	UpdateSize(size *Size) error
 	QuerySize(sizeId string) (*Size, error)
-	QuerySizes(where map[string]interface{}, page int, perPage int) ([]Size, error)
+	QuerySizes(where map[string]interface{}, page int, perPage int) ([]Size, int64, error)
 }
 
 type Size struct {

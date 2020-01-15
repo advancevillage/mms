@@ -50,12 +50,12 @@ func (s *service) QueryTags(ctx *https.Context) {
 	page    := s.page(ctx)
 	perPage := s.perPage(ctx)
 	status  := s.status(ctx)
-	tags, err := config.Services().TagService().QueryTags(status, page, perPage)
+	tags, total, err := config.Services().TagService().QueryTags(status, page, perPage)
 	if err != nil {
 		ctx.JsonResponse(http.StatusBadRequest, s.NewHttpError(TagCode, TagMsg, QueryErrorCode, QueryErrorMsg))
 		return
 	}
-	ctx.JsonResponse(http.StatusOK, tags)
+	ctx.JsonResponse(http.StatusOK, s.response(tags, total))
 }
 
 //@Summary 查询标签

@@ -50,12 +50,12 @@ func (s *service) QueryMerchandises(ctx *https.Context) {
 	page    := s.page(ctx)
 	perPage := s.perPage(ctx)
 	status  := s.status(ctx)
-	goods, err := config.Services().MerchandiseService().QueryManufacturers(status, page, perPage)
+	goods, total, err := config.Services().MerchandiseService().QueryManufacturers(status, page, perPage)
 	if err != nil {
 		ctx.JsonResponse(http.StatusBadRequest, s.NewHttpError(MerchandiseCode, MerchandiseMsg, QueryErrorCode, QueryErrorMsg))
 		return
 	}
-	ctx.JsonResponse(http.StatusOK, goods)
+	ctx.JsonResponse(http.StatusOK, s.response(goods, total))
 }
 
 //@Summary 查询商品

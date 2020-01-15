@@ -15,7 +15,7 @@ type IColor interface {
 	CreateColor(*Color) error
 	UpdateColor(*Color) error
 	QueryColor(string) (*Color, error)
-	QueryColors(where map[string]interface{}, page int, perPage int) ([]Color, error)
+	QueryColors(where map[string]interface{}, page int, perPage int) ([]Color, int64, error)
 }
 
 type Color struct {

@@ -50,12 +50,12 @@ func (s *service) QueryStyles(ctx *https.Context) {
 	page    := s.page(ctx)
 	perPage := s.perPage(ctx)
 	status  := s.status(ctx)
-	styles, err := config.Services().StyleService().QueryStyles(status, page, perPage)
+	styles, total, err := config.Services().StyleService().QueryStyles(status, page, perPage)
 	if err != nil {
 		ctx.JsonResponse(http.StatusBadRequest, s.NewHttpError(StyleCode, StyleMsg, QueryErrorCode, QueryErrorMsg))
 		return
 	}
-	ctx.JsonResponse(http.StatusOK, styles)
+	ctx.JsonResponse(http.StatusOK, s.response(styles, total))
 }
 
 //@Summary 查询款式

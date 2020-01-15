@@ -43,10 +43,10 @@ func (s *RepoMgo) QuerySize(id string) (*Size, error) {
 	return &value, nil
 }
 
-func (s *RepoMgo) QuerySizes(where map[string]interface{}, page int, perPage int) ([]Size, error) {
-	items, err := s.storage.QueryStorageV3(Schema, where, perPage, page * perPage)
+func (s *RepoMgo) QuerySizes(where map[string]interface{}, page int, perPage int) ([]Size, int64, error) {
+	items, total, err := s.storage.QueryStorageV3(Schema, where, perPage, page * perPage)
 	if err != nil {
-		return nil, err
+		return nil, 0, err
 	}
 	values := make([]Size, 0, len(items))
 	for i := range items {
@@ -54,10 +54,10 @@ func (s *RepoMgo) QuerySizes(where map[string]interface{}, page int, perPage int
 		value := Size{}
 		err = json.Unmarshal(buf, &value)
 		if err != nil {
-			return nil, err
+			return nil, 0, err
 		} else {
 			values = append(values, value)
 		}
 	}
-	return values, nil
+	return values, total, nil
 }

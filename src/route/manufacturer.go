@@ -50,12 +50,12 @@ func (s *service) QueryManufacturers(ctx *https.Context) {
 	page    := s.page(ctx)
 	perPage := s.perPage(ctx)
 	status  := s.status(ctx)
-	manufacturers, err := config.Services().ManufacturerService().QueryManufacturers(status, page, perPage)
+	manufacturers, total, err := config.Services().ManufacturerService().QueryManufacturers(status, page, perPage)
 	if err != nil {
 		ctx.JsonResponse(http.StatusBadRequest, s.NewHttpError(ManufacturerCode, ManufacturerMsg, QueryErrorCode, QueryErrorMsg))
 		return
 	}
-	ctx.JsonResponse(http.StatusOK, manufacturers)
+	ctx.JsonResponse(http.StatusOK, s.response(manufacturers, total))
 }
 
 //@Summary 查询生产商

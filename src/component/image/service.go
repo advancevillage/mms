@@ -26,15 +26,15 @@ func (s *Service) QueryImageById(id string) (*Image, error) {
 	return color, nil
 }
 
-func (s *Service) QueryImages(status int, page int, perPage int) ([]Image, error) {
+func (s *Service) QueryImages(status int, page int, perPage int) ([]Image, int64, error) {
 	where := make(map[string]interface{})
 	where["imageStatus"] = s.Status(status)
-	colors, err := s.repo.QueryImages(where, page, perPage)
+	colors, total, err := s.repo.QueryImages(where, page, perPage)
 	if err != nil {
 		s.logger.Error(err.Error())
-		return nil, err
+		return nil, 0, err
 	}
-	return colors, nil
+	return colors, total, nil
 }
 
 func (s *Service) CreateImage(descEn string, isDefault bool, url string, customType string, customDirection int) error {

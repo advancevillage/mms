@@ -43,10 +43,10 @@ func (s *RepoMgo) QueryStyle(id string) (*Style, error) {
 	return &style, nil
 }
 
-func (s *RepoMgo) QueryStyles(where map[string]interface{}, page int, perPage int) ([]Style, error) {
-	items, err := s.storage.QueryStorageV3(Schema, where, perPage, page * perPage)
+func (s *RepoMgo) QueryStyles(where map[string]interface{}, page int, perPage int) ([]Style, int64, error) {
+	items, total, err := s.storage.QueryStorageV3(Schema, where, perPage, page * perPage)
 	if err != nil {
-		return nil, err
+		return nil, 0, err
 	}
 	styles := make([]Style, 0, len(items))
 	for i := range items {
@@ -54,10 +54,10 @@ func (s *RepoMgo) QueryStyles(where map[string]interface{}, page int, perPage in
 		style := Style{}
 		err = json.Unmarshal(buf, &style)
 		if err != nil {
-			return nil, err
+			return nil, 0, err
 		} else {
 			styles = append(styles, style)
 		}
 	}
-	return styles, nil
+	return styles, total, nil
 }

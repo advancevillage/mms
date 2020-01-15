@@ -27,7 +27,7 @@ type IMerchandise interface {
 	CreateMerchandise(goods *Goods) error
 	UpdateMerchandise(goods *Goods) error
 	QueryMerchandise (goodsId string) (*Goods, error)
-	QueryMerchandises(where map[string]interface{}, page int, perPage int) ([]Goods, error)
+	QueryMerchandises(where map[string]interface{}, page int, perPage int) ([]Goods, int64, error)
 }
 
 type Goods struct {

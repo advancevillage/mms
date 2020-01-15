@@ -26,15 +26,15 @@ func (s *Service) QueryTagById(tagId string) (*Tag, error) {
 	return tag, nil
 }
 
-func (s *Service) QueryTags(status int, page int, perPage int) ([]Tag, error) {
+func (s *Service) QueryTags(status int, page int, perPage int) ([]Tag, int64, error) {
 	where := make(map[string]interface{})
 	where["tagStatus"] = s.Status(status)
-	tags, err := s.repo.QueryTags(where, page, perPage)
+	tags, total, err := s.repo.QueryTags(where, page, perPage)
 	if err != nil {
 		s.logger.Error(err.Error())
-		return nil, err
+		return nil, 0, err
 	}
-	return tags, nil
+	return tags, total, nil
 }
 
 func (s *Service) CreateTag(nameEn string) error {

@@ -14,12 +14,18 @@ definitions:
       message:
         type: string
     type: object
+  route.Languages:
+    properties:
+      chinese:
+        type: string
+      english:
+        type: string
+    type: object
   route.RequestBrand:
     properties:
-      brandNameCn:
-        type: string
-      brandNameEn:
-        type: string
+      brandName:
+        $ref: '#/definitions/route.Languages'
+        type: object
       brandStatus:
         type: integer
     type: object

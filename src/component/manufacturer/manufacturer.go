@@ -15,7 +15,7 @@ type IManufacturer interface {
 	CreateManufacturer(m *Manufacturer) error
 	UpdateManufacturer(m *Manufacturer) error
 	QueryManufacturer(mId string) (*Manufacturer, error)
-	QueryManufacturers(where map[string]interface{}, page int, perPage int) ([]Manufacturer, error)
+	QueryManufacturers(where map[string]interface{}, page int, perPage int) ([]Manufacturer, int64, error)
 }
 
 type Manufacturer struct {

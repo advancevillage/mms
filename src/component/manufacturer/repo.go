@@ -43,10 +43,10 @@ func (s *RepoMgo) QueryManufacturer(id string) (*Manufacturer, error) {
 	return &value, nil
 }
 
-func (s *RepoMgo) QueryManufacturers(where map[string]interface{}, page int, perPage int) ([]Manufacturer, error) {
-	items, err := s.storage.QueryStorageV3(Schema, where, perPage, page * perPage)
+func (s *RepoMgo) QueryManufacturers(where map[string]interface{}, page int, perPage int) ([]Manufacturer, int64, error) {
+	items, total, err := s.storage.QueryStorageV3(Schema, where, perPage, page * perPage)
 	if err != nil {
-		return nil, err
+		return nil, 0, err
 	}
 	values := make([]Manufacturer, 0, len(items))
 	for i := range items {
@@ -54,10 +54,10 @@ func (s *RepoMgo) QueryManufacturers(where map[string]interface{}, page int, per
 		value := Manufacturer{}
 		err = json.Unmarshal(buf, &value)
 		if err != nil {
-			return nil, err
+			return nil, 0, err
 		} else {
 			values = append(values, value)
 		}
 	}
-	return values, nil
+	return values, total, nil
 }

@@ -52,12 +52,12 @@ func (s *service) QueryCategories(ctx *https.Context) {
 	perPage := s.perPage(ctx)
 	status  := s.status(ctx)
 	level   := s.level(ctx)
-	categories, err := config.Services().CategoryService().QueryCategories(status, page, perPage, level)
+	categories, total, err := config.Services().CategoryService().QueryCategories(status, page, perPage, level)
 	if err != nil {
 		ctx.JsonResponse(http.StatusBadRequest, s.NewHttpError(CategoryCode, CategoryMsg, QueryErrorCode, QueryErrorMsg))
 		return
 	}
-	ctx.JsonResponse(http.StatusOK, categories)
+	ctx.JsonResponse(http.StatusOK, s.response(categories, total))
 }
 
 //@Summary 查询分类

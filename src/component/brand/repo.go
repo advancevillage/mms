@@ -43,10 +43,10 @@ func (s *RepoMgo) QueryBrand(brandId string) (*Brand, error) {
 	return &brd, nil
 }
 
-func (s *RepoMgo) QueryBrands(where map[string]interface{}, page int, perPage int) ([]Brand, error) {
-	items, err := s.storage.QueryStorageV3(Schema, where, perPage, page * perPage)
+func (s *RepoMgo) QueryBrands(where map[string]interface{}, page int, perPage int) ([]Brand, int64, error) {
+	items, total, err := s.storage.QueryStorageV3(Schema, where, perPage, page * perPage)
 	if err != nil {
-		return nil, err
+		return nil, 0, err
 	}
 	brands := make([]Brand, 0, len(items))
 	for i := range items {
@@ -54,10 +54,10 @@ func (s *RepoMgo) QueryBrands(where map[string]interface{}, page int, perPage in
 		brd := Brand{}
 		err = json.Unmarshal(buf, &brd)
 		if err != nil {
-			return nil, err
+			return nil, 0, err
 		} else {
 			brands = append(brands, brd)
 		}
 	}
-	return brands, nil
+	return brands, total, nil
 }

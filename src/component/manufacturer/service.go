@@ -26,15 +26,15 @@ func (s *Service) QueryManufacturerById(id string) (*Manufacturer, error) {
 	return color, nil
 }
 
-func (s *Service) QueryManufacturers(status int, page int, perPage int) ([]Manufacturer, error) {
+func (s *Service) QueryManufacturers(status int, page int, perPage int) ([]Manufacturer, int64, error) {
 	where := make(map[string]interface{})
 	where["manufacturerStatus"] = s.Status(status)
-	manufacturers, err := s.repo.QueryManufacturers(where, page, perPage)
+	manufacturers, total, err := s.repo.QueryManufacturers(where, page, perPage)
 	if err != nil {
 		s.logger.Error(err.Error())
-		return nil, err
+		return nil, 0, err
 	}
-	return manufacturers, nil
+	return manufacturers, total, nil
 }
 
 func (s *Service) CreateManufacturer(contact string, phone, email string, nameEn, addressEn string) error {

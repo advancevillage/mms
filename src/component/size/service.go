@@ -27,15 +27,15 @@ func (s *Service) QuerySizeById(sizeId string) (*Size, error) {
 	return size, nil
 }
 
-func (s *Service) QuerySizes(status int, page int, perPage int) ([]Size, error) {
+func (s *Service) QuerySizes(status int, page int, perPage int) ([]Size, int64, error) {
 	where := make(map[string]interface{})
 	where["sizeStatus"] = s.Status(status)
-	sizes, err := s.repo.QuerySizes(where, page, perPage)
+	sizes, total, err := s.repo.QuerySizes(where, page, perPage)
 	if err != nil {
 		s.logger.Error(err.Error())
-		return nil, err
+		return nil, 0, err
 	}
-	return sizes, nil
+	return sizes, total, nil
 }
 
 func (s *Service) CreateSize(english string) error {

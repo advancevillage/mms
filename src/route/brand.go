@@ -28,7 +28,7 @@ func (s *service) CreateBrand(ctx *https.Context) {
 		ctx.JsonResponse(http.StatusBadRequest, s.NewHttpError(BrandCode, BrandMsg, BodyStructureErrorCode, BodyStructureErrorMsg))
 		return
 	}
-	err = config.Services().BrandService().CreateBrand(param.NameEn)
+	err = config.Services().BrandService().CreateBrand(param.BrandName.English, param.BrandName.Chinese)
 	if err != nil {
 		ctx.JsonResponse(http.StatusBadRequest, s.NewHttpError(BrandCode, BrandMsg, CreateErrorCode, CreateErrorMsg))
 		return
@@ -50,12 +50,12 @@ func (s *service) QueryBrands(ctx *https.Context) {
 	page    := s.page(ctx)
 	perPage := s.perPage(ctx)
 	status  := s.status(ctx)
-	brands, err := config.Services().BrandService().QueryBrands(status, page, perPage)
+	brands, total, err := config.Services().BrandService().QueryBrands(status, page, perPage)
 	if err != nil {
 		ctx.JsonResponse(http.StatusBadRequest, s.NewHttpError(BrandCode, BrandMsg, QueryErrorCode, QueryErrorMsg))
 		return
 	}
-	ctx.JsonResponse(http.StatusOK, brands)
+	ctx.JsonResponse(http.StatusOK, s.response(brands, total))
 }
 
 //@Summary 查询品牌
@@ -104,7 +104,7 @@ func (s *service) UpdateBrand(ctx *https.Context) {
 		ctx.JsonResponse(http.StatusBadRequest, s.NewHttpError(BrandCode, BrandMsg, BodyStructureErrorCode, BodyStructureErrorMsg))
 		return
 	}
-	err = config.Services().BrandService().UpdateBrand(brandId, param.NameEn, param.NameCn, param.Status)
+	err = config.Services().BrandService().UpdateBrand(brandId, param.BrandName.English, param.BrandName.Chinese, param.Status)
 	if err != nil {
 		ctx.JsonResponse(http.StatusBadRequest, s.NewHttpError(BrandCode, BrandMsg, UpdateErrorCode, UpdateErrorMsg))
 		return

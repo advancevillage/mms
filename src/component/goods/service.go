@@ -26,15 +26,15 @@ func (s *Service) QueryManufacturerById(goodsId string) (*Goods, error) {
 	return goods, nil
 }
 
-func (s *Service) QueryManufacturers(status int, page int, perPage int) ([]Goods, error) {
+func (s *Service) QueryManufacturers(status int, page int, perPage int) ([]Goods, int64, error) {
 	where := make(map[string]interface{})
 	where["goodsStatus"] = s.Status(status)
-	goods, err := s.repo.QueryMerchandises(where, page, perPage)
+	goods, total, err := s.repo.QueryMerchandises(where, page, perPage)
 	if err != nil {
 		s.logger.Error(err.Error())
-		return nil, err
+		return nil, 0, err
 	}
-	return goods, nil
+	return goods, total, nil
 }
 
 func (s *Service) CreateManufacturer(titleEn string, descEn string, costPrice float64) error {

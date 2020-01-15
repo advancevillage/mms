@@ -15,7 +15,7 @@ type IBrand interface {
 	CreateBrand(*Brand) error
 	UpdateBrand(*Brand) error
 	QueryBrand(string) (*Brand, error)
-	QueryBrands(where map[string]interface{}, page int, perPage int) ([]Brand, error)
+	QueryBrands(where map[string]interface{}, page int, perPage int) ([]Brand, int64, error)
 }
 
 type Brand struct {

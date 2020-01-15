@@ -2088,14 +2088,23 @@
                 }
             }
         },
+        "route.Languages": {
+            "type": "object",
+            "properties": {
+                "chinese": {
+                    "type": "string"
+                },
+                "english": {
+                    "type": "string"
+                }
+            }
+        },
         "route.RequestBrand": {
             "type": "object",
             "properties": {
-                "brandNameCn": {
-                    "type": "string"
-                },
-                "brandNameEn": {
-                    "type": "string"
+                "brandName": {
+                    "type": "object",
+                    "$ref": "#/definitions/route.Languages"
                 },
                 "brandStatus": {
                     "type": "integer"

@@ -21,6 +21,7 @@ var router = func (api API) []https.Router{
 		//品牌路由
 		{"GET", "/v1/brands", api.QueryBrands},
 		{"POST", "/v1/brands", api.CreateBrand},
+		{"OPTIONS", "/v1/brands", api.Test},
 		{"PUT", "/v1/brands/:pathId", api.UpdateBrand},
 		{"DELETE", "/v1/brands/:pathId", api.DeleteBrand},
 		{"GET", "/v1/brands/:pathId", api.QueryBrand},
@@ -67,11 +68,15 @@ var router = func (api API) []https.Router{
 
 var headers = map[string]string {
 	"Access-Control-Allow-Origin": "http://localhost:8080",
+	"Access-Control-Allow-Methods": "OPTIONS, GET, PUT, POST, DELETE",
+	"Access-Control-Allow-Credentials": "true",
+	"Access-Control-Allow-Headers": "Content-Type",
 }
 
 type API interface {
 	//services
 	Version(ctx *https.Context)
+	Test(ctx *https.Context)
 	//merchandises
 	QueryMerchandises(ctx *https.Context)
 	CreateMerchandise(ctx *https.Context)

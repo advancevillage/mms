@@ -50,12 +50,12 @@ func (s *service) QueryImages(ctx *https.Context) {
 	page    := s.page(ctx)
 	perPage := s.perPage(ctx)
 	status  := s.status(ctx)
-	colors, err := config.Services().ImageService().QueryImages(status, page, perPage)
+	images, total, err := config.Services().ImageService().QueryImages(status, page, perPage)
 	if err != nil {
 		ctx.JsonResponse(http.StatusBadRequest, s.NewHttpError(ImageCode, ImageMsg, QueryErrorCode, QueryErrorMsg))
 		return
 	}
-	ctx.JsonResponse(http.StatusOK, colors)
+	ctx.JsonResponse(http.StatusOK, s.response(images, total))
 }
 
 //@Summary 查询图片

@@ -26,15 +26,15 @@ func (s *Service) QueryColorById(colorId string) (*Color, error) {
 	return color, nil
 }
 
-func (s *Service) QueryColors(status int, page int, perPage int) ([]Color, error) {
+func (s *Service) QueryColors(status int, page int, perPage int) ([]Color, int64, error) {
 	where := make(map[string]interface{})
 	where["colorStatus"] = s.Status(status)
-	colors, err := s.repo.QueryColors(where, page, perPage)
+	colors, total, err := s.repo.QueryColors(where, page, perPage)
 	if err != nil {
 		s.logger.Error(err.Error())
-		return nil, err
+		return nil, 0, err
 	}
-	return colors, nil
+	return colors, total, nil
 }
 
 func (s *Service) CreateColor(english string, rgba string) error {

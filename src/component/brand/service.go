@@ -26,21 +26,22 @@ func (s *Service) QueryBrandById(brandId string) (*Brand, error) {
 	return brd, nil
 }
 
-func (s *Service) QueryBrands(status int, page int, perPage int) ([]Brand, error) {
+func (s *Service) QueryBrands(status int, page int, perPage int) ([]Brand, int64, error) {
 	where := make(map[string]interface{})
 	where["brandStatus"] = s.Status(status)
-	brands, err := s.repo.QueryBrands(where, page, perPage)
+	brands, total, err := s.repo.QueryBrands(where, page, perPage)
 	if err != nil {
 		s.logger.Error(err.Error())
-		return nil, err
+		return nil, 0, err
 	}
-	return brands, nil
+	return brands, total, nil
 }
 
-func (s *Service) CreateBrand(english string) error {
+func (s *Service) CreateBrand(english string, chinese string) error {
 	value := &Brand{}
 	value.Id = utils.SnowFlakeIdString()
 	value.Name.English = english
+	value.Name.Chinese = chinese
 	value.Status = StatusActive
 	value.CreateTime = times.Timestamp()
 	value.UpdateTime = times.Timestamp()

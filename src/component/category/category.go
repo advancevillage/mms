@@ -16,7 +16,7 @@ type ICategory interface {
 	CreateCategory(category *Category) error
 	UpdateCategory(category *Category) error
 	QueryCategory(categoryId string) (*Category, error)
-	QueryCategories(where map[string]interface{}, page int, perPage int) ([]Category, error)
+	QueryCategories(where map[string]interface{}, page int, perPage int) ([]Category, int64, error)
 }
 
 type Category struct {

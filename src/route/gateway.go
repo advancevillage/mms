@@ -69,6 +69,10 @@ type HttpOk struct {
 type ResponseVersion struct {
 	Info string `json:"info,omitempty"`
 }
+type Languages struct {
+	English string `json:"english"`
+	Chinese string `json:"chinese"`
+}
 
 type RequestCategory struct {
 	NameEn	string	`json:"categoryNameEn"`
@@ -80,8 +84,7 @@ type RequestCategory struct {
 }
 
 type RequestBrand struct {
-	NameEn string `json:"brandNameEn"`
-	NameCn string `json:"brandNameCn,omitempty"`
+	BrandName Languages `json:"brandName"`
 	Status int    `json:"brandStatus,omitempty"`
 }
 

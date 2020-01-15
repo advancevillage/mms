@@ -50,12 +50,12 @@ func (s *service) QuerySizes(ctx *https.Context) {
 	page    := s.page(ctx)
 	perPage := s.perPage(ctx)
 	status  := s.status(ctx)
-	sizes, err := config.Services().SizeService().QuerySizes(status, page, perPage)
+	sizes, total,  err := config.Services().SizeService().QuerySizes(status, page, perPage)
 	if err != nil {
 		ctx.JsonResponse(http.StatusBadRequest, s.NewHttpError(SizeCode, SizeMsg, QueryErrorCode, QueryErrorMsg))
 		return
 	}
-	ctx.JsonResponse(http.StatusOK, sizes)
+	ctx.JsonResponse(http.StatusOK, s.response(sizes, total))
 }
 
 //@Summary 查询尺码
