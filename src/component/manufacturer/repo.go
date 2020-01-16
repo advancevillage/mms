@@ -43,8 +43,8 @@ func (s *RepoMgo) QueryManufacturer(id string) (*Manufacturer, error) {
 	return &value, nil
 }
 
-func (s *RepoMgo) QueryManufacturers(where map[string]interface{}, page int, perPage int) ([]Manufacturer, int64, error) {
-	items, total, err := s.storage.QueryStorageV3(Schema, where, perPage, page * perPage)
+func (s *RepoMgo) QueryManufacturers(where map[string]interface{}, page int, perPage int, sort map[string]interface{}) ([]Manufacturer, int64, error) {
+	items, total, err := s.storage.QueryStorageV3(Schema, where, perPage, page * perPage, sort)
 	if err != nil {
 		return nil, 0, err
 	}

@@ -1,7 +1,7 @@
 //author: richard
 package size
 
-import "mms/src/component/language"
+import "mms/src/language"
 
 const (
 	Schema = "sizes"
@@ -15,14 +15,14 @@ type ISize interface {
 	CreateSize(size *Size) error
 	UpdateSize(size *Size) error
 	QuerySize(sizeId string) (*Size, error)
-	QuerySizes(where map[string]interface{}, page int, perPage int) ([]Size, int64, error)
+	QuerySizes(where map[string]interface{}, page int, perPage int, sort map[string]interface{}) ([]Size, int64, error)
 }
 
 type Size struct {
-	Id 	   string 	`json:"sizeId"`
-	Status int 		`json:"sizeStatus"`
-	CreateTime int64 `json:"sizeCreateTime"`
-	UpdateTime int64 `json:"sizeUpdateTime"`
-	DeleteTime int64 `json:"sizeDeleteTime"`
-	Name   language.Languages `json:"sizeName"`
+	Id 	   string 	`json:"id"`
+	Status int 		`json:"status"`
+	CreateTime int64 `json:"createTime"`
+	UpdateTime int64 `json:"updateTime"`
+	DeleteTime int64 `json:"deleteTime"`
+	Name   *language.Languages `json:"name"`
 }

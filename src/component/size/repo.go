@@ -43,8 +43,8 @@ func (s *RepoMgo) QuerySize(id string) (*Size, error) {
 	return &value, nil
 }
 
-func (s *RepoMgo) QuerySizes(where map[string]interface{}, page int, perPage int) ([]Size, int64, error) {
-	items, total, err := s.storage.QueryStorageV3(Schema, where, perPage, page * perPage)
+func (s *RepoMgo) QuerySizes(where map[string]interface{}, page int, perPage int, sort map[string]interface{}) ([]Size, int64, error) {
+	items, total, err := s.storage.QueryStorageV3(Schema, where, perPage, page * perPage, sort)
 	if err != nil {
 		return nil, 0, err
 	}

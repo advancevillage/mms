@@ -1,7 +1,7 @@
 //author: richard
 package tag
 
-import "mms/src/component/language"
+import "mms/src/language"
 
 const (
 	Schema = "tags"
@@ -15,14 +15,14 @@ type ITag interface {
 	CreateTag(tag *Tag) error
 	UpdateTag(tag *Tag) error
 	QueryTag(tagId string) (*Tag, error)
-	QueryTags(where map[string]interface{}, page int, perPage int) ([]Tag, int64, error)
+	QueryTags(where map[string]interface{}, page int, perPage int, sort map[string]interface{}) ([]Tag, int64, error)
 }
 
 type Tag struct {
-	Id 	 string 	`json:"tagId"`
-	Status int 		`json:"tagStatus"`
-	CreateTime int64 `json:"tagCreateTime"`
-	UpdateTime int64 `json:"tagUpdateTime"`
-	DeleteTime int64 `json:"tagDeleteTime"`
-	Name language.Languages `json:"tagName"`
+	Id 	 string 	 `json:"id"`
+	Status int 		 `json:"status"`
+	CreateTime int64 `json:"createTime"`
+	UpdateTime int64 `json:"updateTime"`
+	DeleteTime int64 `json:"deleteTime"`
+	Name *language.Languages `json:"name"`
 }

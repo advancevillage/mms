@@ -26,13 +26,12 @@ func NewApiService() *service {
 func (s *service) Version(ctx *https.Context) {
 	version := ResponseVersion{}
 	version.Info = config.Services().Version()
-	ctx.JsonResponse(http.StatusOK, version)
+	ctx.JSON(http.StatusOK, version)
 }
 
 func (s *service) Test(ctx *https.Context) {
-	ctx.JsonResponse(http.StatusOK, nil)
+	ctx.JSON(http.StatusOK, nil)
 }
-
 
 func (s *service) NewHttpError(apiCode int, apiMsg string, opCode int, opMsg string) *HttpError {
 	return &HttpError{
@@ -94,6 +93,11 @@ func (s *service) pathId(ctx *https.Context) (string, error) {
 
 func (s *service) body(ctx *https.Context) ([]byte, error) {
 	return ctx.Body()
+}
+
+func (s *service) language(ctx *https.Context) string {
+	value := ctx.ReadHeader("x-language")
+	return value
 }
 
 func (s *service) response(items interface{}, total int64) interface{} {

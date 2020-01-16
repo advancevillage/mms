@@ -6,6 +6,7 @@ import (
 	"github.com/advancevillage/3rd/storages"
 	"github.com/advancevillage/3rd/times"
 	"github.com/advancevillage/3rd/utils"
+	"mms/src/language"
 )
 
 type Service struct {
@@ -28,8 +29,10 @@ func (s *Service) QueryTagById(tagId string) (*Tag, error) {
 
 func (s *Service) QueryTags(status int, page int, perPage int) ([]Tag, int64, error) {
 	where := make(map[string]interface{})
-	where["tagStatus"] = s.Status(status)
-	tags, total, err := s.repo.QueryTags(where, page, perPage)
+	sort := make(map[string]interface{})
+	where["status"] = s.Status(status)
+	sort["createTime"] = s.desc()
+	tags, total, err := s.repo.QueryTags(where, page, perPage, sort)
 	if err != nil {
 		s.logger.Error(err.Error())
 		return nil, 0, err
@@ -37,10 +40,10 @@ func (s *Service) QueryTags(status int, page int, perPage int) ([]Tag, int64, er
 	return tags, total, nil
 }
 
-func (s *Service) CreateTag(nameEn string) error {
+func (s *Service) CreateTag(name *language.Languages) error {
 	value := &Tag{}
 	value.Id = utils.SnowFlakeIdString()
-	value.Name.English = nameEn
+	value.Name = name
 	value.Status = StatusActive
 	value.CreateTime = times.Timestamp()
 	value.UpdateTime = times.Timestamp()
@@ -53,16 +56,14 @@ func (s *Service) CreateTag(nameEn string) error {
 	return nil
 }
 
-func (s *Service) UpdateTag(id string, nameEn, nameCn string, status int) error {
+func (s *Service) UpdateTag(id string, name *language.Languages, status int) error {
 	value, err := s.QueryTagById(id)
 	if err != nil {
 		s.logger.Error(err.Error())
 		return err
 	}
-	status = s.Status(status)
-	value.Name.English = nameEn
-	value.Name.Chinese = nameCn
-	value.UpdateTime   = times.Timestamp()
+	value.Name = name
+	value.UpdateTime = times.Timestamp()
 	value.Status = s.Status(status)
 	err = s.repo.UpdateTag(value)
 	if err != nil {
@@ -99,4 +100,12 @@ func (s *Service) Status(status int) int {
 		status = StatusInvalid
 	}
 	return status
+}
+
+func (s *Service) asc() int {
+	return 1
+}
+
+func (s *Service) desc() int {
+	return -1
 }

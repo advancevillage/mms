@@ -1,7 +1,7 @@
 //author: richard
 package image
 
-import "mms/src/component/language"
+import "mms/src/language"
 
 const (
 	Schema = "images"
@@ -15,19 +15,19 @@ type IImage interface {
 	CreateImage(image *Image) error
 	UpdateImage(image *Image) error
 	QueryImage(imageId string) (*Image, error)
-	QueryImages(where map[string]interface{}, page int, perPage int) ([]Image, int64, error)
+	QueryImages(where map[string]interface{}, page int, perPage int, sort map[string]interface{}) ([]Image, int64, error)
 }
 
 type Image struct {
-	Id 	    string 	`json:"imageId"`
-	Url	    string 	`json:"imageUrl"`
-	IsDefault bool  `json:"imageIsDefault"`
-	Status     int  `json:"imageStatus"`
-	CustomSize string   `json:"imageCustomSize"`
-	CustomType string   `json:"imageCustomType"`
-	CustomDirection int `json:"imageCustomDirection"`
-	CreateTime int64 `json:"imageCreateTime"`
-	UpdateTime int64 `json:"imageUpdateTime"`
-	DeleteTime int64 `json:"imageDeleteTime"`
-	Description language.Languages `json:"imageDescription"`
+	Id 	    string 	`json:"id"`
+	Url	    string 	`json:"url"`
+	IsDefault bool  `json:"isDefault"`
+	Status     int  `json:"status"`
+	CustomSize string   `json:"customSize"`
+	CustomType string   `json:"customType"`
+	CustomDirection int `json:"customDirection"`
+	CreateTime int64 `json:"createTime"`
+	UpdateTime int64 `json:"updateTime"`
+	DeleteTime int64 `json:"deleteTime"`
+	Description *language.Languages `json:"description"`
 }

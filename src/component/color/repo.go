@@ -43,8 +43,8 @@ func (s *RepoMgo) QueryColor(id string) (*Color, error) {
 	return &value, nil
 }
 
-func (s *RepoMgo) QueryColors(where map[string]interface{}, page int, perPage int) ([]Color, int64, error) {
-	items, total, err := s.storage.QueryStorageV3(Schema, where, perPage, page * perPage)
+func (s *RepoMgo) QueryColors(where map[string]interface{}, page int, perPage int, sort map[string]interface{}) ([]Color, int64, error) {
+	items, total, err := s.storage.QueryStorageV3(Schema, where, perPage, page * perPage, sort)
 	if err != nil {
 		return nil, 0, err
 	}

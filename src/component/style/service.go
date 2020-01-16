@@ -6,6 +6,7 @@ import (
 	"github.com/advancevillage/3rd/storages"
 	"github.com/advancevillage/3rd/times"
 	"github.com/advancevillage/3rd/utils"
+	"mms/src/language"
 )
 
 type Service struct {
@@ -28,8 +29,10 @@ func (s *Service) QueryStyleById(styleId string) (*Style, error) {
 
 func (s *Service) QueryStyles(status int, page int, perPage int) ([]Style, int64, error) {
 	where := make(map[string]interface{})
-	where["styleStatus"] = s.Status(status)
-	styles, total, err := s.repo.QueryStyles(where, page, perPage)
+	sort := make(map[string]interface{})
+	where["status"] = s.Status(status)
+	sort["createTime"] = s.desc()
+	styles, total, err := s.repo.QueryStyles(where, page, perPage, sort)
 	if err != nil {
 		s.logger.Error(err.Error())
 		return nil, 0, err
@@ -37,11 +40,11 @@ func (s *Service) QueryStyles(status int, page int, perPage int) ([]Style, int64
 	return styles, total, nil
 }
 
-func (s *Service) CreateStyle(name string, description string) error {
+func (s *Service) CreateStyle(name *language.Languages, description *language.Languages) error {
 	value := &Style{}
 	value.Id = utils.SnowFlakeIdString()
-	value.Name.English = name
-	value.Description.English = description
+	value.Name = name
+	value.Description = description
 	value.Status = StatusActive
 	value.CreateTime = times.Timestamp()
 	value.UpdateTime = times.Timestamp()
@@ -54,17 +57,14 @@ func (s *Service) CreateStyle(name string, description string) error {
 	return nil
 }
 
-func (s *Service) UpdateStyle(id string, nameEn, nameCn string, descEn, descCn string, status int) error {
+func (s *Service) UpdateStyle(id string, name *language.Languages, description *language.Languages, status int) error {
 	value, err := s.QueryStyleById(id)
 	if err != nil {
 		s.logger.Error(err.Error())
 		return err
 	}
-	status = s.Status(status)
-	value.Name.English = nameEn
-	value.Name.Chinese = nameCn
-	value.Description.English = descEn
-	value.Description.Chinese = descCn
+	value.Name = name
+	value.Description = description
 	value.UpdateTime   = times.Timestamp()
 	value.Status = s.Status(status)
 	err = s.repo.UpdateStyle(value)
@@ -102,4 +102,12 @@ func (s *Service) Status(status int) int {
 		status = StatusInvalid
 	}
 	return status
+}
+
+func (s *Service) asc() int {
+	return 1
+}
+
+func (s *Service) desc() int {
+	return -1
 }

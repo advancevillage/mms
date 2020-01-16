@@ -18,13 +18,16 @@ var router = func (api API) []https.Router{
 		{"PUT", "/v1/categories/:pathId", api.UpdateCategory},
 		{"DELETE", "/v1/categories/:pathId", api.DeleteCategory},
 		{"GET", "/v1/categories/:pathId", api.QueryCategory},
+		{"OPTIONS", "/v1/categories", api.Test},
+		{"OPTIONS", "/v1/categories/:pathId", api.Test},
 		//品牌路由
 		{"GET", "/v1/brands", api.QueryBrands},
 		{"POST", "/v1/brands", api.CreateBrand},
-		{"OPTIONS", "/v1/brands", api.Test},
 		{"PUT", "/v1/brands/:pathId", api.UpdateBrand},
 		{"DELETE", "/v1/brands/:pathId", api.DeleteBrand},
 		{"GET", "/v1/brands/:pathId", api.QueryBrand},
+		{"OPTIONS", "/v1/brands", api.Test},
+		{"OPTIONS", "/v1/brands/:pathId", api.Test},
 		//尺码路由
 		{"POST", "/v1/sizes", api.CreateSize},
 		{"GET", "/v1/sizes", api.QuerySizes},
@@ -70,7 +73,7 @@ var headers = map[string]string {
 	"Access-Control-Allow-Origin": "http://localhost:8080",
 	"Access-Control-Allow-Methods": "OPTIONS, GET, PUT, POST, DELETE",
 	"Access-Control-Allow-Credentials": "true",
-	"Access-Control-Allow-Headers": "Content-Type",
+	"Access-Control-Allow-Headers": "Content-Type, x-language",
 }
 
 type API interface {
@@ -164,6 +167,6 @@ func LoadLambdaRouter() error {
 
 //响应插件
 func HeaderPlugin(ctx *https.Context) {
-	ctx.Header(headers)
+	ctx.WriteHeader(headers)
 	ctx.Next()
 }

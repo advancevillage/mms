@@ -1,6 +1,10 @@
 //author: richard
 package route
 
+import (
+	"mms/src/language"
+)
+
 const (
 	//商品 merchandise
 	MerchandiseCode = 1000
@@ -69,75 +73,62 @@ type HttpOk struct {
 type ResponseVersion struct {
 	Info string `json:"info,omitempty"`
 }
-type Languages struct {
-	English string `json:"english"`
-	Chinese string `json:"chinese"`
-}
 
 type RequestCategory struct {
-	NameEn	string	`json:"categoryNameEn"`
-	NameCn	string	`json:"categoryNameCn,omitempty"`
-	Status  int 	`json:"categoryStatus,omitempty"`
-	Level   int 	`json:"categoryLevel,omitempty"`
-	Child  []string `json:"childCategories,omitempty"`
-	Parent []string `json:"parentCategories,omitempty"`
+	Status  int 	`json:"status"`
+	Level   int 	`json:"level"`
+	Child  []string `json:"child"`
+	Parent []string `json:"parent"`
+	Name   language.Languages `json:"name"`
 }
 
 type RequestBrand struct {
-	BrandName Languages `json:"brandName"`
-	Status int    `json:"brandStatus,omitempty"`
+	Status int    `json:"status"`
+	Name   language.Languages `json:"name"`
 }
 
 type RequestSize struct {
-	NameEn string `json:"sizeNameEn"`
-	NameCn string `json:"sizeNameCn,omitempty"`
-	Status  int   `json:"sizeStatus,omitempty"`
+	Status int   `json:"status"`
+	Name   language.Languages `json:"name"`
 }
 
 type RequestTag struct {
-	NameEn string  `json:"tagNameEn"`
-	NameCn string  `json:"tagNameCn,omitempty"`
-	Status 	 int   `json:"tagStatus,omitempty"`
+	Status 	 int   `json:"status"`
+	Name   language.Languages `json:"name"`
 }
 
 type RequestColor struct {
-	NameEn string  `json:"colorNameEn"`
-	NameCn string  `json:"colorNameCn,omitempty"`
-	Rgba   string  `json:"rgba,omitempty"`
-	Status 	 int   `json:"colorStatus,omitempty"`
+	Rgba   string  `json:"rgba"`
+	Status int     `json:"status"`
+	Name   language.Languages `json:"name"`
 }
 
 type RequestStyle struct {
-	NameEn  string `json:"styleNameEn"`
-	NameCn  string `json:"styleNameCn,omitempty"`
-	DescriptionEn string `json:"styleDescriptionEn"`
-	DescriptionCn string `json:"styleDescriptionCn"`
-	Status 	int    `json:"styleStatus,omitempty"`
+	Status 	int    `json:"status"`
+	Name   language.Languages `json:"name"`
+	Description language.Languages `json:"description"`
 }
 
 type RequestManufacturer struct {
 	Concat string `json:"concat"`
-	Phone  string `json:"phone,omitempty"`
-	Email  string `json:"email,omitempty"`
-	NameEn string `json:"nameEn,omitempty"`
-	NameCn string `json:"nameEn,omitempty"`
-	AddressEn string `json:"addressEn,omitempty"`
-	AddressCn string `json:"addressCn,omitempty"`
-	Status 	int    `json:"styleStatus,omitempty"`
+	Phone  string `json:"phone"`
+	Email  string `json:"email"`
+	Status 	int   `json:"status"`
+	Name    language.Languages `json:"name"`
+	Address language.Languages `json:"address"`
 }
 
 type RequestImage struct {
-	DescEn  string `json:"imageDescriptionEn"`
-	DescCn  string `json:"imageDescriptionCn,omitempty"`
-	Status 	int    `json:"imageStatus,omitempty"`
-	URL 	string `json:"imageUrl,omitempty"`
-	Type    string `json:"imageType,omitempty"`
-	Direction int  `json:"imageDirection,omitempty"`
-	IsDefault bool `json:"isDefault,omitempty"`
+	Status 	int    `json:"status"`
+	URL 	string `json:"url"`
+	Type    string `json:"type"`
+	Direction int  `json:"direction"`
+	IsDefault bool `json:"isDefault"`
+	Description language.Languages `json:"description"`
 }
 
 type RequestGoods struct {
-	TitleEn string `json:"titleEn"`
-	DescEn  string `json:"descEn"`
 	CostPrice float64 `json:"costPrice"`
+	Title language.Languages `json:"title"`
+	Description language.Languages `json:"description"`
 }

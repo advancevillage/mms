@@ -6,6 +6,7 @@ import (
 	"github.com/advancevillage/3rd/storages"
 	"github.com/advancevillage/3rd/times"
 	"github.com/advancevillage/3rd/utils"
+	"mms/src/language"
 )
 
 type Service struct {
@@ -28,8 +29,10 @@ func (s *Service) QueryManufacturerById(goodsId string) (*Goods, error) {
 
 func (s *Service) QueryManufacturers(status int, page int, perPage int) ([]Goods, int64, error) {
 	where := make(map[string]interface{})
-	where["goodsStatus"] = s.Status(status)
-	goods, total, err := s.repo.QueryMerchandises(where, page, perPage)
+	sort := make(map[string]interface{})
+	where["status"] = s.Status(status)
+	sort["createTime"] = s.desc()
+	goods, total, err := s.repo.QueryMerchandises(where, page, perPage, sort)
 	if err != nil {
 		s.logger.Error(err.Error())
 		return nil, 0, err
@@ -37,13 +40,15 @@ func (s *Service) QueryManufacturers(status int, page int, perPage int) ([]Goods
 	return goods, total, nil
 }
 
-func (s *Service) CreateManufacturer(titleEn string, descEn string, costPrice float64) error {
+func (s *Service) CreateManufacturer(title *language.Languages, desc *language.Languages, costPrice float64) error {
 	value := &Goods{}
 	value.Id = utils.SnowFlakeIdString()
-	value.Title.English = titleEn
-	value.DetailedDescription.English = descEn
+	value.Title = title
+	value.Detailed = desc
 	value.Status = StatusActive
 	value.CostPrice = costPrice
+	value.Expected = Expected
+	value.Price = costPrice + Expected * costPrice
 	value.CreateTime = times.Timestamp()
 	value.UpdateTime = times.Timestamp()
 	value.DeleteTime = 0
@@ -82,6 +87,14 @@ func (s *Service) Status(status int) int {
 		status = StatusInvalid
 	}
 	return status
+}
+
+func (s *Service) asc() int {
+	return 1
+}
+
+func (s *Service) desc() int {
+	return -1
 }
 
 

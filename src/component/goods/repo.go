@@ -43,8 +43,8 @@ func (s *RepoMgo) QueryMerchandise(id string) (*Goods, error) {
 	return &value, nil
 }
 
-func (s *RepoMgo) QueryMerchandises(where map[string]interface{}, page int, perPage int) ([]Goods, int64, error) {
-	items, total, err := s.storage.QueryStorageV3(Schema, where, perPage, page * perPage)
+func (s *RepoMgo) QueryMerchandises(where map[string]interface{}, page int, perPage int, sort map[string]interface{}) ([]Goods, int64, error) {
+	items, total, err := s.storage.QueryStorageV3(Schema, where, perPage, page * perPage, sort)
 	if err != nil {
 		return nil, 0, err
 	}

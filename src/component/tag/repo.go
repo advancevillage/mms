@@ -43,8 +43,8 @@ func (s *RepoMgo) QueryTag(id string) (*Tag, error) {
 	return &tag, nil
 }
 
-func (s *RepoMgo) QueryTags(where map[string]interface{}, page int, perPage int) ([]Tag, int64, error) {
-	items, total, err := s.storage.QueryStorageV3(Schema, where, perPage, page * perPage)
+func (s *RepoMgo) QueryTags(where map[string]interface{}, page int, perPage int, sort map[string]interface{}) ([]Tag, int64, error) {
+	items, total, err := s.storage.QueryStorageV3(Schema, where, perPage, page * perPage, sort)
 	if err != nil {
 		return nil, 0, err
 	}

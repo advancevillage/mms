@@ -1,7 +1,7 @@
 //author: richard
 package style
 
-import "mms/src/component/language"
+import "mms/src/language"
 
 const (
 	Schema = "styles"
@@ -15,15 +15,15 @@ type IStyle interface {
 	CreateStyle(style *Style) error
 	UpdateStyle(style *Style) error
 	QueryStyle(styleId string) (*Style, error)
-	QueryStyles(where map[string]interface{}, page int, perPage int) ([]Style, int64, error)
+	QueryStyles(where map[string]interface{}, page int, perPage int, sort map[string]interface{}) ([]Style, int64, error)
 }
 
 type Style struct {
-	Id 	string 	`json:"styleId"`
-	Status int 	`json:"styleStatus"`
-	CreateTime  int64 `json:"styleCreateTime"`
-	UpdateTime  int64 `json:"styleUpdateTime"`
-	DeleteTime  int64 `json:"styleDeleteTime"`
-	Name language.Languages `json:"styleName"`
-	Description language.Languages `json:"styleDescription"`
+	Id 	string 	`json:"id"`
+	Status int 	`json:"status"`
+	CreateTime  int64 `json:"createTime"`
+	UpdateTime  int64 `json:"updateTime"`
+	DeleteTime  int64 `json:"deleteTime"`
+	Name *language.Languages `json:"name"`
+	Description *language.Languages `json:"description"`
 }

@@ -43,8 +43,8 @@ func (s *RepoMgo) QueryCategory(id string) (*Category, error) {
 	return &value, nil
 }
 
-func (s *RepoMgo) QueryCategories(where map[string]interface{}, page int, perPage int) ([]Category, int64, error) {
-	items, total, err := s.storage.QueryStorageV3(Schema, where, perPage, page * perPage)
+func (s *RepoMgo) QueryCategories(where map[string]interface{}, page int, perPage int, sort map[string]interface{}) ([]Category, int64, error) {
+	items, total, err := s.storage.QueryStorageV3(Schema, where, perPage, page * perPage, sort)
 	if err != nil {
 		return nil, 0, err
 	}

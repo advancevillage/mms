@@ -43,8 +43,8 @@ func (s *RepoMgo) QueryBrand(brandId string) (*Brand, error) {
 	return &brd, nil
 }
 
-func (s *RepoMgo) QueryBrands(where map[string]interface{}, page int, perPage int) ([]Brand, int64, error) {
-	items, total, err := s.storage.QueryStorageV3(Schema, where, perPage, page * perPage)
+func (s *RepoMgo) QueryBrands(where map[string]interface{}, page int, perPage int, sort map[string]interface{}) ([]Brand, int64, error) {
+	items, total, err := s.storage.QueryStorageV3(Schema, where, perPage, page * perPage, sort)
 	if err != nil {
 		return nil, 0, err
 	}

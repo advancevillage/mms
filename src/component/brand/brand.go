@@ -1,7 +1,7 @@
 //author: richard
 package brand
 
-import "mms/src/component/language"
+import "mms/src/language"
 
 const (
 	Schema = "brands"
@@ -15,14 +15,14 @@ type IBrand interface {
 	CreateBrand(*Brand) error
 	UpdateBrand(*Brand) error
 	QueryBrand(string) (*Brand, error)
-	QueryBrands(where map[string]interface{}, page int, perPage int) ([]Brand, int64, error)
+	QueryBrands(where map[string]interface{}, page int, perPage int, sort map[string]interface{}) ([]Brand, int64, error)
 }
 
 type Brand struct {
-	Id 	   string 	`json:"brandId"`
-	Status int 		`json:"brandStatus"`
-	CreateTime int64 `json:"brandCreateTime"`
-	UpdateTime int64 `json:"brandUpdateTime"`
-	DeleteTime int64 `json:"brandDeleteTime"`
-	Name   language.Languages `json:"brandName"`
+	Id 	   string 	 `json:"id"`
+	Status int 		 `json:"status"`
+	CreateTime int64 `json:"createTime"`
+	UpdateTime int64 `json:"updateTime"`
+	DeleteTime int64 `json:"deleteTime"`
+	Name   *language.Languages `json:"name"`
 }

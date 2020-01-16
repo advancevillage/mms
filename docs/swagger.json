@@ -80,6 +80,12 @@
                 "summary": "创建品牌",
                 "parameters": [
                     {
+                        "type": "string",
+                        "description": "语言",
+                        "name": "language",
+                        "in": "header"
+                    },
+                    {
                         "description": "CreateBrand",
                         "name": "{}",
                         "in": "body",
@@ -252,6 +258,12 @@
                 "summary": "查询分类列表",
                 "parameters": [
                     {
+                        "type": "string",
+                        "description": "语言",
+                        "name": "language",
+                        "in": "header"
+                    },
+                    {
                         "type": "integer",
                         "description": "页码",
                         "name": "page",
@@ -314,6 +326,12 @@
                 "summary": "新增分类",
                 "parameters": [
                     {
+                        "type": "string",
+                        "description": "语言",
+                        "name": "language",
+                        "in": "header"
+                    },
+                    {
                         "description": "CreateCategory",
                         "name": "{}",
                         "in": "body",
@@ -362,6 +380,14 @@
                     "application/json"
                 ],
                 "summary": "查询分类",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "语言",
+                        "name": "language",
+                        "in": "header"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -446,6 +472,14 @@
                     "application/json"
                 ],
                 "summary": "删除分类",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "语言",
+                        "name": "language",
+                        "in": "header"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -485,6 +519,12 @@
                 ],
                 "summary": "查询颜色列表",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "语言",
+                        "name": "language",
+                        "in": "header"
+                    },
                     {
                         "type": "integer",
                         "description": "页码",
@@ -542,6 +582,12 @@
                 "summary": "新增颜色",
                 "parameters": [
                     {
+                        "type": "string",
+                        "description": "语言",
+                        "name": "language",
+                        "in": "header"
+                    },
+                    {
                         "description": "CreateColor",
                         "name": "{}",
                         "in": "body",
@@ -590,6 +636,14 @@
                     "application/json"
                 ],
                 "summary": "查询颜色",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "语言",
+                        "name": "language",
+                        "in": "header"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -627,6 +681,12 @@
                 ],
                 "summary": "更新颜色",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "语言",
+                        "name": "language",
+                        "in": "header"
+                    },
                     {
                         "description": "UpdateColor",
                         "name": "{}",
@@ -674,6 +734,14 @@
                     "application/json"
                 ],
                 "summary": "删除颜色",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "语言",
+                        "name": "language",
+                        "in": "header"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -713,6 +781,12 @@
                 ],
                 "summary": "查询图片列表",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "语言",
+                        "name": "language",
+                        "in": "header"
+                    },
                     {
                         "type": "integer",
                         "description": "页码",
@@ -770,6 +844,12 @@
                 "summary": "新增图片",
                 "parameters": [
                     {
+                        "type": "string",
+                        "description": "语言",
+                        "name": "language",
+                        "in": "header"
+                    },
+                    {
                         "description": "CreateImage",
                         "name": "{}",
                         "in": "body",
@@ -818,6 +898,14 @@
                     "application/json"
                 ],
                 "summary": "查询图片",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "语言",
+                        "name": "language",
+                        "in": "header"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -855,6 +943,12 @@
                 ],
                 "summary": "更新图片",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "语言",
+                        "name": "language",
+                        "in": "header"
+                    },
                     {
                         "description": "UpdateImage",
                         "name": "{}",
@@ -902,6 +996,14 @@
                     "application/json"
                 ],
                 "summary": "删除图片",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "语言",
+                        "name": "language",
+                        "in": "header"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -941,6 +1043,12 @@
                 ],
                 "summary": "查询生产商列表",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "语言",
+                        "name": "language",
+                        "in": "header"
+                    },
                     {
                         "type": "integer",
                         "description": "页码",
@@ -998,6 +1106,12 @@
                 "summary": "新增生产商",
                 "parameters": [
                     {
+                        "type": "string",
+                        "description": "语言",
+                        "name": "language",
+                        "in": "header"
+                    },
+                    {
                         "description": "CreateManufacturer",
                         "name": "{}",
                         "in": "body",
@@ -1046,6 +1160,14 @@
                     "application/json"
                 ],
                 "summary": "查询生产商",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "语言",
+                        "name": "language",
+                        "in": "header"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1083,6 +1205,12 @@
                 ],
                 "summary": "更新生产商",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "语言",
+                        "name": "language",
+                        "in": "header"
+                    },
                     {
                         "description": "UpdateManufacturer",
                         "name": "{}",
@@ -1130,6 +1258,14 @@
                     "application/json"
                 ],
                 "summary": "删除生产商",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "语言",
+                        "name": "language",
+                        "in": "header"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1169,6 +1305,12 @@
                 ],
                 "summary": "查询商品列表",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "语言",
+                        "name": "language",
+                        "in": "header"
+                    },
                     {
                         "type": "integer",
                         "description": "页码",
@@ -1226,6 +1368,12 @@
                 "summary": "新增商品",
                 "parameters": [
                     {
+                        "type": "string",
+                        "description": "语言",
+                        "name": "language",
+                        "in": "header"
+                    },
+                    {
                         "description": "CreateGoods",
                         "name": "{}",
                         "in": "body",
@@ -1274,6 +1422,14 @@
                     "application/json"
                 ],
                 "summary": "查询商品",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "语言",
+                        "name": "language",
+                        "in": "header"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1310,6 +1466,14 @@
                     "application/json"
                 ],
                 "summary": "删除商品",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "语言",
+                        "name": "language",
+                        "in": "header"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1388,6 +1552,12 @@
                 "summary": "查询尺码列表",
                 "parameters": [
                     {
+                        "type": "string",
+                        "description": "语言",
+                        "name": "language",
+                        "in": "header"
+                    },
+                    {
                         "type": "integer",
                         "description": "页码",
                         "name": "page",
@@ -1444,6 +1614,12 @@
                 "summary": "创建尺码",
                 "parameters": [
                     {
+                        "type": "string",
+                        "description": "语言",
+                        "name": "language",
+                        "in": "header"
+                    },
+                    {
                         "description": "CreateSize",
                         "name": "{}",
                         "in": "body",
@@ -1492,6 +1668,14 @@
                     "application/json"
                 ],
                 "summary": "查询尺码",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "语言",
+                        "name": "language",
+                        "in": "header"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1529,6 +1713,12 @@
                 ],
                 "summary": "更新品牌",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "语言",
+                        "name": "language",
+                        "in": "header"
+                    },
                     {
                         "description": "UpdateSize",
                         "name": "{}",
@@ -1576,6 +1766,14 @@
                     "application/json"
                 ],
                 "summary": "删除尺码",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "语言",
+                        "name": "language",
+                        "in": "header"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1615,6 +1813,12 @@
                 ],
                 "summary": "查询款式列表",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "语言",
+                        "name": "language",
+                        "in": "header"
+                    },
                     {
                         "type": "integer",
                         "description": "页码",
@@ -1672,6 +1876,12 @@
                 "summary": "创建款式",
                 "parameters": [
                     {
+                        "type": "string",
+                        "description": "语言",
+                        "name": "language",
+                        "in": "header"
+                    },
+                    {
                         "description": "CreateStyle",
                         "name": "{}",
                         "in": "body",
@@ -1720,6 +1930,14 @@
                     "application/json"
                 ],
                 "summary": "查询款式",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "语言",
+                        "name": "language",
+                        "in": "header"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1757,6 +1975,12 @@
                 ],
                 "summary": "更新款式",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "语言",
+                        "name": "language",
+                        "in": "header"
+                    },
                     {
                         "description": "UpdateStyle",
                         "name": "{}",
@@ -1804,6 +2028,14 @@
                     "application/json"
                 ],
                 "summary": "删除款式",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "语言",
+                        "name": "language",
+                        "in": "header"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1843,6 +2075,12 @@
                 ],
                 "summary": "查询标签列表",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "语言",
+                        "name": "language",
+                        "in": "header"
+                    },
                     {
                         "type": "integer",
                         "description": "页码",
@@ -1900,6 +2138,12 @@
                 "summary": "创建标签",
                 "parameters": [
                     {
+                        "type": "string",
+                        "description": "语言",
+                        "name": "language",
+                        "in": "header"
+                    },
+                    {
                         "description": "CreateTag",
                         "name": "{}",
                         "in": "body",
@@ -1948,6 +2192,14 @@
                     "application/json"
                 ],
                 "summary": "查询标签",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "语言",
+                        "name": "language",
+                        "in": "header"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1985,6 +2237,12 @@
                 ],
                 "summary": "更新标签",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "语言",
+                        "name": "language",
+                        "in": "header"
+                    },
                     {
                         "description": "UpdateTag",
                         "name": "{}",
@@ -2032,6 +2290,14 @@
                     "application/json"
                 ],
                 "summary": "删除标签",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "语言",
+                        "name": "language",
+                        "in": "header"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -2066,6 +2332,17 @@
         }
     },
     "definitions": {
+        "language.Languages": {
+            "type": "object",
+            "properties": {
+                "chinese": {
+                    "type": "string"
+                },
+                "english": {
+                    "type": "string"
+                }
+            }
+        },
         "route.HttpError": {
             "type": "object",
             "properties": {
@@ -2088,25 +2365,14 @@
                 }
             }
         },
-        "route.Languages": {
-            "type": "object",
-            "properties": {
-                "chinese": {
-                    "type": "string"
-                },
-                "english": {
-                    "type": "string"
-                }
-            }
-        },
         "route.RequestBrand": {
             "type": "object",
             "properties": {
-                "brandName": {
+                "name": {
                     "type": "object",
-                    "$ref": "#/definitions/route.Languages"
+                    "$ref": "#/definitions/language.Languages"
                 },
-                "brandStatus": {
+                "status": {
                     "type": "integer"
                 }
             }
@@ -2114,46 +2380,42 @@
         "route.RequestCategory": {
             "type": "object",
             "properties": {
-                "categoryLevel": {
-                    "type": "integer"
-                },
-                "categoryNameCn": {
-                    "type": "string"
-                },
-                "categoryNameEn": {
-                    "type": "string"
-                },
-                "categoryStatus": {
-                    "type": "integer"
-                },
-                "childCategories": {
+                "child": {
                     "type": "array",
                     "items": {
                         "type": "string"
                     }
                 },
-                "parentCategories": {
+                "level": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "object",
+                    "$ref": "#/definitions/language.Languages"
+                },
+                "parent": {
                     "type": "array",
                     "items": {
                         "type": "string"
                     }
+                },
+                "status": {
+                    "type": "integer"
                 }
             }
         },
         "route.RequestColor": {
             "type": "object",
             "properties": {
-                "colorNameCn": {
-                    "type": "string"
-                },
-                "colorNameEn": {
-                    "type": "string"
-                },
-                "colorStatus": {
-                    "type": "integer"
+                "name": {
+                    "type": "object",
+                    "$ref": "#/definitions/language.Languages"
                 },
                 "rgba": {
                     "type": "string"
+                },
+                "status": {
+                    "type": "integer"
                 }
             }
         },
@@ -2163,48 +2425,46 @@
                 "costPrice": {
                     "type": "number"
                 },
-                "descEn": {
-                    "type": "string"
+                "description": {
+                    "type": "object",
+                    "$ref": "#/definitions/language.Languages"
                 },
-                "titleEn": {
-                    "type": "string"
+                "title": {
+                    "type": "object",
+                    "$ref": "#/definitions/language.Languages"
                 }
             }
         },
         "route.RequestImage": {
             "type": "object",
             "properties": {
-                "imageDescriptionCn": {
-                    "type": "string"
+                "description": {
+                    "type": "object",
+                    "$ref": "#/definitions/language.Languages"
                 },
-                "imageDescriptionEn": {
-                    "type": "string"
-                },
-                "imageDirection": {
+                "direction": {
                     "type": "integer"
-                },
-                "imageStatus": {
-                    "type": "integer"
-                },
-                "imageType": {
-                    "type": "string"
-                },
-                "imageUrl": {
-                    "type": "string"
                 },
                 "isDefault": {
                     "type": "boolean"
+                },
+                "status": {
+                    "type": "integer"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
                 }
             }
         },
         "route.RequestManufacturer": {
             "type": "object",
             "properties": {
-                "addressCn": {
-                    "type": "string"
-                },
-                "addressEn": {
-                    "type": "string"
+                "address": {
+                    "type": "object",
+                    "$ref": "#/definitions/language.Languages"
                 },
                 "concat": {
                     "type": "string"
@@ -2212,13 +2472,14 @@
                 "email": {
                     "type": "string"
                 },
-                "nameEn": {
-                    "type": "string"
+                "name": {
+                    "type": "object",
+                    "$ref": "#/definitions/language.Languages"
                 },
                 "phone": {
                     "type": "string"
                 },
-                "styleStatus": {
+                "status": {
                     "type": "integer"
                 }
             }
@@ -2226,13 +2487,11 @@
         "route.RequestSize": {
             "type": "object",
             "properties": {
-                "sizeNameCn": {
-                    "type": "string"
+                "name": {
+                    "type": "object",
+                    "$ref": "#/definitions/language.Languages"
                 },
-                "sizeNameEn": {
-                    "type": "string"
-                },
-                "sizeStatus": {
+                "status": {
                     "type": "integer"
                 }
             }
@@ -2240,19 +2499,15 @@
         "route.RequestStyle": {
             "type": "object",
             "properties": {
-                "styleDescriptionCn": {
-                    "type": "string"
+                "description": {
+                    "type": "object",
+                    "$ref": "#/definitions/language.Languages"
                 },
-                "styleDescriptionEn": {
-                    "type": "string"
+                "name": {
+                    "type": "object",
+                    "$ref": "#/definitions/language.Languages"
                 },
-                "styleNameCn": {
-                    "type": "string"
-                },
-                "styleNameEn": {
-                    "type": "string"
-                },
-                "styleStatus": {
+                "status": {
                     "type": "integer"
                 }
             }
@@ -2260,13 +2515,11 @@
         "route.RequestTag": {
             "type": "object",
             "properties": {
-                "tagNameCn": {
-                    "type": "string"
+                "name": {
+                    "type": "object",
+                    "$ref": "#/definitions/language.Languages"
                 },
-                "tagNameEn": {
-                    "type": "string"
-                },
-                "tagStatus": {
+                "status": {
                     "type": "integer"
                 }
             }

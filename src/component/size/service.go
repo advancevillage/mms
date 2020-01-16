@@ -7,6 +7,7 @@ import (
 	"github.com/advancevillage/3rd/storages"
 	"github.com/advancevillage/3rd/times"
 	"github.com/advancevillage/3rd/utils"
+	"mms/src/language"
 )
 
 type Service struct {
@@ -29,8 +30,10 @@ func (s *Service) QuerySizeById(sizeId string) (*Size, error) {
 
 func (s *Service) QuerySizes(status int, page int, perPage int) ([]Size, int64, error) {
 	where := make(map[string]interface{})
-	where["sizeStatus"] = s.Status(status)
-	sizes, total, err := s.repo.QuerySizes(where, page, perPage)
+	sort := make(map[string]interface{})
+	where["status"] = s.Status(status)
+	sort["createTime"] = s.desc()
+	sizes, total, err := s.repo.QuerySizes(where, page, perPage, sort)
 	if err != nil {
 		s.logger.Error(err.Error())
 		return nil, 0, err
@@ -38,10 +41,10 @@ func (s *Service) QuerySizes(status int, page int, perPage int) ([]Size, int64, 
 	return sizes, total, nil
 }
 
-func (s *Service) CreateSize(english string) error {
+func (s *Service) CreateSize(name *language.Languages) error {
 	value := &Size{}
 	value.Id = utils.SnowFlakeIdString()
-	value.Name.English = english
+	value.Name = name
 	value.Status = StatusActive
 	value.CreateTime = times.Timestamp()
 	value.UpdateTime = times.Timestamp()
@@ -54,15 +57,13 @@ func (s *Service) CreateSize(english string) error {
 	return nil
 }
 
-func (s *Service) UpdateSize(id string, english, chinese string, status int) error {
+func (s *Service) UpdateSize(id string, name *language.Languages, status int) error {
 	value, err := s.QuerySizeById(id)
 	if err != nil {
 		s.logger.Error(err.Error())
 		return err
 	}
-	status = s.Status(status)
-	value.Name.English = english
-	value.Name.Chinese = chinese
+	value.Name = name
 	value.UpdateTime   = times.Timestamp()
 	value.Status = s.Status(status)
 	err = s.repo.UpdateSize(value)
@@ -100,4 +101,12 @@ func (s *Service) Status(status int) int {
 		status = StatusInvalid
 	}
 	return status
+}
+
+func (s *Service) asc() int {
+	return 1
+}
+
+func (s *Service) desc() int {
+	return -1
 }

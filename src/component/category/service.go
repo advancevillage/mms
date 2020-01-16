@@ -9,6 +9,7 @@ import (
 	"github.com/advancevillage/3rd/storages"
 	"github.com/advancevillage/3rd/times"
 	"github.com/advancevillage/3rd/utils"
+	"mms/src/language"
 )
 
 type Service struct {
@@ -31,9 +32,11 @@ func (s *Service) QueryCategoryById(id string) (*Category, error) {
 
 func (s *Service) QueryCategories(status int, page int, perPage int, level int) ([]Category, int64, error) {
 	where := make(map[string]interface{})
-	where["categoryStatus"] = s.Status(status)
-	where["categoryLevel"] = level
-	categories, total, err := s.repo.QueryCategories(where, page, perPage)
+	sort := make(map[string]interface{})
+	where["status"] = s.Status(status)
+	where["level"] = level
+	sort["createTime"] = s.desc()
+	categories, total, err := s.repo.QueryCategories(where, page, perPage, sort)
 	if err != nil {
 		s.logger.Error(err.Error())
 		return nil, 0, err
@@ -41,10 +44,10 @@ func (s *Service) QueryCategories(status int, page int, perPage int, level int) 
 	return categories, total, nil
 }
 
-func (s *Service) CreateCategory(nameEn string, level int, child, parent []string) error {
+func (s *Service) CreateCategory(name *language.Languages, level int, child, parent []string) error {
 	value := &Category{}
 	value.Id = utils.SnowFlakeIdString()
-	value.Name.English = nameEn
+	value.Name = name
 	value.Status = StatusActive
 	value.Level  = s.Level(level)
 	value.Child  = child
@@ -60,7 +63,7 @@ func (s *Service) CreateCategory(nameEn string, level int, child, parent []strin
 	return nil
 }
 
-func (s *Service) UpdateCategory(id string, nameEn, nameCn string, child, parent []string, status, level int) error {
+func (s *Service) UpdateCategory(id string, name *language.Languages, child, parent []string, status, level int) error {
 	value, err := s.QueryCategoryById(id)
 	if err != nil {
 		s.logger.Error(err.Error())
@@ -68,8 +71,7 @@ func (s *Service) UpdateCategory(id string, nameEn, nameCn string, child, parent
 	}
 	value.Level = s.Level(level)
 	value.Status = s.Status(status)
-	value.Name.English = nameEn
-	value.Name.Chinese = nameCn
+	value.Name = name
 	value.UpdateTime   = times.Timestamp()
 	value.Child  = child
 	value.Parent = parent
@@ -122,4 +124,12 @@ func (s *Service) Level(level int) int {
 		level = 1
 	}
 	return level
+}
+
+func (s *Service) asc() int {
+	return 1
+}
+
+func (s *Service) desc() int {
+	return -1
 }

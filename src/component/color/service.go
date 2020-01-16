@@ -6,6 +6,7 @@ import (
 	"github.com/advancevillage/3rd/storages"
 	"github.com/advancevillage/3rd/times"
 	"github.com/advancevillage/3rd/utils"
+	"mms/src/language"
 )
 
 type Service struct {
@@ -28,8 +29,10 @@ func (s *Service) QueryColorById(colorId string) (*Color, error) {
 
 func (s *Service) QueryColors(status int, page int, perPage int) ([]Color, int64, error) {
 	where := make(map[string]interface{})
-	where["colorStatus"] = s.Status(status)
-	colors, total, err := s.repo.QueryColors(where, page, perPage)
+	sort := make(map[string]interface{})
+	where["status"] = s.Status(status)
+	sort["createTime"] = s.desc()
+	colors, total, err := s.repo.QueryColors(where, page, perPage, sort)
 	if err != nil {
 		s.logger.Error(err.Error())
 		return nil, 0, err
@@ -37,10 +40,10 @@ func (s *Service) QueryColors(status int, page int, perPage int) ([]Color, int64
 	return colors, total, nil
 }
 
-func (s *Service) CreateColor(english string, rgba string) error {
+func (s *Service) CreateColor(name *language.Languages, rgba string) error {
 	value := &Color{}
 	value.Id = utils.SnowFlakeIdString()
-	value.Name.English = english
+	value.Name = name
 	value.Status = StatusActive
 	value.Value  = rgba
 	value.CreateTime = times.Timestamp()
@@ -54,7 +57,7 @@ func (s *Service) CreateColor(english string, rgba string) error {
 	return nil
 }
 
-func (s *Service) UpdateColor(id string, english, chinese string, rgba string, status int) error {
+func (s *Service) UpdateColor(id string, name *language.Languages, rgba string, status int) error {
 	value, err := s.QueryColorById(id)
 	if err != nil {
 		s.logger.Error(err.Error())
@@ -62,8 +65,7 @@ func (s *Service) UpdateColor(id string, english, chinese string, rgba string, s
 	}
 	status = s.Status(status)
 	value.Value = rgba
-	value.Name.English = english
-	value.Name.Chinese = chinese
+	value.Name = name
 	value.UpdateTime   = times.Timestamp()
 	value.Status = s.Status(status)
 	err = s.repo.UpdateColor(value)
@@ -101,6 +103,14 @@ func (s *Service) Status(status int) int {
 		status = StatusInvalid
 	}
 	return status
+}
+
+func (s *Service) asc() int {
+	return 1
+}
+
+func (s *Service) desc() int {
+	return -1
 }
 
 

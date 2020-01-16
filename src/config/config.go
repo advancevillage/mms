@@ -5,6 +5,7 @@ import (
 	"github.com/advancevillage/3rd/caches"
 	"github.com/advancevillage/3rd/logs"
 	"github.com/advancevillage/3rd/storages"
+	"github.com/advancevillage/3rd/translate"
 	"mms/src/component/brand"
 	"mms/src/component/category"
 	"mms/src/component/color"
@@ -27,6 +28,7 @@ type Service struct {
 	cache  	   caches.ICache
 	logger 	   logs.Logs
 	mgo 	   storages.Storage
+	translate  translate.Translate
 	category   *category.Service
 	brand 	   *brand.Service
 	tag 	   *tag.Service

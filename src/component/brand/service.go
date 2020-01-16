@@ -6,6 +6,7 @@ import (
 	"github.com/advancevillage/3rd/storages"
 	"github.com/advancevillage/3rd/times"
 	"github.com/advancevillage/3rd/utils"
+	"mms/src/language"
 )
 
 type Service struct {
@@ -28,8 +29,10 @@ func (s *Service) QueryBrandById(brandId string) (*Brand, error) {
 
 func (s *Service) QueryBrands(status int, page int, perPage int) ([]Brand, int64, error) {
 	where := make(map[string]interface{})
-	where["brandStatus"] = s.Status(status)
-	brands, total, err := s.repo.QueryBrands(where, page, perPage)
+	sort := make(map[string]interface{})
+	where["status"] = s.Status(status)
+	sort["createTime"] = s.desc()
+	brands, total, err := s.repo.QueryBrands(where, page, perPage, sort)
 	if err != nil {
 		s.logger.Error(err.Error())
 		return nil, 0, err
@@ -37,16 +40,19 @@ func (s *Service) QueryBrands(status int, page int, perPage int) ([]Brand, int64
 	return brands, total, nil
 }
 
-func (s *Service) CreateBrand(english string, chinese string) error {
+func (s *Service) CreateBrand(name *language.Languages) error {
+	var err error
 	value := &Brand{}
 	value.Id = utils.SnowFlakeIdString()
-	value.Name.English = english
-	value.Name.Chinese = chinese
 	value.Status = StatusActive
 	value.CreateTime = times.Timestamp()
 	value.UpdateTime = times.Timestamp()
 	value.DeleteTime = 0
-	err := s.repo.CreateBrand(value)
+	value.Name = name
+	if err != nil {
+		s.logger.Warning(err.Error())
+	}
+	err = s.repo.CreateBrand(value)
 	if err != nil {
 		s.logger.Error(err.Error())
 		return err
@@ -54,16 +60,16 @@ func (s *Service) CreateBrand(english string, chinese string) error {
 	return nil
 }
 
-func (s *Service) UpdateBrand(id string, english, chinese string, status int) error {
+func (s *Service) UpdateBrand(id string, name *language.Languages, status int) error {
 	value, err := s.QueryBrandById(id)
 	if err != nil {
 		s.logger.Error(err.Error())
 		return err
 	}
 	status = s.Status(status)
-	value.Name.English = english
-	value.Name.Chinese = chinese
+	value.Name = name
 	value.Status = s.Status(status)
+	value.UpdateTime = times.Timestamp()
 	err = s.repo.UpdateBrand(value)
 	if err != nil {
 		s.logger.Error(err.Error())
@@ -99,5 +105,13 @@ func (s *Service) Status(status int) int {
 		status = StatusInvalid
 	}
 	return status
+}
+
+func (s *Service) asc() int {
+	return 1
+}
+
+func (s *Service) desc() int {
+	return -1
 }
 

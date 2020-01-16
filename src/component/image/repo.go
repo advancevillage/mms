@@ -43,8 +43,8 @@ func (s *RepoMgo) QueryImage(id string) (*Image, error) {
 	return &value, nil
 }
 
-func (s *RepoMgo) QueryImages(where map[string]interface{}, page int, perPage int) ([]Image, int64, error) {
-	items, total, err := s.storage.QueryStorageV3(Schema, where, perPage, page * perPage)
+func (s *RepoMgo) QueryImages(where map[string]interface{}, page int, perPage int, sort map[string]interface{}) ([]Image, int64, error) {
+	items, total, err := s.storage.QueryStorageV3(Schema, where, perPage, page * perPage, sort)
 	if err != nil {
 		return nil, 0, err
 	}

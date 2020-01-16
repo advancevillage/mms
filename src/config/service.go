@@ -8,6 +8,7 @@ import (
 	"github.com/advancevillage/3rd/files"
 	"github.com/advancevillage/3rd/logs"
 	"github.com/advancevillage/3rd/storages"
+	"github.com/advancevillage/3rd/translate"
 	"mms/src/component/brand"
 	"mms/src/component/category"
 	"mms/src/component/color"
@@ -77,6 +78,8 @@ func LoadServices() error {
 	if err != nil {
 		return err
 	}
+	//@translate
+	service.translate = translate.NewBaiDuTranslate("20200116000375924", "9T6lwR7uIXbvef_O7Wd3")
 	service.manufacturer = manufacturer.NewManufacturerService(service.mgo, service.logger)
 	service.category = category.NewCategoryService(service.mgo, service.logger)
 	service.brand    = brand.NewBrandService(service.mgo, service.logger)
@@ -113,6 +116,10 @@ func (s *Service) Version() string {
 
 func (s *Service) LogService() logs.Logs {
 	return s.logger
+}
+
+func (s *Service) TranslateService() translate.Translate {
+	return s.translate
 }
 
 func (s *Service) CategoryService() *category.Service {

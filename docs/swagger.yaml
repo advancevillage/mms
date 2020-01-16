@@ -1,5 +1,12 @@
 basePath: /
 definitions:
+  language.Languages:
+    properties:
+      chinese:
+        type: string
+      english:
+        type: string
+    type: object
   route.HttpError:
     properties:
       code:
@@ -14,123 +21,111 @@ definitions:
       message:
         type: string
     type: object
-  route.Languages:
-    properties:
-      chinese:
-        type: string
-      english:
-        type: string
-    type: object
   route.RequestBrand:
     properties:
-      brandName:
-        $ref: '#/definitions/route.Languages'
+      name:
+        $ref: '#/definitions/language.Languages'
         type: object
-      brandStatus:
+      status:
         type: integer
     type: object
   route.RequestCategory:
     properties:
-      categoryLevel:
-        type: integer
-      categoryNameCn:
-        type: string
-      categoryNameEn:
-        type: string
-      categoryStatus:
-        type: integer
-      childCategories:
+      child:
         items:
           type: string
         type: array
-      parentCategories:
+      level:
+        type: integer
+      name:
+        $ref: '#/definitions/language.Languages'
+        type: object
+      parent:
         items:
           type: string
         type: array
+      status:
+        type: integer
     type: object
   route.RequestColor:
     properties:
-      colorNameCn:
-        type: string
-      colorNameEn:
-        type: string
-      colorStatus:
-        type: integer
+      name:
+        $ref: '#/definitions/language.Languages'
+        type: object
       rgba:
         type: string
+      status:
+        type: integer
     type: object
   route.RequestGoods:
     properties:
       costPrice:
         type: number
-      descEn:
-        type: string
-      titleEn:
-        type: string
+      description:
+        $ref: '#/definitions/language.Languages'
+        type: object
+      title:
+        $ref: '#/definitions/language.Languages'
+        type: object
     type: object
   route.RequestImage:
     properties:
-      imageDescriptionCn:
-        type: string
-      imageDescriptionEn:
-        type: string
-      imageDirection:
+      description:
+        $ref: '#/definitions/language.Languages'
+        type: object
+      direction:
         type: integer
-      imageStatus:
-        type: integer
-      imageType:
-        type: string
-      imageUrl:
-        type: string
       isDefault:
         type: boolean
+      status:
+        type: integer
+      type:
+        type: string
+      url:
+        type: string
     type: object
   route.RequestManufacturer:
     properties:
-      addressCn:
-        type: string
-      addressEn:
-        type: string
+      address:
+        $ref: '#/definitions/language.Languages'
+        type: object
       concat:
         type: string
       email:
         type: string
-      nameEn:
-        type: string
+      name:
+        $ref: '#/definitions/language.Languages'
+        type: object
       phone:
         type: string
-      styleStatus:
+      status:
         type: integer
     type: object
   route.RequestSize:
     properties:
-      sizeNameCn:
-        type: string
-      sizeNameEn:
-        type: string
-      sizeStatus:
+      name:
+        $ref: '#/definitions/language.Languages'
+        type: object
+      status:
         type: integer
     type: object
   route.RequestStyle:
     properties:
-      styleDescriptionCn:
-        type: string
-      styleDescriptionEn:
-        type: string
-      styleNameCn:
-        type: string
-      styleNameEn:
-        type: string
-      styleStatus:
+      description:
+        $ref: '#/definitions/language.Languages'
+        type: object
+      name:
+        $ref: '#/definitions/language.Languages'
+        type: object
+      status:
         type: integer
     type: object
   route.RequestTag:
     properties:
-      tagNameCn:
-        type: string
-      tagNameEn:
-        type: string
-      tagStatus:
+      name:
+        $ref: '#/definitions/language.Languages'
+        type: object
+      status:
         type: integer
     type: object
   route.ResponseVersion:
@@ -191,6 +186,10 @@ paths:
       summary: 查询品牌列表
     post:
       parameters:
+      - description: 语言
+        in: header
+        name: language
+        type: string
       - description: CreateBrand
         in: body
         name: '{}'
@@ -309,6 +308,10 @@ paths:
   /v1/categories:
     get:
       parameters:
+      - description: 语言
+        in: header
+        name: language
+        type: string
       - description: 页码
         in: query
         name: page
@@ -351,6 +354,10 @@ paths:
       summary: 查询分类列表
     post:
       parameters:
+      - description: 语言
+        in: header
+        name: language
+        type: string
       - description: CreateCategory
         in: body
         name: '{}'
@@ -384,6 +391,11 @@ paths:
       summary: 新增分类
   /v1/categories/{pathId}:
     delete:
+      parameters:
+      - description: 语言
+        in: header
+        name: language
+        type: string
       produces:
       - application/json
       responses:
@@ -409,6 +421,11 @@ paths:
             type: object
       summary: 删除分类
     get:
+      parameters:
+      - description: 语言
+        in: header
+        name: language
+        type: string
       produces:
       - application/json
       responses:
@@ -469,6 +486,10 @@ paths:
   /v1/colors:
     get:
       parameters:
+      - description: 语言
+        in: header
+        name: language
+        type: string
       - description: 页码
         in: query
         name: page
@@ -507,6 +528,10 @@ paths:
       summary: 查询颜色列表
     post:
       parameters:
+      - description: 语言
+        in: header
+        name: language
+        type: string
       - description: CreateColor
         in: body
         name: '{}'
@@ -540,6 +565,11 @@ paths:
       summary: 新增颜色
   /v1/colors/{pathId}:
     delete:
+      parameters:
+      - description: 语言
+        in: header
+        name: language
+        type: string
       produces:
       - application/json
       responses:
@@ -565,6 +595,11 @@ paths:
             type: object
       summary: 删除颜色
     get:
+      parameters:
+      - description: 语言
+        in: header
+        name: language
+        type: string
       produces:
       - application/json
       responses:
@@ -591,6 +626,10 @@ paths:
       summary: 查询颜色
     put:
       parameters:
+      - description: 语言
+        in: header
+        name: language
+        type: string
       - description: UpdateColor
         in: body
         name: '{}'
@@ -625,6 +664,10 @@ paths:
   /v1/images:
     get:
       parameters:
+      - description: 语言
+        in: header
+        name: language
+        type: string
       - description: 页码
         in: query
         name: page
@@ -663,6 +706,10 @@ paths:
       summary: 查询图片列表
     post:
       parameters:
+      - description: 语言
+        in: header
+        name: language
+        type: string
       - description: CreateImage
         in: body
         name: '{}'
@@ -696,6 +743,11 @@ paths:
       summary: 新增图片
   /v1/images/{pathId}:
     delete:
+      parameters:
+      - description: 语言
+        in: header
+        name: language
+        type: string
       produces:
       - application/json
       responses:
@@ -721,6 +773,11 @@ paths:
             type: object
       summary: 删除图片
     get:
+      parameters:
+      - description: 语言
+        in: header
+        name: language
+        type: string
       produces:
       - application/json
       responses:
@@ -747,6 +804,10 @@ paths:
       summary: 查询图片
     put:
       parameters:
+      - description: 语言
+        in: header
+        name: language
+        type: string
       - description: UpdateImage
         in: body
         name: '{}'
@@ -781,6 +842,10 @@ paths:
   /v1/manufacturers:
     get:
       parameters:
+      - description: 语言
+        in: header
+        name: language
+        type: string
       - description: 页码
         in: query
         name: page
@@ -819,6 +884,10 @@ paths:
       summary: 查询生产商列表
     post:
       parameters:
+      - description: 语言
+        in: header
+        name: language
+        type: string
       - description: CreateManufacturer
         in: body
         name: '{}'
@@ -852,6 +921,11 @@ paths:
       summary: 新增生产商
   /v1/manufacturers/{pathId}:
     delete:
+      parameters:
+      - description: 语言
+        in: header
+        name: language
+        type: string
       produces:
       - application/json
       responses:
@@ -877,6 +951,11 @@ paths:
             type: object
       summary: 删除生产商
     get:
+      parameters:
+      - description: 语言
+        in: header
+        name: language
+        type: string
       produces:
       - application/json
       responses:
@@ -903,6 +982,10 @@ paths:
       summary: 查询生产商
     put:
       parameters:
+      - description: 语言
+        in: header
+        name: language
+        type: string
       - description: UpdateManufacturer
         in: body
         name: '{}'
@@ -937,6 +1020,10 @@ paths:
   /v1/merchandises:
     get:
       parameters:
+      - description: 语言
+        in: header
+        name: language
+        type: string
       - description: 页码
         in: query
         name: page
@@ -975,6 +1062,10 @@ paths:
       summary: 查询商品列表
     post:
       parameters:
+      - description: 语言
+        in: header
+        name: language
+        type: string
       - description: CreateGoods
         in: body
         name: '{}'
@@ -1008,6 +1099,11 @@ paths:
       summary: 新增商品
   /v1/merchandises/{pathId}:
     delete:
+      parameters:
+      - description: 语言
+        in: header
+        name: language
+        type: string
       produces:
       - application/json
       responses:
@@ -1033,6 +1129,11 @@ paths:
             type: object
       summary: 删除商品
     get:
+      parameters:
+      - description: 语言
+        in: header
+        name: language
+        type: string
       produces:
       - application/json
       responses:
@@ -1086,6 +1187,10 @@ paths:
   /v1/sizes:
     get:
       parameters:
+      - description: 语言
+        in: header
+        name: language
+        type: string
       - description: 页码
         in: query
         name: page
@@ -1124,6 +1229,10 @@ paths:
       summary: 查询尺码列表
     post:
       parameters:
+      - description: 语言
+        in: header
+        name: language
+        type: string
       - description: CreateSize
         in: body
         name: '{}'
@@ -1157,6 +1266,11 @@ paths:
       summary: 创建尺码
   /v1/sizes/{pathId}:
     delete:
+      parameters:
+      - description: 语言
+        in: header
+        name: language
+        type: string
       produces:
       - application/json
       responses:
@@ -1182,6 +1296,11 @@ paths:
             type: object
       summary: 删除尺码
     get:
+      parameters:
+      - description: 语言
+        in: header
+        name: language
+        type: string
       produces:
       - application/json
       responses:
@@ -1208,6 +1327,10 @@ paths:
       summary: 查询尺码
     put:
       parameters:
+      - description: 语言
+        in: header
+        name: language
+        type: string
       - description: UpdateSize
         in: body
         name: '{}'
@@ -1242,6 +1365,10 @@ paths:
   /v1/styles:
     get:
       parameters:
+      - description: 语言
+        in: header
+        name: language
+        type: string
       - description: 页码
         in: query
         name: page
@@ -1280,6 +1407,10 @@ paths:
       summary: 查询款式列表
     post:
       parameters:
+      - description: 语言
+        in: header
+        name: language
+        type: string
       - description: CreateStyle
         in: body
         name: '{}'
@@ -1313,6 +1444,11 @@ paths:
       summary: 创建款式
   /v1/styles/{pathId}:
     delete:
+      parameters:
+      - description: 语言
+        in: header
+        name: language
+        type: string
       produces:
       - application/json
       responses:
@@ -1338,6 +1474,11 @@ paths:
             type: object
       summary: 删除款式
     get:
+      parameters:
+      - description: 语言
+        in: header
+        name: language
+        type: string
       produces:
       - application/json
       responses:
@@ -1364,6 +1505,10 @@ paths:
       summary: 查询款式
     put:
       parameters:
+      - description: 语言
+        in: header
+        name: language
+        type: string
       - description: UpdateStyle
         in: body
         name: '{}'
@@ -1398,6 +1543,10 @@ paths:
   /v1/tags:
     get:
       parameters:
+      - description: 语言
+        in: header
+        name: language
+        type: string
       - description: 页码
         in: query
         name: page
@@ -1436,6 +1585,10 @@ paths:
       summary: 查询标签列表
     post:
       parameters:
+      - description: 语言
+        in: header
+        name: language
+        type: string
       - description: CreateTag
         in: body
         name: '{}'
@@ -1469,6 +1622,11 @@ paths:
       summary: 创建标签
   /v1/tags/{pathId}:
     delete:
+      parameters:
+      - description: 语言
+        in: header
+        name: language
+        type: string
       produces:
       - application/json
       responses:
@@ -1494,6 +1652,11 @@ paths:
             type: object
       summary: 删除标签
     get:
+      parameters:
+      - description: 语言
+        in: header
+        name: language
+        type: string
       produces:
       - application/json
       responses:
@@ -1520,6 +1683,10 @@ paths:
       summary: 查询标签
     put:
       parameters:
+      - description: 语言
+        in: header
+        name: language
+        type: string
       - description: UpdateTag
         in: body
         name: '{}'
