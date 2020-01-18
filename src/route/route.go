@@ -18,8 +18,10 @@ var router = func (api API) []https.Router{
 		{"PUT", "/v1/categories/:pathId", api.UpdateCategory},
 		{"DELETE", "/v1/categories/:pathId", api.DeleteCategory},
 		{"GET", "/v1/categories/:pathId", api.QueryCategory},
+		{"GET", "/v1/categories/:pathId/categories", api.QueryChildCategories},
 		{"OPTIONS", "/v1/categories", api.Test},
 		{"OPTIONS", "/v1/categories/:pathId", api.Test},
+		{"OPTIONS", "/v1/categories/:pathId/categories", api.Test},
 		//品牌路由
 		{"GET", "/v1/brands", api.QueryBrands},
 		{"POST", "/v1/brands", api.CreateBrand},
@@ -88,6 +90,7 @@ type API interface {
 	DeleteMerchandise(ctx *https.Context)
 	//categories
 	QueryCategories(ctx *https.Context)
+	QueryChildCategories(ctx *https.Context)
 	CreateCategory(ctx *https.Context)
 	UpdateCategory(ctx *https.Context)
 	DeleteCategory(ctx *https.Context)

@@ -15,6 +15,9 @@ func NewCategoryRepoMgo(storage storages.Storage) *RepoMgo {
 }
 
 func (s *RepoMgo) CreateCategory(value *Category) error {
+	if value == nil {
+		return nil
+	}
 	body, err := json.Marshal(value)
 	if err != nil {
 		return err
@@ -23,6 +26,9 @@ func (s *RepoMgo) CreateCategory(value *Category) error {
 }
 
 func (s *RepoMgo) UpdateCategory(value *Category) error {
+	if value == nil {
+		return nil
+	}
 	body, err := json.Marshal(value)
 	if err != nil {
 		return err

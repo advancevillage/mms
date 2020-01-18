@@ -6,6 +6,7 @@ import "mms/src/language"
 
 const (
 	Schema = "categories"
+	SnowFlakeIdLength = 18
 
 	StatusActive  = 0x201
 	StatusDeleted = 0x202

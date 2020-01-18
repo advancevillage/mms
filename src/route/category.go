@@ -64,6 +64,28 @@ func (s *service) QueryCategories(ctx *https.Context) {
 	ctx.JSON(http.StatusOK, s.response(categories, total))
 }
 
+//@Summary 查询子分类列表
+//@Produce json
+//@Param language header string false "语言" default "chinese"
+//@Param page    query int false "页码" default "0"
+//@Param perPage query int false "每页条数" default "20"
+//@Param status  query int false "状态"
+//@Param level   query int false "层级" default "1"
+//@Success 200 {object} route.HttpOk
+//@Failure 400 {object} route.HttpError
+//@Failure 404 {object} route.HttpError
+//@Failure 500 {object} route.HttpError
+//@Router /v1/categories/{pathId}/categories [get]
+func (s *service) QueryChildCategories(ctx *https.Context) {
+	categoryId, err := s.pathId(ctx)
+	categories, err := config.Services().CategoryService().QueryChildCategories(categoryId)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, s.NewHttpError(CategoryCode, CategoryMsg, QueryErrorCode, QueryErrorMsg))
+		return
+	}
+	ctx.JSON(http.StatusOK, categories)
+}
+
 //@Summary 查询分类
 //@Produce json
 //@Param language header string false "语言" default "chinese"
@@ -111,7 +133,7 @@ func (s *service) UpdateCategory(ctx *https.Context) {
 		ctx.JSON(http.StatusBadRequest, s.NewHttpError(CategoryCode, CategoryMsg, BodyStructureErrorCode, BodyStructureErrorMsg))
 		return
 	}
-	err = config.Services().CategoryService().UpdateCategory(categoryId, &param.Name, param.Child, param.Parent, param.Status, param.Level)
+	err = config.Services().CategoryService().UpdateCategory(categoryId, &param.Name, param.Status)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, s.NewHttpError(CategoryCode, CategoryMsg, UpdateErrorCode, UpdateErrorMsg))
 		return

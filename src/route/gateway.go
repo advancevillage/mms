@@ -77,8 +77,8 @@ type ResponseVersion struct {
 type RequestCategory struct {
 	Status  int 	`json:"status"`
 	Level   int 	`json:"level"`
-	Child  []string `json:"child"`
-	Parent []string `json:"parent"`
+	Child   string `json:"child"`
+	Parent  string `json:"parent"`
 	Name   language.Languages `json:"name"`
 }
 
