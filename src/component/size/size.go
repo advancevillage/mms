@@ -24,5 +24,6 @@ type Size struct {
 	CreateTime int64 `json:"createTime"`
 	UpdateTime int64 `json:"updateTime"`
 	DeleteTime int64 `json:"deleteTime"`
-	Name   *language.Languages `json:"name"`
+	Value string 	 `json:"value"`
+	Group  *language.Languages `json:"group"`
 }

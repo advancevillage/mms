@@ -36,6 +36,8 @@ var router = func (api API) []https.Router{
 		{"GET", "/v1/sizes/:pathId", api.QuerySize},
 		{"PUT", "/v1/sizes/:pathId", api.UpdateSize},
 		{"DELETE", "/v1/sizes/:pathId", api.DeleteSize},
+		{"OPTIONS", "/v1/sizes", api.Test},
+		{"OPTIONS", "/v1/sizes/:pathId", api.Test},
 		//款式路由
 		{"POST", "/v1/styles", api.CreateStyle},
 		{"GET", "/v1/styles", api.QueryStyles},
@@ -54,20 +56,27 @@ var router = func (api API) []https.Router{
 		{"GET", "/v1/colors/:pathId", api.QueryColor},
 		{"PUT", "/v1/colors/:pathId", api.UpdateColor},
 		{"DELETE", "/v1/colors/:pathId", api.DeleteColor},
+		{"OPTIONS", "/v1/colors", api.Test},
+		{"OPTIONS", "/v1/colors/:pathId", api.Test},
 		//图片路由
-		{"POST", "/v1/images", api.CreateImage},
+		{"POST", "/v1/images", api.UploadImage},
 		{"GET", "/v1/images", api.QueryImages},
 		{"GET", "/v1/images/:pathId", api.QueryImage},
 		{"PUT", "/v1/images/:pathId", api.UpdateImage},
 		{"DELETE", "/v1/images/:pathId", api.DeleteImage},
+		{"OPTIONS", "/v1/images", api.Test},
+		{"OPTIONS", "/v1/images/:pathId", api.Test},
 		//生产商路由 manufacturers
 		{"POST", "/v1/manufacturers", api.CreateManufacturer},
 		{"GET", "/v1/manufacturers", api.QueryManufacturers},
 		{"GET", "/v1/manufacturers/:pathId", api.QueryManufacturer},
 		{"PUT", "/v1/manufacturers/:pathId", api.UpdateManufacturer},
 		{"DELETE", "/v1/manufacturers/:pathId", api.DeleteManufacturer},
+		{"OPTIONS", "/v1/manufacturers", api.Test},
+		{"OPTIONS", "/v1/manufacturers/:pathId", api.Test},
 		//路由服务
 		{"GET", "/v1/services/version", api.Version},
+
 	}
 }
 
@@ -126,7 +135,7 @@ type API interface {
 	UpdateColor(ctx *https.Context)
 	DeleteColor(ctx *https.Context)
 	//images
-	CreateImage(ctx *https.Context)
+	UploadImage(ctx *https.Context)
 	QueryImages(ctx *https.Context)
 	QueryImage (ctx *https.Context)
 	UpdateImage(ctx *https.Context)

@@ -21,7 +21,7 @@ type IColor interface {
 type Color struct {
 	Id 	   string 	`json:"id"`
 	Status int 		`json:"status"`
-	Value  string   `json:"value"` //色值 eg: #rgba(255,255,25,0)
+	Value  string   `json:"rgb"` //色值 eg: #rgba(255,255,25,0)
 	CreateTime int64 `json:"createTime"`
 	UpdateTime int64 `json:"updateTime"`
 	DeleteTime int64 `json:"deleteTime"`

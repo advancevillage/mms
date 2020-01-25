@@ -83,6 +83,11 @@ func (s *service) status(ctx *https.Context) int {
 	return status
 }
 
+func (s *service) group(ctx *https.Context) string {
+	value := ctx.Param("group")
+	return value
+}
+
 func (s *service) pathId(ctx *https.Context) (string, error) {
 	id := ctx.Param("pathId")
 	if len(id) != SnowFlakeIdLength {

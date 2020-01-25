@@ -32,18 +32,14 @@ definitions:
   route.RequestCategory:
     properties:
       child:
-        items:
-          type: string
-        type: array
+        type: string
       level:
         type: integer
       name:
         $ref: '#/definitions/language.Languages'
         type: object
       parent:
-        items:
-          type: string
-        type: array
+        type: string
       status:
         type: integer
     type: object
@@ -103,9 +99,11 @@ definitions:
     type: object
   route.RequestSize:
     properties:
-      name:
+      group:
         $ref: '#/definitions/language.Languages'
         type: object
+      name:
+        type: string
       status:
         type: integer
     type: object
@@ -483,6 +481,53 @@ paths:
             $ref: '#/definitions/route.HttpError'
             type: object
       summary: 更新分类
+  /v1/categories/{pathId}/categories:
+    get:
+      parameters:
+      - description: 语言
+        in: header
+        name: language
+        type: string
+      - description: 页码
+        in: query
+        name: page
+        type: integer
+      - description: 每页条数
+        in: query
+        name: perPage
+        type: integer
+      - description: 状态
+        in: query
+        name: status
+        type: integer
+      - description: 层级
+        in: query
+        name: level
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/route.HttpOk'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/route.HttpError'
+            type: object
+      summary: 查询子分类列表
   /v1/colors:
     get:
       parameters:

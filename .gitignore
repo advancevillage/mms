@@ -4,3 +4,4 @@
 pkg
 *.log
 bin/*
+images/*

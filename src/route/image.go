@@ -3,7 +3,9 @@ package route
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/advancevillage/3rd/https"
+	"github.com/advancevillage/3rd/utils"
 	"mms/src/config"
 	"net/http"
 )
@@ -17,26 +19,22 @@ import (
 //@Failure 404 {object} route.HttpError
 //@Failure 500 {object} route.HttpError
 //@Router /v1/images [post]
-func (s *service) CreateImage(ctx *https.Context) {
-	lang := s.language(ctx)
-	body, err := s.body(ctx)
-	if err != nil {
-		ctx.JSON(http.StatusBadRequest, s.NewHttpError(ImageCode, ImageMsg, RequestBodyErrorCode, RequestBodyErrorMsg))
-		return
-	}
-	param := RequestImage{}
-	err = json.Unmarshal(body, &param)
-	if err != nil {
-		ctx.JSON(http.StatusBadRequest, s.NewHttpError(ImageCode, ImageMsg, BodyStructureErrorCode, BodyStructureErrorMsg))
-		return
-	}
-	param.Description.Multi(lang, config.Services().TranslateService(), config.Services().LogService())
-	err = config.Services().ImageService().CreateImage(&param.Description, param.IsDefault, param.URL, param.Type, param.Direction)
+func (s *service) UploadImage(ctx *https.Context) {
+	filename := utils.SnowFlakeIdString() + utils.RandsNumberString(8)
+	uri := fmt.Sprintf("%s/%s/%s/%s", "images", filename[:2], filename[2:4], filename)
+	uri, err := ctx.Save(uri)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, s.NewHttpError(ImageCode, ImageMsg, CreateErrorCode, CreateErrorMsg))
 		return
 	}
-	ctx.JSON(http.StatusOK, s.NewHttpOk(http.StatusOK))
+	var image = struct {
+		Name string `json:"name"`
+		URI  string `json:"uri"`
+	}{
+		filename,
+		uri,
+	}
+	ctx.JSON(200, image)
 }
 
 //@Summary 查询图片列表

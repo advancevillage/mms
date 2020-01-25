@@ -10,7 +10,7 @@ import (
 
 //@Summary 新增生产商
 //@Produce json
-//@Param language header string false "语言" default "chinese"
+//@Param x-language header string false "语言" default "chinese"
 //@Param {} body route.RequestManufacturer true "CreateManufacturer"
 //@Success 200 {object} route.HttpOk
 //@Failure 400 {object} route.HttpError
@@ -42,7 +42,7 @@ func (s *service) CreateManufacturer(ctx *https.Context) {
 
 //@Summary 查询生产商列表
 //@Produce json
-//@Param language header string false "语言" default "chinese"
+//@Param x-language header string false "语言" default "chinese"
 //@Param page    query int false "页码" default "0"
 //@Param perPage query int false "每页条数" default "20"
 //@Param status  query int false "状态"
@@ -65,7 +65,7 @@ func (s *service) QueryManufacturers(ctx *https.Context) {
 
 //@Summary 查询生产商
 //@Produce json
-//@Param language header string false "语言" default "chinese"
+//@Param x-language header string false "语言" default "chinese"
 //@Success 200 {object} route.HttpOk
 //@Failure 400 {object} route.HttpError
 //@Failure 404 {object} route.HttpError
@@ -87,7 +87,7 @@ func (s *service) QueryManufacturer(ctx *https.Context) {
 
 //@Summary 更新生产商
 //@Produce json
-//@Param language header string false "语言" default "chinese"
+//@Param x-language header string false "语言" default "chinese"
 //@Param {} body route.RequestManufacturer true "UpdateManufacturer"
 //@Success 200 {object} route.HttpOk
 //@Failure 400 {object} route.HttpError
@@ -121,7 +121,7 @@ func (s *service) UpdateManufacturer(ctx *https.Context) {
 
 //@Summary 删除生产商
 //@Produce json
-//@Param language header string false "语言" default "chinese"
+//@Param x-language header string false "语言" default "chinese"
 //@Success 200 {object} route.HttpOk
 //@Failure 400 {object} route.HttpError
 //@Failure 404 {object} route.HttpError

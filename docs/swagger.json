@@ -512,6 +512,76 @@
                 }
             }
         },
+        "/v1/categories/{pathId}/categories": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "查询子分类列表",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "语言",
+                        "name": "language",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "页码",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "每页条数",
+                        "name": "perPage",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "状态",
+                        "name": "status",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "层级",
+                        "name": "level",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpOk"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/route.HttpError"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/colors": {
             "get": {
                 "produces": [
@@ -2381,10 +2451,7 @@
             "type": "object",
             "properties": {
                 "child": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
+                    "type": "string"
                 },
                 "level": {
                     "type": "integer"
@@ -2394,10 +2461,7 @@
                     "$ref": "#/definitions/language.Languages"
                 },
                 "parent": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
+                    "type": "string"
                 },
                 "status": {
                     "type": "integer"
@@ -2487,9 +2551,12 @@
         "route.RequestSize": {
             "type": "object",
             "properties": {
-                "name": {
+                "group": {
                     "type": "object",
                     "$ref": "#/definitions/language.Languages"
+                },
+                "name": {
+                    "type": "string"
                 },
                 "status": {
                     "type": "integer"

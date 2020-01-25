@@ -88,8 +88,9 @@ type RequestBrand struct {
 }
 
 type RequestSize struct {
+	Name   string `json:"name"`
 	Status int   `json:"status"`
-	Name   language.Languages `json:"name"`
+	Group  language.Languages `json:"group"`
 }
 
 type RequestTag struct {

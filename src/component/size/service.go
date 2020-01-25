@@ -3,6 +3,7 @@ package size
 
 
 import (
+	"fmt"
 	"github.com/advancevillage/3rd/logs"
 	"github.com/advancevillage/3rd/storages"
 	"github.com/advancevillage/3rd/times"
@@ -28,11 +29,13 @@ func (s *Service) QuerySizeById(sizeId string) (*Size, error) {
 	return size, nil
 }
 
-func (s *Service) QuerySizes(status int, page int, perPage int) ([]Size, int64, error) {
+func (s *Service) QuerySizes(status int, page int, perPage int, group string, lang string) ([]Size, int64, error) {
 	where := make(map[string]interface{})
 	sort := make(map[string]interface{})
 	where["status"] = s.Status(status)
-	sort["createTime"] = s.desc()
+	where[fmt.Sprintf("%s.%s", "group", lang)]  = group
+	sort["value"] = s.asc()
+	//sort["createTime"] = s.desc()
 	sizes, total, err := s.repo.QuerySizes(where, page, perPage, sort)
 	if err != nil {
 		s.logger.Error(err.Error())
@@ -41,10 +44,11 @@ func (s *Service) QuerySizes(status int, page int, perPage int) ([]Size, int64, 
 	return sizes, total, nil
 }
 
-func (s *Service) CreateSize(name *language.Languages) error {
+func (s *Service) CreateSize(name string, group *language.Languages) error {
 	value := &Size{}
 	value.Id = utils.SnowFlakeIdString()
-	value.Name = name
+	value.Value = name
+	value.Group = group
 	value.Status = StatusActive
 	value.CreateTime = times.Timestamp()
 	value.UpdateTime = times.Timestamp()
@@ -57,13 +61,13 @@ func (s *Service) CreateSize(name *language.Languages) error {
 	return nil
 }
 
-func (s *Service) UpdateSize(id string, name *language.Languages, status int) error {
+func (s *Service) UpdateSize(id string, name string, status int) error {
 	value, err := s.QuerySizeById(id)
 	if err != nil {
 		s.logger.Error(err.Error())
 		return err
 	}
-	value.Name = name
+	value.Value = name
 	value.UpdateTime   = times.Timestamp()
 	value.Status = s.Status(status)
 	err = s.repo.UpdateSize(value)
