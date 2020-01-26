@@ -1,8 +1,6 @@
 //author: richard
 package image
 
-import "mms/src/language"
-
 const (
 	Schema = "images"
 
@@ -19,15 +17,12 @@ type IImage interface {
 }
 
 type Image struct {
-	Id 	    string 	`json:"id"`
-	Url	    string 	`json:"url"`
-	IsDefault bool  `json:"isDefault"`
-	Status     int  `json:"status"`
-	CustomSize string   `json:"customSize"`
-	CustomType string   `json:"customType"`
-	CustomDirection int `json:"customDirection"`
+	Id 	      string `json:"id"`
+	Url	      string `json:"url"`
+	Sequence  string `json:"sequence"`
+	Direction string `json:"direction"`
+	Status     int   `json:"status"`
 	CreateTime int64 `json:"createTime"`
 	UpdateTime int64 `json:"updateTime"`
 	DeleteTime int64 `json:"deleteTime"`
-	Description *language.Languages `json:"description"`
 }

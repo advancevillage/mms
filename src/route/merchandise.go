@@ -30,8 +30,27 @@ func (s *service) CreateMerchandise(ctx *https.Context) {
 		ctx.JSON(http.StatusBadRequest, s.NewHttpError(MerchandiseCode, MerchandiseMsg, BodyStructureErrorCode, BodyStructureErrorMsg))
 		return
 	}
+	//名称
+	param.Name.Multi(lang, config.Services().TranslateService(), config.Services().LogService())
+	//标题
 	param.Title.Multi(lang, config.Services().TranslateService(), config.Services().LogService())
+	//描述
 	param.Description.Multi(lang, config.Services().TranslateService(), config.Services().LogService())
+	//关键字
+	for i := 0; i < len(param.Keywords); i++ {
+		param.Keywords[i].Multi(lang, config.Services().TranslateService(), config.Services().LogService())
+	}
+	//标签
+	for i := 0; i < len(param.Tags); i++ {
+		param.Tags[i].Multi(lang, config.Services().TranslateService(), config.Services().LogService())
+	}
+	//产地
+	param.Origin.Multi(lang, config.Services().TranslateService(), config.Services().LogService())
+	//材质
+	for i := 0; i < len(param.Materials); i++ {
+		param.Materials[i].Multi(lang, config.Services().TranslateService(), config.Services().LogService())
+	}
+	//
 	err = config.Services().MerchandiseService().CreateManufacturer(&param.Title, &param.Description, param.CostPrice)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, s.NewHttpError(MerchandiseCode, MerchandiseMsg, CreateErrorCode, CreateErrorMsg))

@@ -129,7 +129,48 @@ type RequestImage struct {
 }
 
 type RequestGoods struct {
-	CostPrice float64 `json:"costPrice"`
-	Title language.Languages `json:"title"`
+	Name   language.Languages `json:"name"`
+	Title  language.Languages `json:"title"`
 	Description language.Languages `json:"description"`
+	Keywords []language.Languages  `json:"keywords"`
+	Tags     []language.Languages  `json:"tags"`
+	Origin	  language.Languages   `json:"origin"`
+	Materials []language.Languages `json:"materials"`
+	Purchase  float64			   `json:"purchase"`
+	Price	  float64			   `json:"price"`
+	NewIn     float64  			   `json:"newIn"`
+	Sale      float64 			   `json:"sale"`
+	Clearance float64			   `json:"clearance"`
+	Status    int 				   `json:"status"`
+	Rank      int 				   `json:"rank"`
+	//分类
+	Category  struct{
+		Id  string `json:"id"`
+	} `json:"category"`
+	Colors   []struct{
+		Id  string `json:"id"`
+		Rgb string `json:"rgb"`
+	} `json:"colors"`
+	Sizes    []struct{
+		Id    string `json:"id"`
+		Value string `json:"value"`
+		Group language.Languages `json:"group"`
+	} `json:"sizes"`
+	Stock    []struct{
+		ColorId string `json:"colorId"`
+		SizeId  string `json:"sizeId"`
+		Stock   int    `json:"stock"`
+	} `json:"stock"`
+	Brand     struct{
+		Id   string `json:"id"`
+		Name language.Languages `json:"name"`
+	} `json:"brand"`
+	Manufacturer struct{
+		Id   string `json:"id"`
+	} `json:"manufacturer"`
+	Images  []struct{
+		Url  string   `json:"url"`
+		Direction int `json:"direction"`
+		Sequence  int `json:"sequence"`
+	} `json:"images"`
 }

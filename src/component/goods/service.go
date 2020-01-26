@@ -40,15 +40,15 @@ func (s *Service) QueryManufacturers(status int, page int, perPage int) ([]Goods
 	return goods, total, nil
 }
 
-func (s *Service) CreateManufacturer(title *language.Languages, desc *language.Languages, costPrice float64) error {
+func (s *Service) CreateManufacturer(name *language.Languages, title *language.Languages, description *language.Languages, rank int, status int) error {
 	value := &Goods{}
 	value.Id = utils.SnowFlakeIdString()
-	value.Title = title
-	value.Detailed = desc
-	value.Status = StatusActive
-	value.CostPrice = costPrice
-	value.Expected = Expected
-	value.Price = costPrice + Expected * costPrice
+	value.Title   = title
+	value.Summary = name
+	value.Description = description
+	value.Status = status
+	value.Rank   = rank
+
 	value.CreateTime = times.Timestamp()
 	value.UpdateTime = times.Timestamp()
 	value.DeleteTime = 0
