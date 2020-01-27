@@ -1,5 +1,251 @@
 basePath: /
 definitions:
+  api.Brand:
+    properties:
+      createTime:
+        type: integer
+      deleteTime:
+        type: integer
+      id:
+        type: string
+      name:
+        $ref: '#/definitions/api.Languages'
+        type: object
+      updateTime:
+        type: integer
+    type: object
+  api.Category:
+    properties:
+      child:
+        description: 子分类
+        items:
+          type: string
+        type: array
+      createTime:
+        description: 分类创建时间
+        type: integer
+      deleteTime:
+        description: 分类删除时间
+        type: integer
+      id:
+        description: 分类标识
+        type: string
+      level:
+        description: 分类层级
+        type: integer
+      name:
+        $ref: '#/definitions/api.Languages'
+        description: 分类名称
+        type: object
+      parent:
+        description: 父分类
+        items:
+          type: string
+        type: array
+      updateTime:
+        description: 分类更新时间
+        type: integer
+    type: object
+  api.Color:
+    properties:
+      createTime:
+        type: integer
+      deleteTime:
+        type: integer
+      id:
+        type: string
+      name:
+        $ref: '#/definitions/api.Languages'
+        type: object
+      rgb:
+        type: string
+      updateTime:
+        type: integer
+    type: object
+  api.Goods:
+    properties:
+      brand:
+        $ref: '#/definitions/api.Brand'
+        description: 商品品牌
+        type: object
+      category:
+        $ref: '#/definitions/api.Category'
+        description: 商品分类
+        type: object
+      clearance:
+        description: 清仓价
+        type: number
+      colors:
+        description: 商品颜色
+        items:
+          $ref: '#/definitions/api.Color'
+        type: array
+      createTime:
+        description: 商品创建时间
+        type: integer
+      deleteTime:
+        description: 商品删除时间
+        type: integer
+      description:
+        $ref: '#/definitions/api.Languages'
+        description: 商品详细描述
+        type: object
+      id:
+        description: 商品标识
+        type: string
+      images:
+        description: 商品图片
+        items:
+          $ref: '#/definitions/api.Image'
+        type: array
+      keywords:
+        description: 商品关键字
+        items:
+          $ref: '#/definitions/api.Tag'
+        type: array
+      manufacturers:
+        $ref: '#/definitions/api.Manufacturer'
+        description: 商品生产商
+        type: object
+      material:
+        description: 商品材质
+        items:
+          $ref: '#/definitions/api.Tag'
+        type: array
+      newIn:
+        description: 新品售价
+        type: number
+      origin:
+        $ref: '#/definitions/api.Languages'
+        description: 商品产地
+        type: object
+      price:
+        description: 商品售价 P = C + E * C
+        type: number
+      purchase:
+        description: 商品进价
+        type: number
+      rank:
+        description: 商品排名
+        type: integer
+      sale:
+        description: 促销价
+        type: number
+      size:
+        description: 商品尺码
+        items:
+          $ref: '#/definitions/api.Size'
+        type: array
+      status:
+        description: 商品状态
+        type: integer
+      stock:
+        items:
+          type: '&{%!s(token.Pos=1194) %!s(*ast.FieldList=&{1200 [0xc000020ec0 0xc000020f00
+            0xc000020f40] 1320}) %!s(bool=false)}'
+        type: array
+      summary:
+        $ref: '#/definitions/api.Languages'
+        description: 商品概要描述
+        type: object
+      tags:
+        description: 商品标签
+        items:
+          $ref: '#/definitions/api.Tag'
+        type: array
+      title:
+        $ref: '#/definitions/api.Languages'
+        description: 商品标题
+        type: object
+      updateTime:
+        description: 商品更新时间
+        type: integer
+    type: object
+  api.Image:
+    properties:
+      createTime:
+        type: integer
+      deleteTime:
+        type: integer
+      direction:
+        type: string
+      id:
+        type: string
+      sequence:
+        type: string
+      updateTime:
+        type: integer
+      url:
+        type: string
+    type: object
+  api.Languages:
+    properties:
+      chinese:
+        type: string
+      english:
+        type: string
+    type: object
+  api.Manufacturer:
+    properties:
+      address:
+        $ref: '#/definitions/api.Languages'
+        description: 生产商地址
+        type: object
+      contact:
+        description: 生产商联系人
+        type: string
+      createTime:
+        description: 生产商录入记录时间
+        type: integer
+      deleteTime:
+        description: 生产商移除系统时间
+        type: integer
+      email:
+        description: 联系人邮箱
+        type: string
+      id:
+        type: string
+      name:
+        $ref: '#/definitions/api.Languages'
+        description: 生产商名称
+        type: object
+      phone:
+        description: 联系人联系电话
+        type: string
+      updateTime:
+        description: 生产商更新时间
+        type: integer
+    type: object
+  api.Size:
+    properties:
+      createTime:
+        type: integer
+      deleteTime:
+        type: integer
+      group:
+        $ref: '#/definitions/api.Languages'
+        type: object
+      id:
+        type: string
+      updateTime:
+        type: integer
+      value:
+        type: string
+    type: object
+  api.Tag:
+    properties:
+      createTime:
+        type: integer
+      deleteTime:
+        type: integer
+      id:
+        type: string
+      name:
+        $ref: '#/definitions/api.Languages'
+        type: object
+      updateTime:
+        type: integer
+    type: object
   language.Languages:
     properties:
       chinese:
@@ -55,11 +301,80 @@ definitions:
     type: object
   route.RequestGoods:
     properties:
-      costPrice:
+      brand:
+        properties:
+          id:
+            type: string
+          name:
+            $ref: '#/definitions/language.Languages'
+            type: object
+        type: object
+      category:
+        description: 分类
+        properties:
+          id:
+            type: string
+        type: object
+      clearance:
         type: number
+      colors:
+        items:
+          type: '&{%!s(token.Pos=3477) %!s(*ast.FieldList=&{3483 [0xc000506300 0xc000506340]
+            3537}) %!s(bool=false)}'
+        type: array
       description:
         $ref: '#/definitions/language.Languages'
         type: object
+      images:
+        items:
+          type: '&{%!s(token.Pos=4016) %!s(*ast.FieldList=&{4022 [0xc000506700 0xc000506740
+            0xc000506780] 4123}) %!s(bool=false)}'
+        type: array
+      keywords:
+        items:
+          $ref: '#/definitions/language.Languages'
+        type: array
+      manufacturer:
+        properties:
+          id:
+            type: string
+        type: object
+      materials:
+        items:
+          $ref: '#/definitions/language.Languages'
+        type: array
+      name:
+        $ref: '#/definitions/language.Languages'
+        type: object
+      newIn:
+        type: number
+      origin:
+        $ref: '#/definitions/language.Languages'
+        type: object
+      price:
+        type: number
+      purchase:
+        type: number
+      rank:
+        type: integer
+      sale:
+        type: number
+      sizes:
+        items:
+          type: '&{%!s(token.Pos=3567) %!s(*ast.FieldList=&{3573 [0xc0005063c0 0xc000506400
+            0xc000506440] 3675}) %!s(bool=false)}'
+        type: array
+      status:
+        type: integer
+      stock:
+        items:
+          type: '&{%!s(token.Pos=3704) %!s(*ast.FieldList=&{3710 [0xc0005064c0 0xc000506500
+            0xc000506540] 3812}) %!s(bool=false)}'
+        type: array
+      tags:
+        items:
+          $ref: '#/definitions/language.Languages'
+        type: array
       title:
         $ref: '#/definitions/language.Languages'
         type: object
@@ -533,7 +848,7 @@ paths:
       parameters:
       - description: 语言
         in: header
-        name: language
+        name: x-language
         type: string
       - description: 页码
         in: query
@@ -542,10 +857,6 @@ paths:
       - description: 每页条数
         in: query
         name: perPage
-        type: integer
-      - description: 状态
-        in: query
-        name: status
         type: integer
       produces:
       - application/json
@@ -575,14 +886,14 @@ paths:
       parameters:
       - description: 语言
         in: header
-        name: language
+        name: x-language
         type: string
       - description: CreateColor
         in: body
         name: '{}'
         required: true
         schema:
-          $ref: '#/definitions/route.RequestColor'
+          $ref: '#/definitions/api.Color'
           type: object
       produces:
       - application/json
@@ -613,7 +924,7 @@ paths:
       parameters:
       - description: 语言
         in: header
-        name: language
+        name: x-language
         type: string
       produces:
       - application/json
@@ -643,7 +954,7 @@ paths:
       parameters:
       - description: 语言
         in: header
-        name: language
+        name: x-language
         type: string
       produces:
       - application/json
@@ -673,14 +984,14 @@ paths:
       parameters:
       - description: 语言
         in: header
-        name: language
+        name: x-language
         type: string
       - description: UpdateColor
         in: body
         name: '{}'
         required: true
         schema:
-          $ref: '#/definitions/route.RequestColor'
+          $ref: '#/definitions/api.Color'
           type: object
       produces:
       - application/json
@@ -889,7 +1200,7 @@ paths:
       parameters:
       - description: 语言
         in: header
-        name: language
+        name: x-language
         type: string
       - description: 页码
         in: query
@@ -931,7 +1242,7 @@ paths:
       parameters:
       - description: 语言
         in: header
-        name: language
+        name: x-language
         type: string
       - description: CreateManufacturer
         in: body
@@ -969,7 +1280,7 @@ paths:
       parameters:
       - description: 语言
         in: header
-        name: language
+        name: x-language
         type: string
       produces:
       - application/json
@@ -999,7 +1310,7 @@ paths:
       parameters:
       - description: 语言
         in: header
-        name: language
+        name: x-language
         type: string
       produces:
       - application/json
@@ -1029,7 +1340,7 @@ paths:
       parameters:
       - description: 语言
         in: header
-        name: language
+        name: x-language
         type: string
       - description: UpdateManufacturer
         in: body
@@ -1116,7 +1427,7 @@ paths:
         name: '{}'
         required: true
         schema:
-          $ref: '#/definitions/route.RequestGoods'
+          $ref: '#/definitions/api.Goods'
           type: object
       produces:
       - application/json
@@ -1234,7 +1545,7 @@ paths:
       parameters:
       - description: 语言
         in: header
-        name: language
+        name: x-language
         type: string
       - description: 页码
         in: query
@@ -1248,6 +1559,10 @@ paths:
         in: query
         name: status
         type: integer
+      - description: 组
+        in: query
+        name: group
+        type: string
       produces:
       - application/json
       responses:
@@ -1276,7 +1591,7 @@ paths:
       parameters:
       - description: 语言
         in: header
-        name: language
+        name: x-language
         type: string
       - description: CreateSize
         in: body
@@ -1314,7 +1629,7 @@ paths:
       parameters:
       - description: 语言
         in: header
-        name: language
+        name: x-language
         type: string
       produces:
       - application/json
@@ -1344,7 +1659,7 @@ paths:
       parameters:
       - description: 语言
         in: header
-        name: language
+        name: x-language
         type: string
       produces:
       - application/json
@@ -1374,7 +1689,7 @@ paths:
       parameters:
       - description: 语言
         in: header
-        name: language
+        name: x-language
         type: string
       - description: UpdateSize
         in: body

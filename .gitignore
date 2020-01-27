@@ -5,3 +5,6 @@ pkg
 *.log
 bin/*
 images/*
+etc/*
+upload/*
+src/*

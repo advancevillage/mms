@@ -592,7 +592,7 @@
                     {
                         "type": "string",
                         "description": "语言",
-                        "name": "language",
+                        "name": "x-language",
                         "in": "header"
                     },
                     {
@@ -605,12 +605,6 @@
                         "type": "integer",
                         "description": "每页条数",
                         "name": "perPage",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "状态",
-                        "name": "status",
                         "in": "query"
                     }
                 ],
@@ -654,7 +648,7 @@
                     {
                         "type": "string",
                         "description": "语言",
-                        "name": "language",
+                        "name": "x-language",
                         "in": "header"
                     },
                     {
@@ -664,7 +658,7 @@
                         "required": true,
                         "schema": {
                             "type": "object",
-                            "$ref": "#/definitions/route.RequestColor"
+                            "$ref": "#/definitions/api.Color"
                         }
                     }
                 ],
@@ -710,7 +704,7 @@
                     {
                         "type": "string",
                         "description": "语言",
-                        "name": "language",
+                        "name": "x-language",
                         "in": "header"
                     }
                 ],
@@ -754,7 +748,7 @@
                     {
                         "type": "string",
                         "description": "语言",
-                        "name": "language",
+                        "name": "x-language",
                         "in": "header"
                     },
                     {
@@ -764,7 +758,7 @@
                         "required": true,
                         "schema": {
                             "type": "object",
-                            "$ref": "#/definitions/route.RequestColor"
+                            "$ref": "#/definitions/api.Color"
                         }
                     }
                 ],
@@ -808,7 +802,7 @@
                     {
                         "type": "string",
                         "description": "语言",
-                        "name": "language",
+                        "name": "x-language",
                         "in": "header"
                     }
                 ],
@@ -1116,7 +1110,7 @@
                     {
                         "type": "string",
                         "description": "语言",
-                        "name": "language",
+                        "name": "x-language",
                         "in": "header"
                     },
                     {
@@ -1178,7 +1172,7 @@
                     {
                         "type": "string",
                         "description": "语言",
-                        "name": "language",
+                        "name": "x-language",
                         "in": "header"
                     },
                     {
@@ -1234,7 +1228,7 @@
                     {
                         "type": "string",
                         "description": "语言",
-                        "name": "language",
+                        "name": "x-language",
                         "in": "header"
                     }
                 ],
@@ -1278,7 +1272,7 @@
                     {
                         "type": "string",
                         "description": "语言",
-                        "name": "language",
+                        "name": "x-language",
                         "in": "header"
                     },
                     {
@@ -1332,7 +1326,7 @@
                     {
                         "type": "string",
                         "description": "语言",
-                        "name": "language",
+                        "name": "x-language",
                         "in": "header"
                     }
                 ],
@@ -1450,7 +1444,7 @@
                         "required": true,
                         "schema": {
                             "type": "object",
-                            "$ref": "#/definitions/route.RequestGoods"
+                            "$ref": "#/definitions/api.Goods"
                         }
                     }
                 ],
@@ -1624,7 +1618,7 @@
                     {
                         "type": "string",
                         "description": "语言",
-                        "name": "language",
+                        "name": "x-language",
                         "in": "header"
                     },
                     {
@@ -1643,6 +1637,12 @@
                         "type": "integer",
                         "description": "状态",
                         "name": "status",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "组",
+                        "name": "group",
                         "in": "query"
                     }
                 ],
@@ -1686,7 +1686,7 @@
                     {
                         "type": "string",
                         "description": "语言",
-                        "name": "language",
+                        "name": "x-language",
                         "in": "header"
                     },
                     {
@@ -1742,7 +1742,7 @@
                     {
                         "type": "string",
                         "description": "语言",
-                        "name": "language",
+                        "name": "x-language",
                         "in": "header"
                     }
                 ],
@@ -1786,7 +1786,7 @@
                     {
                         "type": "string",
                         "description": "语言",
-                        "name": "language",
+                        "name": "x-language",
                         "in": "header"
                     },
                     {
@@ -1840,7 +1840,7 @@
                     {
                         "type": "string",
                         "description": "语言",
-                        "name": "language",
+                        "name": "x-language",
                         "in": "header"
                     }
                 ],
@@ -2402,6 +2402,351 @@
         }
     },
     "definitions": {
+        "api.Brand": {
+            "type": "object",
+            "properties": {
+                "createTime": {
+                    "type": "integer"
+                },
+                "deleteTime": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "object",
+                    "$ref": "#/definitions/api.Languages"
+                },
+                "updateTime": {
+                    "type": "integer"
+                }
+            }
+        },
+        "api.Category": {
+            "type": "object",
+            "properties": {
+                "child": {
+                    "description": "子分类",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "createTime": {
+                    "description": "分类创建时间",
+                    "type": "integer"
+                },
+                "deleteTime": {
+                    "description": "分类删除时间",
+                    "type": "integer"
+                },
+                "id": {
+                    "description": "分类标识",
+                    "type": "string"
+                },
+                "level": {
+                    "description": "分类层级",
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "分类名称",
+                    "type": "object",
+                    "$ref": "#/definitions/api.Languages"
+                },
+                "parent": {
+                    "description": "父分类",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "updateTime": {
+                    "description": "分类更新时间",
+                    "type": "integer"
+                }
+            }
+        },
+        "api.Color": {
+            "type": "object",
+            "properties": {
+                "createTime": {
+                    "type": "integer"
+                },
+                "deleteTime": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "object",
+                    "$ref": "#/definitions/api.Languages"
+                },
+                "rgb": {
+                    "type": "string"
+                },
+                "updateTime": {
+                    "type": "integer"
+                }
+            }
+        },
+        "api.Goods": {
+            "type": "object",
+            "properties": {
+                "brand": {
+                    "description": "商品品牌",
+                    "type": "object",
+                    "$ref": "#/definitions/api.Brand"
+                },
+                "category": {
+                    "description": "商品分类",
+                    "type": "object",
+                    "$ref": "#/definitions/api.Category"
+                },
+                "clearance": {
+                    "description": "清仓价",
+                    "type": "number"
+                },
+                "colors": {
+                    "description": "商品颜色",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/api.Color"
+                    }
+                },
+                "createTime": {
+                    "description": "商品创建时间",
+                    "type": "integer"
+                },
+                "deleteTime": {
+                    "description": "商品删除时间",
+                    "type": "integer"
+                },
+                "description": {
+                    "description": "商品详细描述",
+                    "type": "object",
+                    "$ref": "#/definitions/api.Languages"
+                },
+                "id": {
+                    "description": "商品标识",
+                    "type": "string"
+                },
+                "images": {
+                    "description": "商品图片",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/api.Image"
+                    }
+                },
+                "keywords": {
+                    "description": "商品关键字",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/api.Tag"
+                    }
+                },
+                "manufacturers": {
+                    "description": "商品生产商",
+                    "type": "object",
+                    "$ref": "#/definitions/api.Manufacturer"
+                },
+                "material": {
+                    "description": "商品材质",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/api.Tag"
+                    }
+                },
+                "newIn": {
+                    "description": "新品售价",
+                    "type": "number"
+                },
+                "origin": {
+                    "description": "商品产地",
+                    "type": "object",
+                    "$ref": "#/definitions/api.Languages"
+                },
+                "price": {
+                    "description": "商品售价 P = C + E * C",
+                    "type": "number"
+                },
+                "purchase": {
+                    "description": "商品进价",
+                    "type": "number"
+                },
+                "rank": {
+                    "description": "商品排名",
+                    "type": "integer"
+                },
+                "sale": {
+                    "description": "促销价",
+                    "type": "number"
+                },
+                "size": {
+                    "description": "商品尺码",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/api.Size"
+                    }
+                },
+                "status": {
+                    "description": "商品状态",
+                    "type": "integer"
+                },
+                "stock": {
+                    "type": "array",
+                    "items": {
+                        "type": "\u0026{%!s(token.Pos=1194) %!s(*ast.FieldList=\u0026{1200 [0xc000020ec0 0xc000020f00 0xc000020f40] 1320}) %!s(bool=false)}"
+                    }
+                },
+                "summary": {
+                    "description": "商品概要描述",
+                    "type": "object",
+                    "$ref": "#/definitions/api.Languages"
+                },
+                "tags": {
+                    "description": "商品标签",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/api.Tag"
+                    }
+                },
+                "title": {
+                    "description": "商品标题",
+                    "type": "object",
+                    "$ref": "#/definitions/api.Languages"
+                },
+                "updateTime": {
+                    "description": "商品更新时间",
+                    "type": "integer"
+                }
+            }
+        },
+        "api.Image": {
+            "type": "object",
+            "properties": {
+                "createTime": {
+                    "type": "integer"
+                },
+                "deleteTime": {
+                    "type": "integer"
+                },
+                "direction": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "sequence": {
+                    "type": "string"
+                },
+                "updateTime": {
+                    "type": "integer"
+                },
+                "url": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.Languages": {
+            "type": "object",
+            "properties": {
+                "chinese": {
+                    "type": "string"
+                },
+                "english": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.Manufacturer": {
+            "type": "object",
+            "properties": {
+                "address": {
+                    "description": "生产商地址",
+                    "type": "object",
+                    "$ref": "#/definitions/api.Languages"
+                },
+                "contact": {
+                    "description": "生产商联系人",
+                    "type": "string"
+                },
+                "createTime": {
+                    "description": "生产商录入记录时间",
+                    "type": "integer"
+                },
+                "deleteTime": {
+                    "description": "生产商移除系统时间",
+                    "type": "integer"
+                },
+                "email": {
+                    "description": "联系人邮箱",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "description": "生产商名称",
+                    "type": "object",
+                    "$ref": "#/definitions/api.Languages"
+                },
+                "phone": {
+                    "description": "联系人联系电话",
+                    "type": "string"
+                },
+                "updateTime": {
+                    "description": "生产商更新时间",
+                    "type": "integer"
+                }
+            }
+        },
+        "api.Size": {
+            "type": "object",
+            "properties": {
+                "createTime": {
+                    "type": "integer"
+                },
+                "deleteTime": {
+                    "type": "integer"
+                },
+                "group": {
+                    "type": "object",
+                    "$ref": "#/definitions/api.Languages"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "updateTime": {
+                    "type": "integer"
+                },
+                "value": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.Tag": {
+            "type": "object",
+            "properties": {
+                "createTime": {
+                    "type": "integer"
+                },
+                "deleteTime": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "object",
+                    "$ref": "#/definitions/api.Languages"
+                },
+                "updateTime": {
+                    "type": "integer"
+                }
+            }
+        },
         "language.Languages": {
             "type": "object",
             "properties": {
@@ -2486,12 +2831,109 @@
         "route.RequestGoods": {
             "type": "object",
             "properties": {
-                "costPrice": {
+                "brand": {
+                    "type": "object",
+                    "properties": {
+                        "id": {
+                            "type": "string"
+                        },
+                        "name": {
+                            "type": "object",
+                            "$ref": "#/definitions/language.Languages"
+                        }
+                    }
+                },
+                "category": {
+                    "description": "分类",
+                    "type": "object",
+                    "properties": {
+                        "id": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "clearance": {
                     "type": "number"
+                },
+                "colors": {
+                    "type": "array",
+                    "items": {
+                        "type": "\u0026{%!s(token.Pos=3477) %!s(*ast.FieldList=\u0026{3483 [0xc000506300 0xc000506340] 3537}) %!s(bool=false)}"
+                    }
                 },
                 "description": {
                     "type": "object",
                     "$ref": "#/definitions/language.Languages"
+                },
+                "images": {
+                    "type": "array",
+                    "items": {
+                        "type": "\u0026{%!s(token.Pos=4016) %!s(*ast.FieldList=\u0026{4022 [0xc000506700 0xc000506740 0xc000506780] 4123}) %!s(bool=false)}"
+                    }
+                },
+                "keywords": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/language.Languages"
+                    }
+                },
+                "manufacturer": {
+                    "type": "object",
+                    "properties": {
+                        "id": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "materials": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/language.Languages"
+                    }
+                },
+                "name": {
+                    "type": "object",
+                    "$ref": "#/definitions/language.Languages"
+                },
+                "newIn": {
+                    "type": "number"
+                },
+                "origin": {
+                    "type": "object",
+                    "$ref": "#/definitions/language.Languages"
+                },
+                "price": {
+                    "type": "number"
+                },
+                "purchase": {
+                    "type": "number"
+                },
+                "rank": {
+                    "type": "integer"
+                },
+                "sale": {
+                    "type": "number"
+                },
+                "sizes": {
+                    "type": "array",
+                    "items": {
+                        "type": "\u0026{%!s(token.Pos=3567) %!s(*ast.FieldList=\u0026{3573 [0xc0005063c0 0xc000506400 0xc000506440] 3675}) %!s(bool=false)}"
+                    }
+                },
+                "status": {
+                    "type": "integer"
+                },
+                "stock": {
+                    "type": "array",
+                    "items": {
+                        "type": "\u0026{%!s(token.Pos=3704) %!s(*ast.FieldList=\u0026{3710 [0xc0005064c0 0xc000506500 0xc000506540] 3812}) %!s(bool=false)}"
+                    }
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/language.Languages"
+                    }
                 },
                 "title": {
                     "type": "object",
