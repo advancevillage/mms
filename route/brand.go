@@ -12,10 +12,10 @@ import (
 //@Produce json
 //@Param x-language header string false "语言" default "chinese"
 //@Param {} body api.Brand true "CreateBrand"
-//@Success 200 {object} route.HttpOk
-//@Failure 400 {object} route.HttpError
-//@Failure 404 {object} route.HttpError
-//@Failure 500 {object} route.HttpError
+//@Success 200 {object} route.httpOk
+//@Failure 400 {object} route.httpError
+//@Failure 404 {object} route.httpError
+//@Failure 500 {object} route.httpError
 //@Router /v1/brands [post]
 func (s *Service) CreateBrand(ctx *https.Context) {
 	lang := s.language(ctx)
@@ -50,10 +50,10 @@ func (s *Service) CreateBrand(ctx *https.Context) {
 //@Param page    query int false "页码" default "0"
 //@Param perPage query int false "每页条数" default "20"
 //@Param status  query int false "状态"
-//@Success 200 {object} route.HttpOk
-//@Failure 400 {object} route.HttpError
-//@Failure 404 {object} route.HttpError
-//@Failure 500 {object} route.HttpError
+//@Success 200 {object} route.httpOk
+//@Failure 400 {object} route.httpError
+//@Failure 404 {object} route.httpError
+//@Failure 500 {object} route.httpError
 //@Router /v1/brands [get]
 func (s *Service) QueryBrands(ctx *https.Context) {
 	page    := s.page(ctx)
@@ -69,10 +69,10 @@ func (s *Service) QueryBrands(ctx *https.Context) {
 //@Summary 查询品牌
 //@Produce json
 //@Param x-language header string false "语言" default "chinese"
-//@Success 200 {object} route.HttpOk
-//@Failure 400 {object} route.HttpError
-//@Failure 404 {object} route.HttpError
-//@Failure 500 {object} route.HttpError
+//@Success 200 {object} route.httpOk
+//@Failure 400 {object} route.httpError
+//@Failure 404 {object} route.httpError
+//@Failure 500 {object} route.httpError
 //@Router /v1/brands/{pathId} [get]
 func (s *Service) QueryBrand(ctx *https.Context) {
 	brandId, err := s.pathId(ctx)
@@ -92,10 +92,10 @@ func (s *Service) QueryBrand(ctx *https.Context) {
 //@Produce json
 //@Param x-language header string false "语言" default "chinese"
 //@Param {} body api.Brand true "UpdateBrand"
-//@Success 200 {object} route.HttpOk
-//@Failure 400 {object} route.HttpError
-//@Failure 404 {object} route.HttpError
-//@Failure 500 {object} route.HttpError
+//@Success 200 {object} route.httpOk
+//@Failure 400 {object} route.httpError
+//@Failure 404 {object} route.httpError
+//@Failure 500 {object} route.httpError
 //@Router /v1/brands/{pathId} [put]
 func (s *Service) UpdateBrand(ctx *https.Context) {
 	body, err := s.body(ctx)
@@ -126,10 +126,10 @@ func (s *Service) UpdateBrand(ctx *https.Context) {
 //@Summary 删除品牌
 //@Produce json
 //@Param x-language header string false "语言" default "chinese"
-//@Success 200 {object} route.HttpOk
-//@Failure 400 {object} route.HttpError
-//@Failure 404 {object} route.HttpError
-//@Failure 500 {object} route.HttpError
+//@Success 200 {object} route.httpOk
+//@Failure 400 {object} route.httpError
+//@Failure 404 {object} route.httpError
+//@Failure 500 {object} route.httpError
 //@Router /v1/brands/{pathId} [delete]
 func (s *Service) DeleteBrand(ctx *https.Context) {
 	brandId, err := s.pathId(ctx)

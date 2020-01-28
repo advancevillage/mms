@@ -15,20 +15,14 @@ import (
 
 const (
 	//商品 merchandise
-	MerchandiseCode = 1000
-	MerchandiseMsg  = "merchandise"
+	GoodsCode = 1000
+	GoodsMsg  = "goods"
 	//品牌 brands
 	BrandCode = 1100
 	BrandMsg  = "brand"
 	//尺码 sizes
 	SizeCode  = 1200
 	SizeMsg   = "size"
-	//款式 styles
-	StyleCode = 1300
-	StyleMsg  = "style"
-	//标签 tags
-	TagCode   = 1400
-	TagMsg    = "tag"
 	//颜色 color
 	ColorCode = 1500
 	ColorMsg  = "color"

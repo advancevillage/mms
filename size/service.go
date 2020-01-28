@@ -2,6 +2,7 @@
 package size
 
 import (
+	"errors"
 	"fmt"
 	"github.com/advancevillage/3rd/logs"
 	"github.com/advancevillage/3rd/storages"
@@ -37,6 +38,14 @@ func (s *Service) QuerySizes(page int, perPage int, group string, lang string) (
 }
 
 func (s *Service) CreateSize(value *api.Size) error {
+	if value == nil {
+		return errors.New("size is nil")
+	}
+
+	if len(value.Value) <= 0 {
+		return errors.New("value is empty")
+	}
+
 	value.Id = utils.SnowFlakeIdString()
 	value.CreateTime = times.Timestamp()
 	value.UpdateTime = times.Timestamp()

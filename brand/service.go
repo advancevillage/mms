@@ -2,6 +2,7 @@
 package brand
 
 import (
+	"errors"
 	"github.com/advancevillage/3rd/logs"
 	"github.com/advancevillage/3rd/storages"
 	"github.com/advancevillage/3rd/times"
@@ -35,6 +36,10 @@ func (s *Service) QueryBrands(page int, perPage int) ([]api.Brand, int64, error)
 }
 
 func (s *Service) CreateBrand(value *api.Brand) error {
+	if value == nil {
+		return  errors.New("brand is nil")
+	}
+
 	value.Id = utils.SnowFlakeIdString()
 	value.CreateTime = times.Timestamp()
 	value.UpdateTime = times.Timestamp()

@@ -12,10 +12,10 @@ import (
 //@Produce json
 //@Param x-language header string false "语言" default "chinese"
 //@Param {} body api.Image true "CreateImage"
-//@Success 200 {object} route.HttpOk
-//@Failure 400 {object} route.HttpError
-//@Failure 404 {object} route.HttpError
-//@Failure 500 {object} route.HttpError
+//@Success 200 {object} route.httpOk
+//@Failure 400 {object} route.httpError
+//@Failure 404 {object} route.httpError
+//@Failure 500 {object} route.httpError
 //@Router /v1/images [post]
 func (s *Service) UploadImage(ctx *https.Context) {
 	filename := utils.SnowFlakeIdString() + utils.RandsNumberString(4)

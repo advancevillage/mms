@@ -12,10 +12,10 @@ import (
 //@Produce json
 //@Param x-language header string false "语言" default "chinese"
 //@Param {} body api.Color true "CreateColor"
-//@Success 200 {object} route.HttpOk
-//@Failure 400 {object} route.HttpError
-//@Failure 404 {object} route.HttpError
-//@Failure 500 {object} route.HttpError
+//@Success 200 {object} route.httpOk
+//@Failure 400 {object} route.httpError
+//@Failure 404 {object} route.httpError
+//@Failure 500 {object} route.httpError
 //@Router /v1/colors [post]
 func (s *Service) CreateColor(ctx *https.Context) {
 	lang := s.language(ctx)
@@ -49,10 +49,10 @@ func (s *Service) CreateColor(ctx *https.Context) {
 //@Param x-language header string false "语言" default "chinese"
 //@Param page    query int false "页码" default "0"
 //@Param perPage query int false "每页条数" default "20"
-//@Success 200 {object} route.HttpOk
-//@Failure 400 {object} route.HttpError
-//@Failure 404 {object} route.HttpError
-//@Failure 500 {object} route.HttpError
+//@Success 200 {object} route.httpOk
+//@Failure 400 {object} route.httpError
+//@Failure 404 {object} route.httpError
+//@Failure 500 {object} route.httpError
 //@Router /v1/colors [get]
 func (s *Service) QueryColors(ctx *https.Context) {
 	page    := s.page(ctx)
@@ -68,10 +68,10 @@ func (s *Service) QueryColors(ctx *https.Context) {
 //@Summary 查询颜色
 //@Produce json
 //@Param x-language header string false "语言" default "chinese"
-//@Success 200 {object} route.HttpOk
-//@Failure 400 {object} route.HttpError
-//@Failure 404 {object} route.HttpError
-//@Failure 500 {object} route.HttpError
+//@Success 200 {object} route.httpOk
+//@Failure 400 {object} route.httpError
+//@Failure 404 {object} route.httpError
+//@Failure 500 {object} route.httpError
 //@Router /v1/colors/{pathId} [get]
 func (s *Service) QueryColor(ctx *https.Context) {
 	colorId, err := s.pathId(ctx)
@@ -91,10 +91,10 @@ func (s *Service) QueryColor(ctx *https.Context) {
 //@Produce json
 //@Param x-language header string false "语言" default "chinese"
 //@Param {} body api.Color true "UpdateColor"
-//@Success 200 {object} route.HttpOk
-//@Failure 400 {object} route.HttpError
-//@Failure 404 {object} route.HttpError
-//@Failure 500 {object} route.HttpError
+//@Success 200 {object} route.httpOk
+//@Failure 400 {object} route.httpError
+//@Failure 404 {object} route.httpError
+//@Failure 500 {object} route.httpError
 //@Router /v1/colors/{pathId} [put]
 func (s *Service) UpdateColor(ctx *https.Context) {
 	body, err := s.body(ctx)
@@ -125,10 +125,10 @@ func (s *Service) UpdateColor(ctx *https.Context) {
 //@Summary 删除颜色
 //@Produce json
 //@Param x-language header string false "语言" default "chinese"
-//@Success 200 {object} route.HttpOk
-//@Failure 400 {object} route.HttpError
-//@Failure 404 {object} route.HttpError
-//@Failure 500 {object} route.HttpError
+//@Success 200 {object} route.httpOk
+//@Failure 400 {object} route.httpError
+//@Failure 404 {object} route.httpError
+//@Failure 500 {object} route.httpError
 //@Router /v1/colors/{pathId} [delete]
 func (s *Service) DeleteColor(ctx *https.Context) {
 	colorId, err := s.pathId(ctx)

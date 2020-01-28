@@ -2,6 +2,7 @@
 package manufacturer
 
 import (
+	"errors"
 	"github.com/advancevillage/3rd/logs"
 	"github.com/advancevillage/3rd/storages"
 	"github.com/advancevillage/3rd/times"
@@ -35,6 +36,9 @@ func (s *Service) QueryManufacturers(page int, perPage int) ([]api.Manufacturer,
 }
 
 func (s *Service) CreateManufacturer(value *api.Manufacturer) error {
+	if value == nil {
+		return errors.New("manufacturer is nil")
+	}
 	value.Id = utils.SnowFlakeIdString()
 	value.CreateTime = times.Timestamp()
 	value.UpdateTime = times.Timestamp()

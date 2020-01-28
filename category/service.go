@@ -2,6 +2,7 @@
 package category
 
 import (
+	"errors"
 	"github.com/advancevillage/3rd/logs"
 	"github.com/advancevillage/3rd/storages"
 	"github.com/advancevillage/3rd/times"
@@ -54,14 +55,58 @@ func (s *Service) QueryChildCategories(id string) ([]api.Category, error) {
 }
 
 func (s *Service) CreateCategory(value *api.Category) error {
+	//业务逻辑校验
+	if value == nil {
+		return errors.New("category is nil")
+	}
+
 	value.Id = utils.SnowFlakeIdString()
 	value.CreateTime = times.Timestamp()
 	value.UpdateTime = times.Timestamp()
 	value.DeleteTime = 0
+
+	parents := make([]*api.Category, 0, len(value.Child))
+	for i := 0; i < len(value.Child); i++ {
+		id := value.Child[i]
+		child, err := s.QueryCategoryById(id)
+		if err != nil {
+			continue
+		} else {
+			child.Parent = append(child.Parent, value.Id)
+			parents = append(parents, child)
+		}
+	}
+
+	children := make([]*api.Category, 0, len(value.Parent))
+	for i := 0; i < len(value.Parent); i++ {
+		id := value.Parent[i]
+		parent, err := s.QueryCategoryById(id)
+		if err != nil {
+			continue
+		} else {
+			parent.Child = append(parent.Child, value.Id)
+			children = append(children, parent)
+		}
+	}
+
 	err := s.repo.CreateCategory(value)
 	if err != nil {
 		s.logger.Error(err.Error())
 		return err
+	}
+
+	for i := 0; i < len(parents); i++ {
+		err = s.UpdateCategory(parents[i])
+		if err != nil {
+			s.logger.Error(err.Error())
+		}
+	}
+
+	for i := 0; i < len(children); i++ {
+		err = s.UpdateCategory(children[i])
+		if err != nil {
+			s.logger.Error(err.Error())
+		}
 	}
 
 	return nil
@@ -73,7 +118,10 @@ func (s *Service) UpdateCategory(category *api.Category) error {
 		s.logger.Error(err.Error())
 		return err
 	}
-	value.Name = category.Name
+	value.Name   = category.Name
+	value.Child  = category.Child
+	value.Parent = category.Parent
+	value.Level  = category.Level
 	value.UpdateTime   = times.Timestamp()
 	err = s.repo.UpdateCategory(value)
 	if err != nil {

@@ -12,10 +12,10 @@ import (
 //@Produce json
 //@Param x-language header string false "语言" default "chinese"
 //@Param {} body api.Category true "CreateCategory"
-//@Success 200 {object} route.HttpOk
-//@Failure 400 {object} route.HttpError
-//@Failure 404 {object} route.HttpError
-//@Failure 500 {object} route.HttpError
+//@Success 200 {object} route.httpOk
+//@Failure 400 {object} route.httpError
+//@Failure 404 {object} route.httpError
+//@Failure 500 {object} route.httpError
 //@Router /v1/categories [post]
 func (s *Service) CreateCategory(ctx *https.Context) {
 	lang := s.language(ctx)
@@ -32,6 +32,9 @@ func (s *Service) CreateCategory(ctx *https.Context) {
 	}
 
 	err = s.langService.I18n(param.Name, lang)
+	if err != nil {
+		s.configService.Logger.Warning(err.Error())
+	}
 
 	err = s.categoryService.CreateCategory(&param)
 	if err != nil {
@@ -48,10 +51,10 @@ func (s *Service) CreateCategory(ctx *https.Context) {
 //@Param perPage query int false "每页条数" default "20"
 //@Param status  query int false "状态"
 //@Param level   query int false "层级" default "1"
-//@Success 200 {object} route.HttpOk
-//@Failure 400 {object} route.HttpError
-//@Failure 404 {object} route.HttpError
-//@Failure 500 {object} route.HttpError
+//@Success 200 {object} route.httpOk
+//@Failure 400 {object} route.httpError
+//@Failure 404 {object} route.httpError
+//@Failure 500 {object} route.httpError
 //@Router /v1/categories [get]
 func (s *Service) QueryCategories(ctx *https.Context) {
 	page    := s.page(ctx)
@@ -72,10 +75,10 @@ func (s *Service) QueryCategories(ctx *https.Context) {
 //@Param perPage query int false "每页条数" default "20"
 //@Param status  query int false "状态"
 //@Param level   query int false "层级" default "1"
-//@Success 200 {object} route.HttpOk
-//@Failure 400 {object} route.HttpError
-//@Failure 404 {object} route.HttpError
-//@Failure 500 {object} route.HttpError
+//@Success 200 {object} route.httpOk
+//@Failure 400 {object} route.httpError
+//@Failure 404 {object} route.httpError
+//@Failure 500 {object} route.httpError
 //@Router /v1/categories/{pathId}/categories [get]
 func (s *Service) QueryChildCategories(ctx *https.Context) {
 	categoryId, err := s.pathId(ctx)
@@ -90,10 +93,10 @@ func (s *Service) QueryChildCategories(ctx *https.Context) {
 //@Summary 查询分类
 //@Produce json
 //@Param x-language header string false "语言" default "chinese"
-//@Success 200 {object} route.HttpOk
-//@Failure 400 {object} route.HttpError
-//@Failure 404 {object} route.HttpError
-//@Failure 500 {object} route.HttpError
+//@Success 200 {object} route.httpOk
+//@Failure 400 {object} route.httpError
+//@Failure 404 {object} route.httpError
+//@Failure 500 {object} route.httpError
 //@Router /v1/categories/{pathId} [get]
 func (s *Service) QueryCategory(ctx *https.Context) {
 	categoryId, err := s.pathId(ctx)
@@ -112,11 +115,11 @@ func (s *Service) QueryCategory(ctx *https.Context) {
 //@Summary 更新分类
 //@Produce json
 //@Param x-language header string false "语言" default "chinese"
-//@Param {} body route.RequestCategory true "UpdateCategory"
-//@Success 200 {object} route.HttpOk
-//@Failure 400 {object} route.HttpError
-//@Failure 404 {object} route.HttpError
-//@Failure 500 {object} route.HttpError
+//@Param {} body api.Category true "UpdateCategory"
+//@Success 200 {object} route.httpOk
+//@Failure 400 {object} route.httpError
+//@Failure 404 {object} route.httpError
+//@Failure 500 {object} route.httpError
 //@Router /v1/categories/{pathId} [put]
 func (s *Service) UpdateCategory(ctx *https.Context) {
 	body, err := s.body(ctx)
@@ -147,10 +150,10 @@ func (s *Service) UpdateCategory(ctx *https.Context) {
 //@Summary 删除分类
 //@Produce json
 //@Param x-language header string false "语言" default "chinese"
-//@Success 200 {object} route.HttpOk
-//@Failure 400 {object} route.HttpError
-//@Failure 404 {object} route.HttpError
-//@Failure 500 {object} route.HttpError
+//@Success 200 {object} route.httpOk
+//@Failure 400 {object} route.httpError
+//@Failure 404 {object} route.httpError
+//@Failure 500 {object} route.httpError
 //@Router /v1/categories/{pathId} [delete]
 func (s *Service) DeleteCategory(ctx *https.Context) {
 	categoryId, err := s.pathId(ctx)

@@ -2,6 +2,7 @@
 package color
 
 import (
+	"errors"
 	"github.com/advancevillage/3rd/logs"
 	"github.com/advancevillage/3rd/storages"
 	"github.com/advancevillage/3rd/times"
@@ -15,6 +16,14 @@ func NewService(storage storages.Storage, logger logs.Logs) *Service {
 
 //业务校验
 func (s *Service) CreateColor(value *api.Color) error {
+	if value == nil {
+		return errors.New("color is nil")
+	}
+
+	if len(value.RGB) == 0 {
+		return errors.New("rgb is empty")
+	}
+
 	value.Id = utils.SnowFlakeIdString()
 	value.CreateTime = times.Timestamp()
 	value.UpdateTime = times.Timestamp()

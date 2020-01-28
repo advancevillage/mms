@@ -11,11 +11,11 @@ import (
 //@Summary 新增生产商
 //@Produce json
 //@Param x-language header string false "语言" default "chinese"
-//@Param {} body route.RequestManufacturer true "CreateManufacturer"
-//@Success 200 {object} route.HttpOk
-//@Failure 400 {object} route.HttpError
-//@Failure 404 {object} route.HttpError
-//@Failure 500 {object} route.HttpError
+//@Param {} body api.Manufacturer true "CreateManufacturer"
+//@Success 200 {object} route.httpOk
+//@Failure 400 {object} route.httpError
+//@Failure 404 {object} route.httpError
+//@Failure 500 {object} route.httpError
 //@Router /v1/manufacturers [post]
 func (s *Service) CreateManufacturer(ctx *https.Context) {
 	lang := s.language(ctx)
@@ -55,10 +55,10 @@ func (s *Service) CreateManufacturer(ctx *https.Context) {
 //@Param page    query int false "页码" default "0"
 //@Param perPage query int false "每页条数" default "20"
 //@Param status  query int false "状态"
-//@Success 200 {object} route.HttpOk
-//@Failure 400 {object} route.HttpError
-//@Failure 404 {object} route.HttpError
-//@Failure 500 {object} route.HttpError
+//@Success 200 {object} route.httpOk
+//@Failure 400 {object} route.httpError
+//@Failure 404 {object} route.httpError
+//@Failure 500 {object} route.httpError
 //@Router /v1/manufacturers [get]
 func (s *Service) QueryManufacturers(ctx *https.Context) {
 	page    := s.page(ctx)
@@ -74,10 +74,10 @@ func (s *Service) QueryManufacturers(ctx *https.Context) {
 //@Summary 查询生产商
 //@Produce json
 //@Param x-language header string false "语言" default "chinese"
-//@Success 200 {object} route.HttpOk
-//@Failure 400 {object} route.HttpError
-//@Failure 404 {object} route.HttpError
-//@Failure 500 {object} route.HttpError
+//@Success 200 {object} route.httpOk
+//@Failure 400 {object} route.httpError
+//@Failure 404 {object} route.httpError
+//@Failure 500 {object} route.httpError
 //@Router /v1/manufacturers/{pathId} [get]
 func (s *Service) QueryManufacturer(ctx *https.Context) {
 	manufacturerId, err := s.pathId(ctx)
@@ -96,11 +96,11 @@ func (s *Service) QueryManufacturer(ctx *https.Context) {
 //@Summary 更新生产商
 //@Produce json
 //@Param x-language header string false "语言" default "chinese"
-//@Param {} body route.RequestManufacturer true "UpdateManufacturer"
-//@Success 200 {object} route.HttpOk
-//@Failure 400 {object} route.HttpError
-//@Failure 404 {object} route.HttpError
-//@Failure 500 {object} route.HttpError
+//@Param {} body api.Manufacturer true "UpdateManufacturer"
+//@Success 200 {object} route.httpOk
+//@Failure 400 {object} route.httpError
+//@Failure 404 {object} route.httpError
+//@Failure 500 {object} route.httpError
 //@Router /v1/manufacturers/{pathId} [put]
 func (s *Service) UpdateManufacturer(ctx *https.Context) {
 	body, err := s.body(ctx)
@@ -133,10 +133,10 @@ func (s *Service) UpdateManufacturer(ctx *https.Context) {
 //@Summary 删除生产商
 //@Produce json
 //@Param x-language header string false "语言" default "chinese"
-//@Success 200 {object} route.HttpOk
-//@Failure 400 {object} route.HttpError
-//@Failure 404 {object} route.HttpError
-//@Failure 500 {object} route.HttpError
+//@Success 200 {object} route.httpOk
+//@Failure 400 {object} route.httpError
+//@Failure 404 {object} route.httpError
+//@Failure 500 {object} route.httpError
 //@Router /v1/manufacturers/{pathId} [delete]
 func (s *Service) DeleteManufacturer(ctx *https.Context) {
 	manufacturerId, err := s.pathId(ctx)
