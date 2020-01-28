@@ -110,6 +110,10 @@ var router = func (api API) []https.Router {
 		{"DELETE", "/v1/manufacturers/:pathId", api.DeleteManufacturer},
 		{"OPTIONS", "/v1/manufacturers", api.ping},
 		{"OPTIONS", "/v1/manufacturers/:pathId", api.ping},
+		//商品
+		{"POST", "/v1/goods", api.CreateGoods},
+		{"OPTIONS", "/v1/goods", api.ping},
+		{"OPTIONS", "/v1/goods/:pathId", api.ping},
 	}
 }
 
@@ -123,6 +127,8 @@ var headers = map[string]string {
 type API interface {
 	ping(ctx *https.Context)
 	version(ctx *https.Context)
+	//goods
+	CreateGoods(ctx *https.Context)
 	//color
 	CreateColor(ctx *https.Context)
 	QueryColors(ctx *https.Context)
