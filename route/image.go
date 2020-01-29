@@ -18,9 +18,19 @@ import (
 //@Failure 500 {object} route.httpError
 //@Router /v1/images [post]
 func (s *Service) UploadImage(ctx *https.Context) {
-	filename := utils.SnowFlakeIdString() + utils.RandsNumberString(4)
-	uri := fmt.Sprintf("%s/%s/%s/%s", s.configService.Configure.Upload, filename[:2], filename[2:4], filename)
-	uri, err := ctx.Save(uri)
+	suffix := utils.SnowFlakeIdString() + utils.RandsNumberString(4)
+    length := len(suffix)
+	filename := fmt.Sprintf("%s/%s/%s/%s", s.configService.Configure.Upload, suffix[length-4:length-2], suffix[length-2:length], suffix)
+	filename, err := ctx.Save(filename)
+	for i := len(filename) - 1; i > 0; i-- {
+		if filename[i] == '/' {
+			filename = filename[i + 1:]
+			break
+		} else {
+			continue
+		}
+	}
+	uri := fmt.Sprintf("%s/%s/%s/%s", "images", suffix[length-4:length-2], suffix[length-2:length], filename)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, s.newHttpError(ImageCode, ImageMsg, CreateErrorCode, CreateErrorMsg))
 		return

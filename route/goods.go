@@ -74,3 +74,24 @@ func (s *Service) CreateGoods(ctx *https.Context) {
 	}
 	ctx.JSON(http.StatusOK, s.newHttpOk())
 }
+
+//@Summary 查询商品列表
+//@Produce json
+//@Param x-language header string false "语言" default "chinese"
+//@Param page    query int false "页码" default "0"
+//@Param perPage query int false "每页条数" default "20"
+//@Success 200 {object} route.httpOk
+//@Failure 400 {object} route.httpError
+//@Failure 404 {object} route.httpError
+//@Failure 500 {object} route.httpError
+//@Router /v1/goods [get]
+func (s *Service) QueryGoods(ctx *https.Context) {
+	page    := s.page(ctx)
+	perPage := s.perPage(ctx)
+	goods, total, err := s.goodsService.QueryGoods(page, perPage)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, s.newHttpError(ColorCode, ColorMsg, QueryErrorCode, QueryErrorMsg))
+		return
+	}
+	ctx.JSON(http.StatusOK, s.response(goods, total))
+}

@@ -10,5 +10,5 @@
 		<schema>0</schema>
 	</redis>
 	<mongo>mongodb://admin:password@localhost:27017</mongo>
-	<upload>images</upload>
+	<upload>/Users/sun/work/showyou/images</upload>
 </mms>

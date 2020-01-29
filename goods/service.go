@@ -38,3 +38,23 @@ func (s *Service) CreateGoods(g *api.Goods) error {
 
 	return nil
 }
+
+func (s *Service) QueryGoods(page int, perPage int) ([]api.Goods, int64, error) {
+	where := make(map[string]interface{})
+	sort := make(map[string]interface{})
+	sort["createTime"] = s.desc()
+	categories, total, err := s.repo.QueryGoods(where, page, perPage, sort)
+	if err != nil {
+		s.logger.Error(err.Error())
+		return nil, 0, err
+	}
+	return categories, total, nil
+}
+
+func (s *Service) asc() int {
+	return 1
+}
+
+func (s *Service) desc() int {
+	return -1
+}
