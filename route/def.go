@@ -113,7 +113,7 @@ var router = func (api API) []https.Router {
 		//商品
 		{"POST", "/v1/goods", api.CreateGoods},
 		{"GET", "/v1/goods", api.QueryGoods},
-		{"GET", "/v1/goods:pathId", api.QueryGoods},
+		{"GET", "/v1/goods/:pathId", api.QueryOneGoods},
 		{"OPTIONS", "/v1/goods", api.ping},
 		{"OPTIONS", "/v1/goods/:pathId", api.ping},
 	}
@@ -132,6 +132,7 @@ type API interface {
 	//goods
 	CreateGoods(ctx *https.Context)
 	QueryGoods (ctx *https.Context)
+	QueryOneGoods(ctx *https.Context)
 	//color
 	CreateColor(ctx *https.Context)
 	QueryColors(ctx *https.Context)
