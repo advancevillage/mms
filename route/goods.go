@@ -95,3 +95,25 @@ func (s *Service) QueryGoods(ctx *https.Context) {
 	}
 	ctx.JSON(http.StatusOK, s.response(goods, total))
 }
+
+//@Summary 查询商品
+//@Produce json
+//@Param x-language header string false "语言" default "chinese"
+//@Success 200 {object} route.httpOk
+//@Failure 400 {object} route.httpError
+//@Failure 404 {object} route.httpError
+//@Failure 500 {object} route.httpError
+//@Router /v1/goods/{pathId} [get]
+func (s *Service) QueryOneGoods(ctx *https.Context) {
+	goodsId, err := s.pathId(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, s.newHttpError(GoodsCode, GoodsMsg, IDErrorCode, IDErrorMsg))
+		return
+	}
+	goods, err := s.goodsService.QueryOneGoods(goodsId)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, s.newHttpError(GoodsCode, GoodsMsg, QueryErrorCode, QueryErrorMsg))
+		return
+	}
+	ctx.JSON(http.StatusOK, goods)
+}

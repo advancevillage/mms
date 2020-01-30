@@ -113,13 +113,14 @@ var router = func (api API) []https.Router {
 		//商品
 		{"POST", "/v1/goods", api.CreateGoods},
 		{"GET", "/v1/goods", api.QueryGoods},
+		{"GET", "/v1/goods:pathId", api.QueryGoods},
 		{"OPTIONS", "/v1/goods", api.ping},
 		{"OPTIONS", "/v1/goods/:pathId", api.ping},
 	}
 }
 
 var headers = map[string]string {
-	"Access-Control-Allow-Origin": "http://localhost:8080",
+	"Access-Control-Allow-Origin": "*",
 	"Access-Control-Allow-Methods": "OPTIONS, GET, PUT, POST, DELETE",
 	"Access-Control-Allow-Credentials": "true",
 	"Access-Control-Allow-Headers": "Content-Type, x-language",

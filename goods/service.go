@@ -39,6 +39,11 @@ func (s *Service) CreateGoods(g *api.Goods) error {
 	return nil
 }
 
+func (s *Service) QueryOneGoods(id string) (*api.Goods,error) {
+	//校验逻辑
+	return s.repo.QueryOneGoods(id)
+}
+
 func (s *Service) QueryGoods(page int, perPage int) ([]api.Goods, int64, error) {
 	where := make(map[string]interface{})
 	sort := make(map[string]interface{})
