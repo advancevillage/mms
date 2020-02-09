@@ -5,28 +5,18 @@ import (
 	"errors"
 	"fmt"
 	"github.com/advancevillage/3rd/https"
-	"mms/brand"
-	"mms/category"
-	"mms/color"
 	"mms/config"
-	"mms/goods"
 	"mms/language"
-	"mms/manufacturer"
-	"mms/size"
+	"mms/user"
 	"net/http"
 	"strconv"
 )
 
-func NewService(configService *config.Service, langService *language.Service, goodsService *goods.Service, colorService *color.Service, sizeService *size.Service, brandService *brand.Service, categoryService *category.Service, manufacturerService *manufacturer.Service) *Service {
+func NewService(configService *config.Service, langService *language.Service, userService *user.Service) *Service {
 	return &Service{
 		configService: configService,
 		langService:   langService,
-		goodsService: goodsService,
-		colorService: colorService,
-		sizeService: sizeService,
-		brandService: brandService,
-		categoryService: categoryService,
-		manufacturerService: manufacturerService,
+		userService:   userService,
 	}
 }
 
@@ -133,9 +123,33 @@ func (s *Service) level(ctx *https.Context) int {
 	return level
 }
 
-func (s *Service) group(ctx *https.Context) string {
-	value := ctx.Param("group")
+func (s *Service) username(ctx *https.Context) string {
+	value := ctx.Param("username")
 	return value
+}
+
+func (s *Service) password(ctx *https.Context) string {
+	value := ctx.Param("password")
+	return value
+}
+
+func (s *Service) token(ctx *https.Context) string {
+	value := ctx.Param("token")
+	return value
+}
+
+func (s *Service) sign(ctx *https.Context) string {
+	value := ctx.Param("sign")
+	return value
+}
+
+func (s *Service) timestamp(ctx *https.Context) int64 {
+	value := ctx.Param("timestamp")
+	timestamp, err := strconv.ParseInt(value, 10, 64)
+	if err != nil {
+		timestamp = 0
+	}
+	return timestamp
 }
 
 func (s *Service) response(items interface{}, total int64) interface{} {

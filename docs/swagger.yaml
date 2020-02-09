@@ -1,166 +1,5 @@
 basePath: /
 definitions:
-  api.Brand:
-    properties:
-      createTime:
-        type: integer
-      deleteTime:
-        type: integer
-      id:
-        type: string
-      name:
-        $ref: '#/definitions/api.Languages'
-        type: object
-      updateTime:
-        type: integer
-    type: object
-  api.Category:
-    properties:
-      child:
-        description: 子分类
-        items:
-          type: string
-        type: array
-      createTime:
-        description: 分类创建时间
-        type: integer
-      deleteTime:
-        description: 分类删除时间
-        type: integer
-      id:
-        description: 分类标识
-        type: string
-      level:
-        description: 分类层级
-        type: integer
-      name:
-        $ref: '#/definitions/api.Languages'
-        description: 分类名称
-        type: object
-      parent:
-        description: 父分类
-        items:
-          type: string
-        type: array
-      updateTime:
-        description: 分类更新时间
-        type: integer
-    type: object
-  api.Color:
-    properties:
-      createTime:
-        type: integer
-      deleteTime:
-        type: integer
-      id:
-        type: string
-      name:
-        $ref: '#/definitions/api.Languages'
-        type: object
-      rgb:
-        type: string
-      updateTime:
-        type: integer
-    type: object
-  api.Goods:
-    properties:
-      brand:
-        $ref: '#/definitions/api.Brand'
-        description: 商品品牌
-        type: object
-      category:
-        $ref: '#/definitions/api.Category'
-        description: 商品分类
-        type: object
-      clearance:
-        description: 清仓价
-        type: number
-      colors:
-        description: 商品颜色
-        items:
-          $ref: '#/definitions/api.Color'
-        type: array
-      createTime:
-        description: 商品创建时间
-        type: integer
-      deleteTime:
-        description: 商品删除时间
-        type: integer
-      description:
-        $ref: '#/definitions/api.Languages'
-        description: 商品详细描述
-        type: object
-      id:
-        description: 商品标识
-        type: string
-      images:
-        description: 商品图片
-        items:
-          $ref: '#/definitions/api.Image'
-        type: array
-      keywords:
-        description: 商品关键字
-        items:
-          $ref: '#/definitions/api.Tag'
-        type: array
-      manufacturers:
-        $ref: '#/definitions/api.Manufacturer'
-        description: 商品生产商
-        type: object
-      material:
-        description: 商品材质
-        items:
-          $ref: '#/definitions/api.Tag'
-        type: array
-      newIn:
-        description: 新品售价
-        type: number
-      origin:
-        $ref: '#/definitions/api.Languages'
-        description: 商品产地
-        type: object
-      price:
-        description: 商品售价 P = C + E * C
-        type: number
-      purchase:
-        description: 商品进价
-        type: number
-      rank:
-        description: 商品排名
-        type: integer
-      sale:
-        description: 促销价
-        type: number
-      size:
-        description: 商品尺码
-        items:
-          $ref: '#/definitions/api.Size'
-        type: array
-      status:
-        description: 商品状态
-        type: integer
-      stock:
-        items:
-          type: '&{%!s(token.Pos=1194) %!s(*ast.FieldList=&{1200 [0xc0000c6fc0 0xc0000c7000
-            0xc0000c7040] 1320}) %!s(bool=false)}'
-        type: array
-      summary:
-        $ref: '#/definitions/api.Languages'
-        description: 商品概要描述
-        type: object
-      tags:
-        description: 商品标签
-        items:
-          $ref: '#/definitions/api.Tag'
-        type: array
-      title:
-        $ref: '#/definitions/api.Languages'
-        description: 商品标题
-        type: object
-      updateTime:
-        description: 商品更新时间
-        type: integer
-    type: object
   api.Image:
     properties:
       createTime:
@@ -168,83 +7,43 @@ definitions:
       deleteTime:
         type: integer
       direction:
-        type: string
+        type: integer
       id:
         type: string
       sequence:
-        type: string
+        type: integer
       updateTime:
         type: integer
       url:
         type: string
     type: object
-  api.Languages:
+  api.Register:
     properties:
-      chinese:
+      gender:
+        description: 0 women 1 man
+        type: integer
+      password:
+        description: sha1(password)
         type: string
-      english:
+      timestamp:
+        type: integer
+      token:
+        type: string
+      username:
+        description: email
+        type: string
+      verified:
+        description: 邮件验证码
         type: string
     type: object
-  api.Manufacturer:
+  api.Token:
     properties:
-      address:
-        $ref: '#/definitions/api.Languages'
-        description: 生产商地址
-        type: object
-      contact:
-        description: 生产商联系人
+      category:
+        description: token 分类
+        type: integer
+      username:
+        description: email
         type: string
-      createTime:
-        description: 生产商录入记录时间
-        type: integer
-      deleteTime:
-        description: 生产商移除系统时间
-        type: integer
-      email:
-        description: 联系人邮箱
-        type: string
-      id:
-        type: string
-      name:
-        $ref: '#/definitions/api.Languages'
-        description: 生产商名称
-        type: object
-      phone:
-        description: 联系人联系电话
-        type: string
-      updateTime:
-        description: 生产商更新时间
-        type: integer
-    type: object
-  api.Size:
-    properties:
-      createTime:
-        type: integer
-      deleteTime:
-        type: integer
-      group:
-        $ref: '#/definitions/api.Languages'
-        type: object
-      id:
-        type: string
-      updateTime:
-        type: integer
-      value:
-        type: string
-    type: object
-  api.Tag:
-    properties:
-      createTime:
-        type: integer
-      deleteTime:
-        type: integer
-      id:
-        type: string
-      name:
-        $ref: '#/definitions/api.Languages'
-        type: object
-      updateTime:
-        type: integer
     type: object
   route.httpError:
     properties:
@@ -260,599 +59,18 @@ definitions:
       message:
         type: string
     type: object
-host: localhost:13147
+host: localhost:13172
 info:
   contact:
     email: cugriver@163.com
     name: richard sun
-  description: 商品中心
+  description: 用户中心
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
-  title: mms
+  title: ums
   version: 0.0.1
 paths:
-  /v1/brands:
-    get:
-      parameters:
-      - description: 语言
-        in: header
-        name: x-language
-        type: string
-      - description: 页码
-        in: query
-        name: page
-        type: integer
-      - description: 每页条数
-        in: query
-        name: perPage
-        type: integer
-      - description: 状态
-        in: query
-        name: status
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/route.httpOk'
-            type: object
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-      summary: 查询品牌列表
-    post:
-      parameters:
-      - description: 语言
-        in: header
-        name: x-language
-        type: string
-      - description: CreateBrand
-        in: body
-        name: '{}'
-        required: true
-        schema:
-          $ref: '#/definitions/api.Brand'
-          type: object
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/route.httpOk'
-            type: object
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-      summary: 创建品牌
-  /v1/brands/{pathId}:
-    delete:
-      parameters:
-      - description: 语言
-        in: header
-        name: x-language
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/route.httpOk'
-            type: object
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-      summary: 删除品牌
-    get:
-      parameters:
-      - description: 语言
-        in: header
-        name: x-language
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/route.httpOk'
-            type: object
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-      summary: 查询品牌
-    put:
-      parameters:
-      - description: 语言
-        in: header
-        name: x-language
-        type: string
-      - description: UpdateBrand
-        in: body
-        name: '{}'
-        required: true
-        schema:
-          $ref: '#/definitions/api.Brand'
-          type: object
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/route.httpOk'
-            type: object
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-      summary: 更新品牌
-  /v1/categories:
-    get:
-      parameters:
-      - description: 语言
-        in: header
-        name: x-language
-        type: string
-      - description: 页码
-        in: query
-        name: page
-        type: integer
-      - description: 每页条数
-        in: query
-        name: perPage
-        type: integer
-      - description: 状态
-        in: query
-        name: status
-        type: integer
-      - description: 层级
-        in: query
-        name: level
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/route.httpOk'
-            type: object
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-      summary: 查询分类列表
-    post:
-      parameters:
-      - description: 语言
-        in: header
-        name: x-language
-        type: string
-      - description: CreateCategory
-        in: body
-        name: '{}'
-        required: true
-        schema:
-          $ref: '#/definitions/api.Category'
-          type: object
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/route.httpOk'
-            type: object
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-      summary: 新增分类
-  /v1/categories/{pathId}:
-    delete:
-      parameters:
-      - description: 语言
-        in: header
-        name: x-language
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/route.httpOk'
-            type: object
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-      summary: 删除分类
-    get:
-      parameters:
-      - description: 语言
-        in: header
-        name: x-language
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/route.httpOk'
-            type: object
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-      summary: 查询分类
-    put:
-      parameters:
-      - description: 语言
-        in: header
-        name: x-language
-        type: string
-      - description: UpdateCategory
-        in: body
-        name: '{}'
-        required: true
-        schema:
-          $ref: '#/definitions/api.Category'
-          type: object
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/route.httpOk'
-            type: object
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-      summary: 更新分类
-  /v1/categories/{pathId}/categories:
-    get:
-      parameters:
-      - description: 语言
-        in: header
-        name: x-language
-        type: string
-      - description: 页码
-        in: query
-        name: page
-        type: integer
-      - description: 每页条数
-        in: query
-        name: perPage
-        type: integer
-      - description: 状态
-        in: query
-        name: status
-        type: integer
-      - description: 层级
-        in: query
-        name: level
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/route.httpOk'
-            type: object
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-      summary: 查询子分类列表
-  /v1/colors:
-    get:
-      parameters:
-      - description: 语言
-        in: header
-        name: x-language
-        type: string
-      - description: 页码
-        in: query
-        name: page
-        type: integer
-      - description: 每页条数
-        in: query
-        name: perPage
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/route.httpOk'
-            type: object
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-      summary: 查询颜色列表
-    post:
-      parameters:
-      - description: 语言
-        in: header
-        name: x-language
-        type: string
-      - description: CreateColor
-        in: body
-        name: '{}'
-        required: true
-        schema:
-          $ref: '#/definitions/api.Color'
-          type: object
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/route.httpOk'
-            type: object
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-      summary: 新增颜色
-  /v1/colors/{pathId}:
-    delete:
-      parameters:
-      - description: 语言
-        in: header
-        name: x-language
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/route.httpOk'
-            type: object
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-      summary: 删除颜色
-    get:
-      parameters:
-      - description: 语言
-        in: header
-        name: x-language
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/route.httpOk'
-            type: object
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-      summary: 查询颜色
-    put:
-      parameters:
-      - description: 语言
-        in: header
-        name: x-language
-        type: string
-      - description: UpdateColor
-        in: body
-        name: '{}'
-        required: true
-        schema:
-          $ref: '#/definitions/api.Color'
-          type: object
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/route.httpOk'
-            type: object
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-      summary: 更新颜色
   /v1/images:
     post:
       parameters:
@@ -891,61 +109,19 @@ paths:
             $ref: '#/definitions/route.httpError'
             type: object
       summary: 新增图片
-  /v1/manufacturers:
-    get:
-      parameters:
-      - description: 语言
-        in: header
-        name: x-language
-        type: string
-      - description: 页码
-        in: query
-        name: page
-        type: integer
-      - description: 每页条数
-        in: query
-        name: perPage
-        type: integer
-      - description: 状态
-        in: query
-        name: status
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/route.httpOk'
-            type: object
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-      summary: 查询生产商列表
+  /v1/tokens:
     post:
       parameters:
       - description: 语言
         in: header
         name: x-language
         type: string
-      - description: CreateManufacturer
+      - description: LoginToken
         in: body
         name: '{}'
         required: true
         schema:
-          $ref: '#/definitions/api.Manufacturer'
+          $ref: '#/definitions/api.Token'
           type: object
       produces:
       - application/json
@@ -970,165 +146,38 @@ paths:
           schema:
             $ref: '#/definitions/route.httpError'
             type: object
-      summary: 新增生产商
-  /v1/manufacturers/{pathId}:
-    delete:
-      parameters:
-      - description: 语言
-        in: header
-        name: x-language
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/route.httpOk'
-            type: object
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-      summary: 删除生产商
+      summary: 获取用户登录令牌 有效器 1800s
+  /v1/users:
     get:
       parameters:
       - description: 语言
         in: header
         name: x-language
         type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/route.httpOk'
-            type: object
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-      summary: 查询生产商
-    put:
-      parameters:
-      - description: 语言
-        in: header
-        name: x-language
-        type: string
-      - description: UpdateManufacturer
-        in: body
-        name: '{}'
+      - description: 用户名
+        in: query
+        name: username
         required: true
-        schema:
-          $ref: '#/definitions/api.Manufacturer'
-          type: object
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/route.httpOk'
-            type: object
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-      summary: 更新生产商
-  /v1/merchandises:
-    post:
-      parameters:
-      - description: 语言
-        in: header
-        name: language
         type: string
-      - description: CreateGoods
-        in: body
-        name: '{}'
+      - description: 密码
+        in: query
+        name: password
         required: true
-        schema:
-          $ref: '#/definitions/api.Goods'
-          type: object
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/route.httpOk'
-            type: object
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-      summary: 新增商品
-  /v1/sizes:
-    get:
-      parameters:
-      - description: 语言
-        in: header
-        name: x-language
         type: string
-      - description: 页码
+      - description: 时间戳
         in: query
-        name: page
+        name: timestamp
+        required: true
         type: integer
-      - description: 每页条数
+      - description: 令牌
         in: query
-        name: perPage
-        type: integer
-      - description: 状态
+        name: token
+        required: true
+        type: string
+      - description: 数字签名
         in: query
-        name: status
-        type: integer
-      - description: 组
-        in: query
-        name: group
+        name: sign
+        required: true
         type: string
       produces:
       - application/json
@@ -1153,19 +202,19 @@ paths:
           schema:
             $ref: '#/definitions/route.httpError'
             type: object
-      summary: 查询尺码列表
+      summary: 用户登录
     post:
       parameters:
       - description: 语言
         in: header
         name: x-language
         type: string
-      - description: CreateSize
+      - description: CreateUser
         in: body
         name: '{}'
         required: true
         schema:
-          $ref: '#/definitions/api.Size'
+          $ref: '#/definitions/api.Register'
           type: object
       produces:
       - application/json
@@ -1190,103 +239,5 @@ paths:
           schema:
             $ref: '#/definitions/route.httpError'
             type: object
-      summary: 创建尺码
-  /v1/sizes/{pathId}:
-    delete:
-      parameters:
-      - description: 语言
-        in: header
-        name: x-language
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/route.httpOk'
-            type: object
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-      summary: 删除尺码
-    get:
-      parameters:
-      - description: 语言
-        in: header
-        name: x-language
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/route.httpOk'
-            type: object
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-      summary: 查询尺码
-    put:
-      parameters:
-      - description: 语言
-        in: header
-        name: x-language
-        type: string
-      - description: UpdateSize
-        in: body
-        name: '{}'
-        required: true
-        schema:
-          $ref: '#/definitions/api.Size'
-          type: object
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/route.httpOk'
-            type: object
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/route.httpError'
-            type: object
-      summary: 更新品牌
+      summary: 用户注册
 swagger: "2.0"

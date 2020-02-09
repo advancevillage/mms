@@ -27,7 +27,7 @@ func (s *Service) LoadArgs(commit, buildTime string) error {
 	var length = len(args)
 	s.Configure.Commit	   = commit
 	s.Configure.BuildTime  = buildTime
-	s.Configure.File 	= "./etc/mms.xml"
+	s.Configure.File 	= "./etc/ums.xml"
 	s.Configure.Upload 	= "./upload"
 	for i := 0; i < length; i += 2 {
 		switch args[i] {

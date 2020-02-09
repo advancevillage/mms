@@ -1,26 +1,21 @@
 //author: richard
-// @title mms
+// @title ums
 // @version 0.0.1
-// @description 商品中心
+// @description 用户中心
 // @contact.name richard sun
 // @contact.email cugriver@163.com
 // @license.name Apache 2.0
 // @license.url  http://www.apache.org/licenses/LICENSE-2.0.html
-// @host localhost:13147
+// @host localhost:13172
 // @BasePath /
 // @schemes http https
 package main
 
 import (
-	"mms/brand"
-	"mms/category"
-	"mms/color"
 	"mms/config"
-	"mms/goods"
 	"mms/language"
-	"mms/manufacturer"
 	"mms/route"
-	"mms/size"
+	"mms/user"
 )
 
 var (
@@ -54,26 +49,11 @@ func main() {
 	//init lang service
 	langService := language.NewService()
 
-	//init goods service
-	goodsService := goods.NewService(configService.Mongo, configService.Logger)
-
-	//init color service
-	colorService := color.NewService(configService.Mongo, configService.Logger)
-
-	//init size service
-	sizeService  := size.NewService(configService.Mongo, configService.Logger)
-
-	//init brand service
-	brandService := brand.NewService(configService.Mongo, configService.Logger)
-
-	//init category service
-	categoryService := category.NewService(configService.Mongo, configService.Logger)
-
-	//init manufacturer service
-	manufacturerService := manufacturer.NewService(configService.Mongo, configService.Logger)
+	//init user service
+	userService := user.NewService(configService.Mongo, configService.Logger, configService.Cache)
 
 	//init route service
-	routeService := route.NewService(configService, langService, goodsService, colorService, sizeService, brandService, categoryService, manufacturerService)
+	routeService := route.NewService(configService, langService, userService)
 
 	//start route service
 	err = routeService.StartRouter(mode)

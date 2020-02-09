@@ -9,7 +9,7 @@ import (
 )
 
 type configure struct {
-	XMLName 	xml.Name `xml:"mms"`
+	XMLName 	xml.Name `xml:"configure"`
 	HttpHost 	string   `xml:"httpHost"`
 	HttpPort	int 	 `xml:"httpPort"`
 	Redis struct{
@@ -26,7 +26,7 @@ type configure struct {
 	BuildTime 	string   `xml:"-"`
 }
 
-type 	Service struct {
+type Service struct {
 	Cache     caches.ICache
 	Logger    logs.Logs
 	Mongo     storages.Storage
