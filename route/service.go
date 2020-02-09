@@ -10,6 +10,7 @@ import (
 	"mms/user"
 	"net/http"
 	"strconv"
+	"strings"
 )
 
 func NewService(configService *config.Service, langService *language.Service, userService *user.Service) *Service {
@@ -130,7 +131,7 @@ func (s *Service) username(ctx *https.Context) string {
 
 func (s *Service) password(ctx *https.Context) string {
 	value := ctx.Param("password")
-	return value
+	return strings.ToLower(value)
 }
 
 func (s *Service) token(ctx *https.Context) string {

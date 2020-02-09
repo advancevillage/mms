@@ -32,11 +32,8 @@ const (
 	CreateErrorCode = 13
 	CreateErrorMsg  = "create error"
 	QueryErrorCode  = 14
-	QueryErrorMsg   = "query error"
 	UpdateErrorCode = 15
-	UpdateErrorMsg  = "update error"
 	DeleteErrorCode = 16
-	DeleteErrorMsg  = "delete error"
 	IDErrorCode     = 20
 	IDErrorMsg      = "id error"
 
@@ -48,7 +45,13 @@ var router = func (api API) []https.Router {
 		//service
 		{"GET", "/v1/service/ping", api.ping},
 		{"GET", "/v1/service/version", api.version},
-		//
+		//user
+		{"GET", "/v1/users", api.QueryUser},
+		{"POST", "/v1/users", api.CreateUser},
+		{"OPTIONS", "/v1/users", api.ping},
+		//token
+		{"POST", "/v1/tokens", api.CreateToken},
+		{"OPTIONS", "/v1/tokens", api.ping},
 	}
 }
 
@@ -62,6 +65,11 @@ var headers = map[string]string {
 type API interface {
 	ping(ctx *https.Context)
 	version(ctx *https.Context)
+	//user
+	QueryUser (ctx *https.Context)
+	CreateUser(ctx *https.Context)
+	//token
+	CreateToken(ctx *https.Context)
 }
 
 type httpError struct {

@@ -77,7 +77,7 @@
                 "produces": [
                     "application/json"
                 ],
-                "summary": "获取用户登录令牌 有效器 1800s",
+                "summary": "获取令牌",
                 "parameters": [
                     {
                         "type": "string",

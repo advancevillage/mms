@@ -105,7 +105,7 @@ func (s *Service) QueryUser(login *api.Login) (*api.User, error) {
 	if err != nil {
 		return nil, errors.New("security check failed")
 	}
-	if login.Sign != string(h.Sum(nil)) {
+	if login.Sign != fmt.Sprintf("%x", h.Sum(nil)) {
 		return nil, errors.New("risk of hijacking and reject to login")
 	}
 	//查询 用户基本数据

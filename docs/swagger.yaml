@@ -146,7 +146,7 @@ paths:
           schema:
             $ref: '#/definitions/route.httpError'
             type: object
-      summary: 获取用户登录令牌 有效器 1800s
+      summary: 获取令牌
   /v1/users:
     get:
       parameters:
