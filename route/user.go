@@ -9,7 +9,7 @@ import (
 	"net/http"
 )
 
-//@Summary 获取用户登录令牌 有效器 1800s
+//@Summary 获取令牌
 //@Produce json
 //@Param x-language header string false "语言" default "chinese"
 //@Param {} body api.Token true "LoginToken"
