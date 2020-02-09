@@ -60,7 +60,6 @@ const (
 	OperateSuccess = "operate success"
 )
 
-
 var router = func (api API) []https.Router {
 	return []https.Router {
 		{"GET", "/v1/services/version", api.version},
