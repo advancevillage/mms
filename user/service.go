@@ -10,7 +10,6 @@ import (
 	"github.com/advancevillage/3rd/storages"
 	"github.com/advancevillage/3rd/times"
 	"github.com/advancevillage/3rd/utils"
-	"io"
 	"mms/api"
 )
 
@@ -61,19 +60,13 @@ func (s *Service) RegisterToken(username string) (string, error) {
 	if err !=nil {
 		return "", errors.New("cache key create error")
 	}
-	//生成验证码 6 bit
-	verified := utils.RandsString(6)
 	//生成 key
-	err = s.cache.CreateCache(key, []byte(verified), RegisterTimeout)
+	err = s.cache.CreateCache(key, []byte(fmt.Sprintf("%d", timestamp)), RegisterTimeout)
 	if err != nil {
 		s.logger.Error(err.Error())
 		return "", errors.New("cache key create error")
 	}
 
-	//TODO 异步 发送验证邮件
-	go func() {
-
-	}()
 	return token, nil
 }
 
@@ -101,7 +94,7 @@ func (s *Service) QueryUser(login *api.Login) (*api.User, error) {
 	}
 	//无篡改 检查
 	h := sha1.New()
-	_, err = io.WriteString(h, fmt.Sprintf("%s%s%d%s",login.Username, login.Token, login.Timestamp, login.Password))
+	_, err = h.Write([]byte(fmt.Sprintf("%s%s%s%s",login.Username, login.Token, login.Timestamp, login.Password)))
 	if err != nil {
 		return nil, errors.New("security check failed")
 	}
@@ -115,6 +108,11 @@ func (s *Service) QueryUser(login *api.Login) (*api.User, error) {
 		return nil , errors.New("your email does not exist")
 	}
 
+	//校验密码
+	if login.Password != u.Password {
+		return nil , errors.New("wrong password")
+	}
+
 	//查询完成 删除key
 	err = s.cache.DeleteCache(key)
 	if err != nil {
@@ -124,27 +122,32 @@ func (s *Service) QueryUser(login *api.Login) (*api.User, error) {
 	return u, nil
 }
 
-func (s *Service) CreateUser(register *api.Register) error {
+func (s *Service) CreateUser(register *api.Register) (*api.User, error) {
 	//邮箱 有效性
 	if !utils.ValidateEmail(register.Username) {
-		return errors.New("invalid email format")
+		return nil, errors.New("invalid email format")
 	}
 	//密码 有效性
 	if len(register.Password) != SHA1 >> 2 {
-		return errors.New("invalid password")
+		return nil, errors.New("invalid password")
 	}
 	//令牌 有效性
 	key, err := s.CreateKey("register", register.Username, register.Token)
 	if err != nil {
-		return errors.New("cache key create error")
+		return nil, errors.New("cache key create error")
 	}
-	verified, err := s.cache.QueryCache(key, RegisterTimeout)
+	_, err = s.cache.QueryCache(key, RegisterTimeout)
 	if err != nil {
-		return errors.New("token invalid and re login")
+		return nil, errors.New("token invalid and re sign")
 	}
-	//验证码 校验
-	if string(verified) != register.Verified {
-		return errors.New("verification code error")
+	//无篡改 检查
+	h := sha1.New()
+	_, err = h.Write([]byte(fmt.Sprintf("%s%s%s%s",register.Username, register.Token, register.Timestamp, register.Password)))
+	if err != nil {
+		return nil, errors.New("security check failed")
+	}
+	if register.Sign != fmt.Sprintf("%x", h.Sum(nil)) {
+		return nil, errors.New("risk of hijacking and reject to sign")
 	}
 
 	//完成校验 删除key 保持函数幂等性 防止重复创建
@@ -156,7 +159,7 @@ func (s *Service) CreateUser(register *api.Register) error {
 	//查询 用户
 	u, err := s.repo.QueryUserByName(register.Username)
 	if u != nil {
-		return errors.New("your email existed")
+		return nil, errors.New("your email existed")
 	}
 
 	//设置 用户基本信息
@@ -172,10 +175,14 @@ func (s *Service) CreateUser(register *api.Register) error {
 	err = s.repo.CreateUser(&user)
 	if err != nil {
 		s.logger.Error(err.Error())
-		return err
+		return nil, err
 	}
 
-	return nil
+	//TODO 异步 发送第一封推送邮件
+	go func() {
+
+	}()
+	return &user, nil
 }
 
 func (s *Service) CreateKey(str ... string) (string, error) {

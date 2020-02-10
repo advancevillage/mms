@@ -71,6 +71,9 @@ func (s *Service) QueryUser(ctx *https.Context) {
 		ctx.JSON(http.StatusBadRequest, s.newHttpError(UserCode, UserMsg, QueryErrorCode, err.Error()))
 		return
 	}
+
+	//sessionId 存入cookie
+	err = ctx.WriteCookie("sid", u.Id, "/", "localhost", false, false)
 	ctx.JSON(http.StatusOK, u)
 }
 
@@ -95,10 +98,12 @@ func (s *Service) CreateUser(ctx *https.Context) {
 		ctx.JSON(http.StatusBadRequest, s.newHttpError(UserCode, UserMsg, ContextErrorCode, ContextErrorMsg))
 		return
 	}
-	err = s.userService.CreateUser(&param)
+	u, err := s.userService.CreateUser(&param)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, s.newHttpError(UserCode, UserMsg, CreateErrorCode, err.Error()))
 		return
 	}
+	//sessionId 存入cookie
+	err = ctx.WriteCookie("sid", u.Id, "/", "localhost", false, false)
 	ctx.JSON(http.StatusOK, s.newHttpOk())
 }

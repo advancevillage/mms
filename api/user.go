@@ -15,7 +15,7 @@ type User struct {
 type Login struct {
 	Username	string	`json:"username"`	//email
 	Password 	string 	`json:"password"`	//sha1(password)
-	Timestamp   int64   `json:"timestamp"`
+	Timestamp   string   `json:"timestamp"`
 	Token 		string  `json:"token"`
 	Sign 		string  `json:"sign"`
 }
@@ -24,9 +24,9 @@ type Login struct {
 type Register struct {
 	Username	string	`json:"username"`	//email
 	Password 	string 	`json:"password"`	//sha1(password)
-	Timestamp   int64   `json:"timestamp"`
+	Timestamp   string   `json:"timestamp"`
 	Token 		string  `json:"token"`
-	Verified	string  `json:"verified"`	//邮件验证码
+	Sign 		string  `json:"sign"`		//签名
 	Gender		int 	`json:"gender"` 	// 0 women 1 man
 }
 
