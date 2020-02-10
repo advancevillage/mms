@@ -25,10 +25,10 @@ RUN echo "https://mirrors.aliyun.com/alpine/v3.10/main" > /etc/apk/repositories 
     && mkdir -p /app/etc
 
 #拷贝配置文件
-COPY --from=builder /go/src/etc/mms.xml /app/etc/
-COPY --from=builder /go/src/bin/mms /app/
+COPY --from=builder /go/src/etc/ums.xml /app/etc/
+COPY --from=builder /go/src/bin/ums /app/
 
 #暴露的端口号
-EXPOSE 13170
+EXPOSE 13172
 
-ENTRYPOINT /app/mms
+ENTRYPOINT /app/ums
