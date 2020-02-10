@@ -71,6 +71,21 @@ func (s *Service) startLambdaRouter() error {
 }
 
 func (s *Service) headerPlugin(ctx *https.Context) {
+ 	var cors = map[string]bool {
+ 		"http://localhost:8080": true,
+		"http://localhost": true,
+	}
+ 	origin := ctx.ReadHeader("origin")
+ 	if _, ok := cors[origin]; !ok {
+		ctx.JSON(http.StatusBadRequest, "not authorized origin")
+		return
+	}
+	var headers = map[string]string {
+		"Access-Control-Allow-Origin": origin,
+		"Access-Control-Allow-Methods": "OPTIONS, GET, PUT, POST, DELETE",
+		"Access-Control-Allow-Credentials": "true",
+		"Access-Control-Allow-Headers": "Content-Type, x-language",
+	}
 	ctx.WriteHeader(headers)
 	ctx.Next()
 }

@@ -118,13 +118,6 @@ var router = func (api API) []https.Router {
 	}
 }
 
-var headers = map[string]string {
-	"Access-Control-Allow-Origin": "*",
-	"Access-Control-Allow-Methods": "OPTIONS, GET, PUT, POST, DELETE",
-	"Access-Control-Allow-Credentials": "true",
-	"Access-Control-Allow-Headers": "Content-Type, x-language",
-}
-
 type API interface {
 	ping(ctx *https.Context)
 	version(ctx *https.Context)
