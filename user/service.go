@@ -198,3 +198,21 @@ func (s *Service) CreateKey(str ... string) (string, error) {
 	}
 	return key, nil
 }
+
+func (s *Service) QueryCart(user *api.User) ([]api.Cart, int, error) {
+	if user == nil {
+		return nil, 0, errors.New("user is nil")
+	}
+	carts, total, err := s.repo.QueryCart(user)
+	if err != nil {
+		s.logger.Error(err.Error())
+		return nil, 0, err
+	}
+
+	itemTotal := 0
+	for i := int64(0); i < total; i++ {
+		itemTotal += carts[i].Count
+	}
+
+	return carts, itemTotal, nil
+}

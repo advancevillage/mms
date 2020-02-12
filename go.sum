@@ -17,6 +17,8 @@ github.com/advancevillage/3rd v1.0.35 h1:7G05/2UbtxPoJAsHvyfHcbNpn5itE6RQjzR6D7M
 github.com/advancevillage/3rd v1.0.35/go.mod h1:6G2RCBXEVYKsOYi3rqm8iGtR53sY/bjb7o6+3Xy6TJI=
 github.com/advancevillage/3rd v1.0.36 h1:vicTFGiZtrdRAUspIZ+B+HDYPZi1HT09amv5laPR93o=
 github.com/advancevillage/3rd v1.0.36/go.mod h1:6G2RCBXEVYKsOYi3rqm8iGtR53sY/bjb7o6+3Xy6TJI=
+github.com/advancevillage/3rd v1.0.37 h1:Y4/S8RRi6PjfnYoHhApf0O745x50wXq3YGXBdQPWVqU=
+github.com/advancevillage/3rd v1.0.37/go.mod h1:6G2RCBXEVYKsOYi3rqm8iGtR53sY/bjb7o6+3Xy6TJI=
 github.com/alecthomas/template v0.0.0-20160405071501-a0175ee3bccc/go.mod h1:LOuyumcjzFXgccqObfd/Ljyb9UuFJ6TxHnclSeseNhc=
 github.com/alecthomas/units v0.0.0-20151022065526-2efee857e7cf/go.mod h1:ybxpYRFXyAe+OPACYpWeL0wqObRcbAqCMya13uyzqw0=
 github.com/apache/thrift v0.12.0/go.mod h1:cp2SuWMxlEZw2r+iP2GNCdIi4C1qmUzdZFSVb+bacwQ=

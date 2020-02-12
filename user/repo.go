@@ -44,10 +44,31 @@ func (r *Mongo) CreateUser(user *api.User) error {
 	return r.storage.CreateStorageV2(Schema, user.Id, buf)
 }
 
-func (r Mongo) CreateCart(user *api.User, cart *api.Cart) error {
+func (r *Mongo) CreateCart(user *api.User, cart *api.Cart) error {
 	buf, err := json.Marshal(cart)
 	if err != nil {
 		return err
 	}
 	return r.storage.CreateStorageV2Exd(CartSchema, user.Id, cart.Id, buf)
+}
+
+func (r *Mongo) QueryCart(user *api.User) ([]api.Cart, int64, error) {
+	where := make(map[string]interface{})
+	where["createTime"] = -1
+	items, total, err := r.storage.SearchStorageV2Exd(CartSchema, user.Id, where, 0, 99, nil)
+	if err != nil {
+		return nil, 0, err
+	}
+	carts := make([]api.Cart, 0, total)
+	for i := 0; i < len(items); i++ {
+		cart := api.Cart{}
+		err = json.Unmarshal(items[i], &cart)
+		if err != nil {
+			return nil, 0, err
+		} else {
+			carts = append(carts, cart)
+			continue
+		}
+	}
+	return carts, total, nil
 }

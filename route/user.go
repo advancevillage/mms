@@ -158,3 +158,30 @@ func (s *Service) CreateCart(ctx *https.Context) {
 	}
 	ctx.JSON(http.StatusOK, user)
 }
+
+//@Summary 查询购物车
+//@Produce json
+//@Param x-language header string false "语言" default "chinese"
+//@Success 200 {object} route.httpOk
+//@Failure 400 {object} route.httpError
+//@Failure 404 {object} route.httpError
+//@Failure 500 {object} route.httpError
+//@Router /v1/carts [get]
+func (s *Service) QueryCart(ctx *https.Context) {
+	sid, err := s.sid(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusForbidden, s.newHttpError(SessionCode, SessionMsg, QueryErrorCode, err.Error()))
+		return
+	}
+	user, err := s.sessionService.QueryUserSession(sid)
+	if err != nil {
+		ctx.JSON(http.StatusForbidden, s.newHttpError(SessionCode, SessionMsg, QueryErrorCode, err.Error()))
+		return
+	}
+	carts, total, err := s.userService.QueryCart(user)
+	if err != nil {
+		ctx.JSON(http.StatusForbidden, s.newHttpError(SessionCode, SessionMsg, QueryErrorCode, err.Error()))
+		return
+	}
+	ctx.JSON(http.StatusOK, s.response(carts, int64(total)))
+}

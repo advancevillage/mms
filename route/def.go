@@ -56,6 +56,10 @@ var router = func (api API) []https.Router {
 		//token
 		{"POST", "/v1/tokens", api.CreateToken},
 		{"OPTIONS", "/v1/tokens", api.ping},
+		//carts
+		{"POST", "/v1/carts", api.CreateCart},
+		{"GET", "/v1/carts", api.QueryCart},
+		{"OPTIONS", "/v1/carts", api.ping},
 	}
 }
 
@@ -67,6 +71,9 @@ type API interface {
 	CreateUser(ctx *https.Context)
 	//token
 	CreateToken(ctx *https.Context)
+	//carts
+	CreateCart(ctx *https.Context)
+	QueryCart(ctx *https.Context)
 }
 
 type httpError struct {

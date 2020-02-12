@@ -21,7 +21,8 @@ const (
 type IUser interface {
 	CreateUser(u *api.User) error
 	QueryUserByName(username string) (*api.User, error)
-	//QueryUserById(id string) (*api.User, error)
+	CreateCart(user *api.User, cart *api.Cart) error
+	QueryCart(user *api.User) ([]api.Cart, int64, error)
 }
 
 
