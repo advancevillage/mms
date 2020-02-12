@@ -13,7 +13,7 @@ import (
 	"mms/api"
 )
 
-func NewService(storage storages.Storage, logger logs.Logs, cache caches.ICache) *Service {
+func NewService(storage storages.StorageExd, logger logs.Logs, cache caches.ICache) *Service {
 	return &Service{
 		logger:logger,
 		cache: cache,

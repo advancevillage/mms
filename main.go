@@ -15,6 +15,7 @@ import (
 	"mms/config"
 	"mms/language"
 	"mms/route"
+	"mms/session"
 	"mms/user"
 )
 
@@ -52,8 +53,11 @@ func main() {
 	//init user service
 	userService := user.NewService(configService.Mongo, configService.Logger, configService.Cache)
 
+	//init session service
+	sessionService := session.NewService(configService.Cache, configService.Logger)
+
 	//init route service
-	routeService := route.NewService(configService, langService, userService)
+	routeService := route.NewService(configService, langService, userService, sessionService)
 
 	//start route service
 	err = routeService.StartRouter(mode)

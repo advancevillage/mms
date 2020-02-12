@@ -7,17 +7,19 @@ import (
 	"github.com/advancevillage/3rd/https"
 	"mms/config"
 	"mms/language"
+	"mms/session"
 	"mms/user"
 	"net/http"
 	"strconv"
 	"strings"
 )
 
-func NewService(configService *config.Service, langService *language.Service, userService *user.Service) *Service {
+func NewService(configService *config.Service, langService *language.Service, userService *user.Service, sessionService *session.Service) *Service {
 	return &Service{
 		configService: configService,
 		langService:   langService,
 		userService:   userService,
+		sessionService: sessionService,
 	}
 }
 
@@ -162,6 +164,14 @@ func (s *Service) sign(ctx *https.Context) string {
 func (s *Service) timestamp(ctx *https.Context) string {
 	value := ctx.Param("timestamp")
 	return value
+}
+
+func (s *Service) sid(ctx *https.Context) (string, error) {
+	sid, err := ctx.ReadCookie("sid")
+	if err != nil || len(sid) <= 0{
+		return "", errors.New("invalid sid")
+	}
+	return sid, nil
 }
 
 func (s *Service) response(items interface{}, total int64) interface{} {

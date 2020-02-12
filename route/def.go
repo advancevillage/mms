@@ -5,6 +5,7 @@ import (
 	"github.com/advancevillage/3rd/https"
 	"mms/config"
 	"mms/language"
+	"mms/session"
 	"mms/user"
 )
 
@@ -15,6 +16,9 @@ const (
 	//令牌 token
 	TokenCode = 2100
 	TokenMsg  = "token"
+	//Session
+	SessionCode = 2200
+	SessionMsg  = "session"
 	//图片 image
 	ImageCode = 1700
 	ImageMsg  = "category"
@@ -76,7 +80,8 @@ type httpOk struct {
 }
 
 type Service struct {
-	configService *config.Service
-	langService   *language.Service
-	userService   *user.Service
+	configService  *config.Service
+	langService    *language.Service
+	userService    *user.Service
+	sessionService *session.Service
 }

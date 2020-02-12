@@ -10,6 +10,7 @@ import (
 
 const (
 	Schema = "users"
+	CartSchema = "carts"
 
 	SHA1   = 160
 

@@ -72,9 +72,22 @@ func (s *Service) QueryUser(ctx *https.Context) {
 		return
 	}
 
-	//sessionId 存入cookie
-	err = ctx.WriteCookie("sid", u.Id, "/", "localhost", false, false)
-	ctx.JSON(http.StatusOK, u)
+	//用户信息写入Session
+	sid, err := s.sessionService.CreateUserSession(u)
+	if err != nil {
+		s.configService.Logger.Alert(err.Error())
+		ctx.JSON(http.StatusOK, s.newHttpOk())
+		return
+	}
+
+	//cookie set-cookie
+	err = ctx.WriteCookie("sid", sid, "/", "localhost", false, false)
+	if err != nil {
+		s.configService.Logger.Alert(err.Error())
+		ctx.JSON(http.StatusOK, s.newHttpOk())
+		return
+	}
+	ctx.JSON(http.StatusOK, s.newHttpOk())
 }
 
 //@Summary 用户注册
@@ -104,6 +117,44 @@ func (s *Service) CreateUser(ctx *https.Context) {
 		return
 	}
 	//sessionId 存入cookie
-	err = ctx.WriteCookie("sid", u.Id, "/", "localhost", false, false)
+	//用户信息写入Session
+	sid, err := s.sessionService.CreateUserSession(u)
+	if err != nil {
+		s.configService.Logger.Alert(err.Error())
+		ctx.JSON(http.StatusOK, s.newHttpOk())
+		return
+	}
+
+	//cookie set-cookie
+	err = ctx.WriteCookie("sid", sid, "/", "localhost", false, false)
+	if err != nil {
+		s.configService.Logger.Alert(err.Error())
+		ctx.JSON(http.StatusOK, s.newHttpOk())
+		return
+	}
 	ctx.JSON(http.StatusOK, s.newHttpOk())
+}
+
+//@Summary 添加购物车
+//@Produce json
+//@Param x-language header string false "语言" default "chinese"
+//@Param {} body api.Cart true "CreateCart"
+//@Success 200 {object} route.httpOk
+//@Failure 400 {object} route.httpError
+//@Failure 404 {object} route.httpError
+//@Failure 500 {object} route.httpError
+//@Router /v1/carts [post]
+func (s *Service) CreateCart(ctx *https.Context) {
+	//验证请求
+	sid, err := s.sid(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusForbidden, s.newHttpError(SessionCode, SessionMsg, QueryErrorCode, err.Error()))
+		return
+	}
+	user, err := s.sessionService.QueryUserSession(sid)
+	if err != nil {
+		ctx.JSON(http.StatusForbidden, s.newHttpError(SessionCode, SessionMsg, QueryErrorCode, err.Error()))
+		return
+	}
+	ctx.JSON(http.StatusOK, user)
 }

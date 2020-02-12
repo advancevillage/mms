@@ -10,10 +10,10 @@ import (
 )
 
 type Mongo struct {
-	storage storages.Storage
+	storage storages.StorageExd
 }
 
-func NewRepoMongo(storage storages.Storage) *Mongo {
+func NewRepoMongo(storage storages.StorageExd) *Mongo {
 	return &Mongo{storage:storage}
 }
 
@@ -42,4 +42,12 @@ func (r *Mongo) CreateUser(user *api.User) error {
 		return err
 	}
 	return r.storage.CreateStorageV2(Schema, user.Id, buf)
+}
+
+func (r Mongo) CreateCart(user *api.User, cart *api.Cart) error {
+	buf, err := json.Marshal(cart)
+	if err != nil {
+		return err
+	}
+	return r.storage.CreateStorageV2Exd(CartSchema, user.Id, cart.Id, buf)
 }

@@ -29,6 +29,6 @@ type configure struct {
 type Service struct {
 	Cache     caches.ICache
 	Logger    logs.Logs
-	Mongo     storages.Storage
+	Mongo     storages.StorageExd
 	Configure configure
 }
