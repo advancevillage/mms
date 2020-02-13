@@ -54,8 +54,9 @@ func (r *Mongo) CreateCart(user *api.User, cart *api.Cart) error {
 
 func (r *Mongo) QueryCart(user *api.User) ([]api.Cart, int64, error) {
 	where := make(map[string]interface{})
-	where["createTime"] = -1
-	items, total, err := r.storage.SearchStorageV2Exd(CartSchema, user.Id, where, 0, 99, nil)
+	sort  := make(map[string]interface{})
+	sort["createTime"] = -1
+	items, total, err := r.storage.SearchStorageV2Exd(CartSchema, user.Id, where, 99, 0, sort)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -71,4 +72,25 @@ func (r *Mongo) QueryCart(user *api.User) ([]api.Cart, int64, error) {
 		}
 	}
 	return carts, total, nil
+}
+
+func (r *Mongo) UpdateCart(user *api.User, cart *api.Cart) error {
+	buf, err := json.Marshal(cart)
+	if err != nil {
+		return err
+	}
+	return r.storage.UpdateStorageV2Exd(CartSchema, user.Id, cart.Id, buf)
+}
+
+func (r *Mongo) QueryOneCart(user *api.User, cartId string) (*api.Cart, error) {
+	buf, err := r.storage.QueryStorageV2Exd(CartSchema, user.Id, cartId)
+	if err != nil {
+		return nil, err
+	}
+	cart := api.Cart{}
+	err = json.Unmarshal(buf, &cart)
+	if err != nil {
+		return nil, err
+	}
+	return &cart, nil
 }

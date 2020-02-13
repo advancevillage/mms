@@ -23,6 +23,8 @@ type IUser interface {
 	QueryUserByName(username string) (*api.User, error)
 	CreateCart(user *api.User, cart *api.Cart) error
 	QueryCart(user *api.User) ([]api.Cart, int64, error)
+	UpdateCart(user *api.User, cart *api.Cart) error
+	QueryOneCart(user *api.User, cartId string) (*api.Cart, error)
 }
 
 

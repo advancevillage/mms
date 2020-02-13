@@ -151,12 +151,28 @@ func (s *Service) CreateCart(ctx *https.Context) {
 		ctx.JSON(http.StatusForbidden, s.newHttpError(SessionCode, SessionMsg, QueryErrorCode, err.Error()))
 		return
 	}
+	body, err := s.body(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, s.newHttpError(UserCode, UserMsg, BodyErrorCode, BodyErrorMsg))
+		return
+	}
+	param := api.Cart{}
+	err = json.Unmarshal(body, &param)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, s.newHttpError(UserCode, UserMsg, ContextErrorCode, ContextErrorMsg))
+		return
+	}
 	user, err := s.sessionService.QueryUserSession(sid)
 	if err != nil {
 		ctx.JSON(http.StatusForbidden, s.newHttpError(SessionCode, SessionMsg, QueryErrorCode, err.Error()))
 		return
 	}
-	ctx.JSON(http.StatusOK, user)
+	err = s.userService.CreateCart(user, &param)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, s.newHttpError(CartCode, CartMsg, CreateErrorCode, err.Error()))
+		return
+	}
+	ctx.JSON(http.StatusOK, s.newHttpOk())
 }
 
 //@Summary 查询购物车
@@ -184,4 +200,84 @@ func (s *Service) QueryCart(ctx *https.Context) {
 		return
 	}
 	ctx.JSON(http.StatusOK, s.response(carts, int64(total)))
+}
+
+//@Summary 更新购物车
+//@Produce json
+//@Param x-language header string false "语言" default "chinese"
+//@Success 200 {object} route.httpOk
+//@Failure 400 {object} route.httpError
+//@Failure 404 {object} route.httpError
+//@Failure 500 {object} route.httpError
+//@Router /v1/carts/{pathId} [put]
+func (s *Service) UpdateCart(ctx *https.Context) {
+	//验证请求
+	sid, err := s.sid(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusForbidden, s.newHttpError(SessionCode, SessionMsg, QueryErrorCode, err.Error()))
+		return
+	}
+	//cartId
+	cartId, err := s.pathId(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, s.newHttpError(CartCode, CartMsg, QueryErrorCode, err.Error()))
+		return
+	}
+	body, err := s.body(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, s.newHttpError(UserCode, UserMsg, BodyErrorCode, BodyErrorMsg))
+		return
+	}
+	param := api.Cart{}
+	err = json.Unmarshal(body, &param)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, s.newHttpError(UserCode, UserMsg, ContextErrorCode, ContextErrorMsg))
+		return
+	}
+	user, err := s.sessionService.QueryUserSession(sid)
+	if err != nil {
+		ctx.JSON(http.StatusForbidden, s.newHttpError(SessionCode, SessionMsg, QueryErrorCode, err.Error()))
+		return
+	}
+	param.Id = cartId
+	err = s.userService.UpdateCart(user, &param)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, s.newHttpError(CartCode, CartMsg, UpdateErrorCode, err.Error()))
+		return
+	}
+	ctx.JSON(http.StatusOK, s.newHttpOk())
+}
+
+//@Summary 删除购物车
+//@Produce json
+//@Param x-language header string false "语言" default "chinese"
+//@Success 200 {object} route.httpOk
+//@Failure 400 {object} route.httpError
+//@Failure 404 {object} route.httpError
+//@Failure 500 {object} route.httpError
+//@Router /v1/carts/{pathId} [delete]
+func (s *Service) DeleteCart(ctx *https.Context) {
+	//验证请求
+	sid, err := s.sid(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusForbidden, s.newHttpError(SessionCode, SessionMsg, QueryErrorCode, err.Error()))
+		return
+	}
+	//cartId
+	cartId, err := s.pathId(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, s.newHttpError(CartCode, CartMsg, QueryErrorCode, err.Error()))
+		return
+	}
+	user, err := s.sessionService.QueryUserSession(sid)
+	if err != nil {
+		ctx.JSON(http.StatusForbidden, s.newHttpError(SessionCode, SessionMsg, QueryErrorCode, err.Error()))
+		return
+	}
+	err = s.userService.DeleteCart(user, cartId)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, s.newHttpError(CartCode, CartMsg, DeleteErrorCode, err.Error()))
+		return
+	}
+	ctx.JSON(http.StatusOK, s.newHttpOk())
 }

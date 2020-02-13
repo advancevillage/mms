@@ -19,6 +19,9 @@ const (
 	//Session
 	SessionCode = 2200
 	SessionMsg  = "session"
+	//购物车 cart
+	CartCode    = 2300
+	CartMsg     = "cart"
 	//图片 image
 	ImageCode = 1700
 	ImageMsg  = "category"
@@ -59,7 +62,10 @@ var router = func (api API) []https.Router {
 		//carts
 		{"POST", "/v1/carts", api.CreateCart},
 		{"GET", "/v1/carts", api.QueryCart},
+		{"PUT", "/v1/carts/:pathId", api.UpdateCart},
+		{"DELETE", "/v1/carts/:pathId", api.DeleteCart},
 		{"OPTIONS", "/v1/carts", api.ping},
+		{"OPTIONS", "/v1/carts/:pathId", api.ping},
 	}
 }
 
@@ -74,6 +80,8 @@ type API interface {
 	//carts
 	CreateCart(ctx *https.Context)
 	QueryCart(ctx *https.Context)
+	DeleteCart(ctx *https.Context)
+	UpdateCart(ctx *https.Context)
 }
 
 type httpError struct {

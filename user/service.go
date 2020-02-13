@@ -210,9 +210,66 @@ func (s *Service) QueryCart(user *api.User) ([]api.Cart, int, error) {
 	}
 
 	itemTotal := 0
-	for i := int64(0); i < total; i++ {
+	for i := 0; i < len(carts) && i < int(total); i++ {
 		itemTotal += carts[i].Count
 	}
 
 	return carts, itemTotal, nil
+}
+
+func (s *Service) CreateCart(user *api.User, cart *api.Cart) error {
+	if user == nil || cart == nil {
+		return errors.New("user or cart is nil")
+	}
+	cart.Id =  utils.SnowFlakeIdString()
+	cart.CreateTime = times.Timestamp()
+	cart.UpdateTime = times.Timestamp()
+	cart.DeleteTime = 0
+	err := s.repo.CreateCart(user, cart)
+	if err != nil {
+		s.logger.Error(err.Error())
+		return err
+	}
+	return nil
+}
+
+func (s *Service) UpdateCart(user *api.User, cart *api.Cart) error {
+	if user == nil || cart == nil {
+		return errors.New("user or cart is nil")
+	}
+	cart.UpdateTime = times.Timestamp()
+	err := s.repo.UpdateCart(user, cart)
+	if err != nil {
+		s.logger.Error(err.Error())
+		return err
+	}
+	return nil
+}
+
+func (s *Service) DeleteCart(user *api.User, cartId string) error {
+	if user == nil {
+		return errors.New("user is nil")
+	}
+	cart, err := s.QueryOneCart(user, cartId)
+	if err != nil {
+		return err
+	}
+	cart.DeleteTime = times.Timestamp()
+	err = s.UpdateCart(user, cart)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *Service) QueryOneCart(user *api.User, cartId string) (*api.Cart, error) {
+	if user == nil {
+		return nil, errors.New("user is nil")
+	}
+	cart, err := s.repo.QueryOneCart(user, cartId)
+	if err != nil {
+		s.logger.Error(err.Error())
+		return nil, err
+	}
+	return cart, nil
 }

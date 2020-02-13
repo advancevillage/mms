@@ -12,7 +12,7 @@ type Cart struct {
 	GoodsName *Languages `json:"goodsName,omitempty"`
 	GoodsStatus int      `json:"goodsStatus,omitempty"`
 	GoodsPrice float64   `json:"goodsPrice,omitempty"`
-	Count     int 	  `json:"count,omitempty"`
+	Count      int 	  `json:"count,omitempty"`
 	CreateTime int64  `json:"createTime,omitempty"`
 	UpdateTime int64  `json:"updateTime,omitempty"`
 	DeleteTime int64  `json:"deleteTime,omitempty"`
