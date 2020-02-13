@@ -221,11 +221,40 @@ func (s *Service) CreateCart(user *api.User, cart *api.Cart) error {
 	if user == nil || cart == nil {
 		return errors.New("user or cart is nil")
 	}
+
+	carts, total, err := s.QueryCart(user)
+	if err != nil {
+		s.logger.Error(err.Error())
+		return  err
+	}
+
+	i := 0
+	for ; i < len(carts) && i < total; i++ {
+		if carts[i].GoodsId == cart.GoodsId && carts[i].SizeId == cart.SizeId && carts[i].ColorId == carts[i].ColorId {
+			carts[i].Count += cart.Count
+			break
+		} else {
+			continue
+		}
+
+	}
+
+	if i < len(carts) {
+		//购物车已存在该商品则合并购物车
+		err = s.repo.UpdateCart(user, &carts[i])
+		if err != nil {
+			s.logger.Error(err.Error())
+			return err
+		} else {
+			return nil
+		}
+	}
+
 	cart.Id =  utils.SnowFlakeIdString()
 	cart.CreateTime = times.Timestamp()
 	cart.UpdateTime = times.Timestamp()
 	cart.DeleteTime = 0
-	err := s.repo.CreateCart(user, cart)
+	err = s.repo.CreateCart(user, cart)
 	if err != nil {
 		s.logger.Error(err.Error())
 		return err
@@ -255,6 +284,7 @@ func (s *Service) DeleteCart(user *api.User, cartId string) error {
 		return err
 	}
 	cart.DeleteTime = times.Timestamp()
+	cart.UpdateTime = times.Timestamp()
 	err = s.UpdateCart(user, cart)
 	if err != nil {
 		return err

@@ -54,6 +54,9 @@ func (r *Mongo) CreateCart(user *api.User, cart *api.Cart) error {
 
 func (r *Mongo) QueryCart(user *api.User) ([]api.Cart, int64, error) {
 	where := make(map[string]interface{})
+	where["deleteTime"] = map[string]interface{}{
+		"$eq": 0,
+	}
 	sort  := make(map[string]interface{})
 	sort["createTime"] = -1
 	items, total, err := r.storage.SearchStorageV2Exd(CartSchema, user.Id, where, 99, 0, sort)

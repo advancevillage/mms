@@ -3,18 +3,18 @@ package api
 
 
 type Cart struct {
-	Id        string `json:"id,omitempty"`
-	GoodsId   string `json:"goodsId,omitempty"`
-	ColorId   string `json:"colorId,omitempty"`
-	SizeId    string `json:"sizeId,omitempty"`
-	SizeValue string `json:"sizeValue,omitempty"`
-	ColorName *Languages `json:"colorName,omitempty"`
-	GoodsName *Languages `json:"goodsName,omitempty"`
-	GoodsStatus int      `json:"goodsStatus,omitempty"`
-	GoodsPrice float64   `json:"goodsPrice,omitempty"`
-	Count      int 	  `json:"count,omitempty"`
-	CreateTime int64  `json:"createTime,omitempty"`
-	UpdateTime int64  `json:"updateTime,omitempty"`
-	DeleteTime int64  `json:"deleteTime,omitempty"`
-	FrontImage string `json:"frontImage,omitempty"`
+	Id        string `json:"id"`
+	GoodsId   string `json:"goodsId"`
+	ColorId   string `json:"colorId"`
+	SizeId    string `json:"sizeId"`
+	SizeValue string `json:"sizeValue"`
+	ColorName *Languages `json:"colorName"`
+	GoodsName *Languages `json:"goodsName"`
+	GoodsStatus int      `json:"goodsStatus"`
+	GoodsPrice float64   `json:"goodsPrice"`
+	Count      int 	  `json:"count"`
+	CreateTime int64  `json:"createTime"`
+	UpdateTime int64  `json:"updateTime"`
+	DeleteTime int64  `json:"deleteTime"`
+	FrontImage string `json:"frontImage"`
 }
