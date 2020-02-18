@@ -303,3 +303,25 @@ func (s *Service) QueryOneCart(user *api.User, cartId string) (*api.Cart, error)
 	}
 	return cart, nil
 }
+
+func (s *Service) CreateAddress(user *api.User, addr *api.Address) error {
+	if user == nil || addr == nil {
+		return errors.New("user or addr is nil")
+	}
+
+	//校验国家
+
+	//校验省
+
+	//校验市
+
+	//校验区
+
+	//校验街道地址
+
+	//校验邮编
+
+	//追加地址
+
+	return nil
+}
