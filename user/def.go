@@ -11,6 +11,8 @@ import (
 const (
 	Schema = "users"
 	CartSchema = "carts"
+	AddressSchema = "address"
+	CreditSchema  = "credit"
 
 	SHA1   = 160
 
@@ -25,6 +27,9 @@ type IUser interface {
 	QueryCart(user *api.User) ([]api.Cart, int64, error)
 	UpdateCart(user *api.User, cart *api.Cart) error
 	QueryOneCart(user *api.User, cartId string) (*api.Cart, error)
+
+	QueryAddress(user *api.User) ([]api.Address, int64, error)
+	CreateAddress(user *api.User, address *api.Address) error
 }
 
 

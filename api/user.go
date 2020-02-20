@@ -3,21 +3,19 @@ package api
 
 
 type User struct {
-	Id			string  `json:"id,omitempty"`
+	Id			string  `json:"id"`
 	Username	string	`json:"username"`	//email
 	Password 	string 	`json:"password"`	//sha1(password)
 	Gender		int 	`json:"gender"` 	// 0 women 1 man
 	CreateTime  int64 	`json:"createTime,omitempty"`
 	UpdateTime  int64 	`json:"updateTime,omitempty"`
 	DeleteTime  int64   `json:"deleteTime,omitempty"`
-	Credit      []CreditCard  `json:"credit,omitempty"`
-	Addr        []Address     `json:"addr,omitempty"`
 }
 
 type Login struct {
 	Username	string	`json:"username"`	//email
 	Password 	string 	`json:"password"`	//sha1(password)
-	Timestamp   string   `json:"timestamp"`
+	Timestamp   string  `json:"timestamp"`
 	Token 		string  `json:"token"`
 	Sign 		string  `json:"sign"`
 }
@@ -38,6 +36,7 @@ type Token struct {
 }
 
 type CreditCard struct {
+	Id 	   int64    `json:"id"`
 	Number string `json:"number"`
 	Expire string `json:"expire"`
 	Custom string `json:"custom"`
@@ -50,6 +49,7 @@ type CreditCard struct {
 }
 
 type Address struct {
+	Id       int64    `json:"id"`
 	Country  string `json:"country"`   //国家
 	Province string `json:"province"`  //省/州
 	City 	 string `json:"city"`	   //城市

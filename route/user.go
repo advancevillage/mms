@@ -281,3 +281,43 @@ func (s *Service) DeleteCart(ctx *https.Context) {
 	}
 	ctx.JSON(http.StatusOK, s.newHttpOk())
 }
+
+//@Summary 新增地址
+//@Produce json
+//@Param x-language header string false "语言" default "chinese"
+//@Param {} body api.Address true "CreateAddress"
+//@Success 200 {object} route.httpOk
+//@Failure 400 {object} route.httpError
+//@Failure 404 {object} route.httpError
+//@Failure 500 {object} route.httpError
+//@Router /v1/address [post]
+func (s *Service) CreateAddress(ctx *https.Context) {
+	//验证请求
+	sid, err := s.sid(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusForbidden, s.newHttpError(SessionCode, SessionMsg, QueryErrorCode, err.Error()))
+		return
+	}
+	body, err := s.body(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, s.newHttpError(UserCode, UserMsg, BodyErrorCode, BodyErrorMsg))
+		return
+	}
+	param := api.Address{}
+	err = json.Unmarshal(body, &param)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, s.newHttpError(UserCode, UserMsg, ContextErrorCode, ContextErrorMsg))
+		return
+	}
+	user, err := s.sessionService.QueryUserSession(sid)
+	if err != nil {
+		ctx.JSON(http.StatusForbidden, s.newHttpError(SessionCode, SessionMsg, QueryErrorCode, err.Error()))
+		return
+	}
+	err = s.userService.CreateAddress(user, &param)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, s.newHttpError(AddressCode, AddressMsg, CreateErrorCode, err.Error()))
+		return
+	}
+	ctx.JSON(http.StatusOK, s.newHttpOk())
+}

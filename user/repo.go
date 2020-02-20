@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"github.com/advancevillage/3rd/storages"
 	"mms/api"
+	"strconv"
 )
 
 type Mongo struct {
@@ -96,4 +97,37 @@ func (r *Mongo) QueryOneCart(user *api.User, cartId string) (*api.Cart, error) {
 		return nil, err
 	}
 	return &cart, nil
+}
+
+func (r *Mongo) QueryAddress(user *api.User) ([]api.Address, int64, error) {
+	where := make(map[string]interface{})
+	where["deleteTime"] = map[string]interface{}{
+		"$eq": 0,
+	}
+	sort  := make(map[string]interface{})
+	sort["createTime"] = -1
+	items, total, err := r.storage.SearchStorageV2Exd(AddressSchema, user.Id, where, 99, 0, sort)
+	if err != nil {
+		return nil, 0, err
+	}
+	address := make([]api.Address, 0, total)
+	for i := 0; i < len(address); i++ {
+		addr := api.Address{}
+		err = json.Unmarshal(items[i], &addr)
+		if err != nil {
+			return nil, 0, err
+		} else {
+			address = append(address, addr)
+			continue
+		}
+	}
+	return address, total, nil
+}
+
+func (r *Mongo) CreateAddress(user *api.User, address *api.Address) error {
+	buf, err := json.Marshal(address)
+	if err != nil {
+		return err
+	}
+	return r.storage.CreateStorageV2Exd(AddressSchema, user.Id, strconv.FormatInt(address.Id, 10),  buf)
 }

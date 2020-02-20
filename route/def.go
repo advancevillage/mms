@@ -22,6 +22,9 @@ const (
 	//购物车 cart
 	CartCode    = 2300
 	CartMsg     = "cart"
+	//收货地址 address
+	AddressCode = 2400
+	AddressMsg  = "address"
 	//图片 image
 	ImageCode = 1700
 	ImageMsg  = "category"

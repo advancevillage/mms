@@ -308,20 +308,45 @@ func (s *Service) CreateAddress(user *api.User, addr *api.Address) error {
 	if user == nil || addr == nil {
 		return errors.New("user or addr is nil")
 	}
-
 	//校验国家
-
-	//校验省
-
-	//校验市
-
-	//校验区
-
-	//校验街道地址
-
-	//校验邮编
-
-	//追加地址
-
+	if len(addr.Country) <= 0 {
+		return errors.New("country is empty")
+	}
+	if len(addr.Province) <= 0 {
+		return errors.New("province is empty")
+	}
+	if len(addr.City) <= 0 {
+		return errors.New("city is empty")
+	}
+	if len(addr.Area) <= 0 {
+		return errors.New("area is empty")
+	}
+	if len(addr.Street) <= 0 {
+		return errors.New("street is empty")
+	}
+	if len(addr.People) <= 0 {
+		return errors.New("people is empty")
+	}
+	if len(addr.Email) <= 0 {
+		return errors.New("email is empty")
+	}
+	if len(addr.Phone) <= 0 {
+		return errors.New("phone is empty")
+	}
+	//获取该用户已有地址数量
+	_, total, err := s.repo.QueryAddress(user)
+	if err != nil {
+		s.logger.Error(err.Error())
+		return err
+	}
+	addr.Id = total + 1
+	addr.CreateTime = times.Timestamp()
+	addr.UpdateTime = times.Timestamp()
+	addr.DeleteTime = 0
+	err = s.repo.CreateAddress(user, addr)
+	if err != nil {
+		s.logger.Error(err.Error())
+		return err
+	}
 	return nil
 }
