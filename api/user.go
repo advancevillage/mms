@@ -39,7 +39,6 @@ type CreditCard struct {
 	Id 	   int64    `json:"id"`
 	Number string `json:"number"`
 	Expire string `json:"expire"`
-	Custom string `json:"custom"`
 	ImageUrl string `json:"imageUrl"`
 	CVV      string `json:"cvv"`
 	IsDefault  bool  `json:"isDefault"`
@@ -49,15 +48,14 @@ type CreditCard struct {
 }
 
 type Address struct {
-	Id       int64    `json:"id"`
+	Id       int64  `json:"id"`
+	FullName string `json:"fullName"`
 	Country  string `json:"country"`   //国家
-	Province string `json:"province"`  //省/州
-	City 	 string `json:"city"`	   //城市
-	Area     string `json:"area"`	   //区
-	Street   string `json:"street"`    //街道及门牌号
+	Province string `json:"province"`  //省
+	City     string `json:"city"`	   //城市
+	Line1    string `json:"line1"`	   //Line 1
+	Line2    string `json:"line2"`	   //Line 2
 	ZipCode  string `json:"zipCode"`   //邮编
-	People   string `json:"people"`	   //收货人
-	Email    string `json:"email"`	   //收货人邮箱
 	Phone    string `json:"phone"`	   //收货人电话
 	IsDefault  bool  `json:"isDefault"`
 	CreateTime int64 `json:"createTime"`
