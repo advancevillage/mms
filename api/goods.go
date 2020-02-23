@@ -2,7 +2,7 @@
 package api
 
 
-type Cart struct {
+type Goods struct {
 	Id        string `json:"id"`
 	GoodsId   string `json:"goodsId"`
 	ColorId   string `json:"colorId"`
@@ -13,8 +13,5 @@ type Cart struct {
 	GoodsStatus int      `json:"goodsStatus"`
 	GoodsPrice float64   `json:"goodsPrice"`
 	Count      int 	  `json:"count"`
-	CreateTime int64  `json:"createTime"`
-	UpdateTime int64  `json:"updateTime"`
-	DeleteTime int64  `json:"deleteTime"`
 	FrontImage string `json:"frontImage"`
 }
