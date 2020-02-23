@@ -1,5 +1,95 @@
 basePath: /
 definitions:
+  api.Address:
+    properties:
+      city:
+        description: 城市
+        type: string
+      country:
+        description: 国家
+        type: string
+      createTime:
+        type: integer
+      deleteTime:
+        type: integer
+      fullName:
+        type: string
+      id:
+        type: integer
+      isDefault:
+        type: boolean
+      line1:
+        description: Line 1
+        type: string
+      line2:
+        description: Line 2
+        type: string
+      phone:
+        description: 收货人电话
+        type: string
+      province:
+        description: 省
+        type: string
+      updateTime:
+        type: integer
+      zipCode:
+        description: 邮编
+        type: string
+    type: object
+  api.Cart:
+    properties:
+      colorId:
+        type: string
+      colorName:
+        $ref: '#/definitions/api.Languages'
+        type: object
+      count:
+        type: integer
+      createTime:
+        type: integer
+      deleteTime:
+        type: integer
+      frontImage:
+        type: string
+      goodsId:
+        type: string
+      goodsName:
+        $ref: '#/definitions/api.Languages'
+        type: object
+      goodsPrice:
+        type: number
+      goodsStatus:
+        type: integer
+      id:
+        type: string
+      sizeId:
+        type: string
+      sizeValue:
+        type: string
+      updateTime:
+        type: integer
+    type: object
+  api.CreditCard:
+    properties:
+      bin:
+        type: string
+      createTime:
+        type: integer
+      cvv:
+        type: string
+      deleteTime:
+        type: integer
+      expire:
+        type: string
+      id:
+        type: integer
+      isDefault:
+        type: boolean
+      number:
+        type: string
+      updateTime:
+        type: integer
+    type: object
   api.Image:
     properties:
       createTime:
@@ -17,6 +107,13 @@ definitions:
       url:
         type: string
     type: object
+  api.Languages:
+    properties:
+      chinese:
+        type: string
+      english:
+        type: string
+    type: object
   api.Register:
     properties:
       gender:
@@ -25,15 +122,15 @@ definitions:
       password:
         description: sha1(password)
         type: string
+      sign:
+        description: 签名
+        type: string
       timestamp:
-        type: integer
+        type: string
       token:
         type: string
       username:
         description: email
-        type: string
-      verified:
-        description: 邮件验证码
         type: string
     type: object
   api.Token:
@@ -71,6 +168,211 @@ info:
   title: ums
   version: 0.0.1
 paths:
+  /v1/address:
+    post:
+      parameters:
+      - description: 语言
+        in: header
+        name: x-language
+        type: string
+      - description: CreateAddress
+        in: body
+        name: '{}'
+        required: true
+        schema:
+          $ref: '#/definitions/api.Address'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/route.httpOk'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/route.httpError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/route.httpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/route.httpError'
+            type: object
+      summary: 新增地址
+  /v1/carts:
+    get:
+      parameters:
+      - description: 语言
+        in: header
+        name: x-language
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/route.httpOk'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/route.httpError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/route.httpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/route.httpError'
+            type: object
+      summary: 查询购物车
+    post:
+      parameters:
+      - description: 语言
+        in: header
+        name: x-language
+        type: string
+      - description: CreateCart
+        in: body
+        name: '{}'
+        required: true
+        schema:
+          $ref: '#/definitions/api.Cart'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/route.httpOk'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/route.httpError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/route.httpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/route.httpError'
+            type: object
+      summary: 添加购物车
+  /v1/carts/{pathId}:
+    delete:
+      parameters:
+      - description: 语言
+        in: header
+        name: x-language
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/route.httpOk'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/route.httpError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/route.httpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/route.httpError'
+            type: object
+      summary: 删除购物车
+    put:
+      parameters:
+      - description: 语言
+        in: header
+        name: x-language
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/route.httpOk'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/route.httpError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/route.httpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/route.httpError'
+            type: object
+      summary: 更新购物车
+  /v1/credit:
+    post:
+      parameters:
+      - description: 语言
+        in: header
+        name: x-language
+        type: string
+      - description: CreateCreditCard
+        in: body
+        name: '{}'
+        required: true
+        schema:
+          $ref: '#/definitions/api.CreditCard'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/route.httpOk'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/route.httpError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/route.httpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/route.httpError'
+            type: object
+      summary: 新增卡片
   /v1/images:
     post:
       parameters:

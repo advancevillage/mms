@@ -59,6 +59,12 @@ var router = func (api API) []https.Router {
 		{"GET", "/v1/users", api.QueryUser},
 		{"POST", "/v1/users", api.CreateUser},
 		{"OPTIONS", "/v1/users", api.ping},
+		//address
+		{"POST", "/v1/address", api.CreateAddress},
+		{"OPTIONS", "/v1/address", api.ping},
+		//creditCard
+		{"POST", "/v1/credit", api.CreateCreditCard},
+		{"OPTIONS", "/v1/credit", api.ping},
 		//token
 		{"POST", "/v1/tokens", api.CreateToken},
 		{"OPTIONS", "/v1/tokens", api.ping},
@@ -78,6 +84,10 @@ type API interface {
 	//user
 	QueryUser (ctx *https.Context)
 	CreateUser(ctx *https.Context)
+	//address
+	CreateAddress(ctx *https.Context)
+	//creditCard
+	CreateCreditCard(ctx *https.Context)
 	//token
 	CreateToken(ctx *https.Context)
 	//carts

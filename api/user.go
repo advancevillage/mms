@@ -39,7 +39,7 @@ type CreditCard struct {
 	Id 	   int64    `json:"id"`
 	Number string `json:"number"`
 	Expire string `json:"expire"`
-	ImageUrl string `json:"imageUrl"`
+	Bin    string `json:"bin"`
 	CVV      string `json:"cvv"`
 	IsDefault  bool  `json:"isDefault"`
 	CreateTime int64 `json:"createTime"`

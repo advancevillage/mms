@@ -318,18 +318,6 @@ func (s *Service) CreateAddress(user *api.User, addr *api.Address) error {
 	if len(addr.City) <= 0 {
 		return errors.New("city is empty")
 	}
-	if len(addr.Area) <= 0 {
-		return errors.New("area is empty")
-	}
-	if len(addr.Street) <= 0 {
-		return errors.New("street is empty")
-	}
-	if len(addr.People) <= 0 {
-		return errors.New("people is empty")
-	}
-	if len(addr.Email) <= 0 {
-		return errors.New("email is empty")
-	}
 	if len(addr.Phone) <= 0 {
 		return errors.New("phone is empty")
 	}
@@ -343,10 +331,50 @@ func (s *Service) CreateAddress(user *api.User, addr *api.Address) error {
 	addr.CreateTime = times.Timestamp()
 	addr.UpdateTime = times.Timestamp()
 	addr.DeleteTime = 0
+	addr.IsDefault  = false
+
 	err = s.repo.CreateAddress(user, addr)
 	if err != nil {
 		s.logger.Error(err.Error())
 		return err
 	}
+	return nil
+}
+
+func (s *Service) CreateCreditCard(user *api.User, credit *api.CreditCard) error {
+	if user == nil || credit == nil {
+		return errors.New("user or credit is nil")
+	}
+	if len(credit.Bin) <= 0 {
+		return errors.New("bin is empty")
+	}
+	if len(credit.Number) <= 0 {
+		return errors.New("number is empty")
+	}
+	if len(credit.Expire) <= 0 {
+		return errors.New("expire is empty")
+	}
+	if len(credit.CVV) <= 0 {
+		return errors.New("cvv is empty")
+	}
+	//获取该用户已有信用卡数量
+	_, total, err := s.repo.QueryCreditCard(user)
+	if err != nil {
+		s.logger.Error(err.Error())
+		return err
+	}
+
+	credit.Id = total + 1
+	credit.CreateTime = times.Timestamp()
+	credit.UpdateTime = times.Timestamp()
+	credit.DeleteTime = 0
+	credit.IsDefault  = false
+
+	err = s.repo.CreateCreditCard(user, credit)
+	if err != nil {
+		s.logger.Error(err.Error())
+		return err
+	}
+
 	return nil
 }

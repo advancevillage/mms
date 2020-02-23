@@ -131,3 +131,36 @@ func (r *Mongo) CreateAddress(user *api.User, address *api.Address) error {
 	}
 	return r.storage.CreateStorageV2Exd(AddressSchema, user.Id, strconv.FormatInt(address.Id, 10),  buf)
 }
+
+func (r *Mongo) QueryCreditCard(user *api.User) ([]api.CreditCard, int64, error) {
+	where := make(map[string]interface{})
+	where["deleteTime"] = map[string]interface{}{
+		"$eq": 0,
+	}
+	sort  := make(map[string]interface{})
+	sort["createTime"] = -1
+	items, total, err := r.storage.SearchStorageV2Exd(CreditSchema, user.Id, where, 99, 0, sort)
+	if err != nil {
+		return nil, 0, err
+	}
+	credits := make([]api.CreditCard, 0, total)
+	for i := 0; i < len(credits); i++ {
+		credit := api.CreditCard{}
+		err = json.Unmarshal(items[i], &credit)
+		if err != nil {
+			return nil, 0, err
+		} else {
+			credits = append(credits, credit)
+			continue
+		}
+	}
+	return credits, total, nil
+}
+
+func (r *Mongo) CreateCreditCard(user *api.User, credit *api.CreditCard) error {
+	buf, err := json.Marshal(credit)
+	if err != nil {
+		return err
+	}
+	return r.storage.CreateStorageV2Exd(CreditSchema, user.Id, strconv.FormatInt(credit.Id, 10),  buf)
+}

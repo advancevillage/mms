@@ -30,6 +30,9 @@ type IUser interface {
 
 	QueryAddress(user *api.User) ([]api.Address, int64, error)
 	CreateAddress(user *api.User, address *api.Address) error
+
+	QueryCreditCard(user *api.User) ([]api.CreditCard, int64, error)
+	CreateCreditCard(user *api.User, credit *api.CreditCard) error
 }
 
 
