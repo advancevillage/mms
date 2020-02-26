@@ -6,7 +6,8 @@ package api
 type Order struct {
 	Id  	string 		`json:"id"`					//订单Id
 	User    *User  		`json:"user,omitempty"` 	//用户信息快照
-	Status  int 	    `json:"status,omitempty"`	//订单状态
+	State   string 	    `json:"state,"`				//订单现态
+	NextState string  	`json:"nextState,"`		    //订单次态
 	GoodsCount int 	    `json:"goodsCount,omitempty"` //商品数量
 	Address *Address    `json:"address,omitempty"`	  //收货地址快照
 	SubTotal   float64  `json:"subTotal,omitempty"`   //商品小计
@@ -20,6 +21,18 @@ type Order struct {
 	ReturnTime   int64  `json:"returnTime,omitempty"`	//退货时间
 	PayTime      int64  `json:"payTime,omitempty"`		//支付时间
 	Goods      []Goods  `json:"goods,omitempty"`		//商品明细
+
+	SnapshotOrdered     bool `json:"snapshotOrdered,omitempty"`     //是否已经下单
+	SnapshotPendingPay  bool `json:"snapshotPendingPay,omitempty"`  //是否待支付
+	SnapshotPaying      bool `json:"snapshotPaying,omitempty"`
+	SnapshotPayed       bool `json:"snapshotPayed,omitempty"`
+	SnapshotPendingShip bool `json:"snapshotPendingShip,omitempty"`
+	SnapshotShipping    bool `json:"snapshotShipping,omitempty"`
+	SnapshotShipped     bool `json:"snapshotShipped,omitempty"`
+	SnapshotFinished    bool `json:"snapshotFinished,omitempty"`
+	SnapshotClosed      bool `json:"snapshotClosed,omitempty"`
+	SnapshotCanceled    bool `json:"snapshotCanceled,omitempty"`
+	//TODO
 }
 
 //交易信息

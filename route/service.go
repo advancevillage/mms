@@ -7,18 +7,18 @@ import (
 	"github.com/advancevillage/3rd/https"
 	"mms/config"
 	"mms/language"
+	"mms/order"
 	"mms/session"
-	"mms/user"
 	"net/http"
 	"strconv"
 	"strings"
 )
 
-func NewService(configService *config.Service, langService *language.Service, userService *user.Service, sessionService *session.Service) *Service {
+func NewService(configService *config.Service, langService *language.Service, orderService *order.Service, sessionService *session.Service) *Service {
 	return &Service{
 		configService: configService,
 		langService:   langService,
-		userService:   userService,
+		orderService:   orderService,
 		sessionService: sessionService,
 	}
 }

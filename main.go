@@ -14,9 +14,9 @@ package main
 import (
 	"mms/config"
 	"mms/language"
+	"mms/order"
 	"mms/route"
 	"mms/session"
-	"mms/user"
 )
 
 var (
@@ -50,14 +50,14 @@ func main() {
 	//init lang service
 	langService := language.NewService()
 
-	//init user service
-	userService := user.NewService(configService.Mongo, configService.Logger, configService.Cache)
+	//init order service
+	orderService := order.NewService(configService.Mongo, configService.Logger)
 
 	//init session service
 	sessionService := session.NewService(configService.Cache, configService.Logger)
 
 	//init route service
-	routeService := route.NewService(configService, langService, userService, sessionService)
+	routeService := route.NewService(configService, langService, orderService, sessionService)
 
 	//start route service
 	err = routeService.StartRouter(mode)

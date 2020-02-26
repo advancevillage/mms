@@ -5,8 +5,8 @@ import (
 	"github.com/advancevillage/3rd/https"
 	"mms/config"
 	"mms/language"
+	"mms/order"
 	"mms/session"
-	"mms/user"
 )
 
 const (
@@ -55,36 +55,18 @@ var router = func (api API) []https.Router {
 		//service
 		{"GET", "/v1/service/ping", api.ping},
 		{"GET", "/v1/service/version", api.version},
-		//user
-		{"GET", "/v1/users", api.QueryUser},
-		{"POST", "/v1/users", api.CreateUser},
-		{"OPTIONS", "/v1/users", api.ping},
-		//token
-		{"POST", "/v1/tokens", api.CreateToken},
-		{"OPTIONS", "/v1/tokens", api.ping},
-		//carts
-		{"POST", "/v1/carts", api.CreateCart},
-		{"GET", "/v1/carts", api.QueryCart},
-		{"PUT", "/v1/carts/:pathId", api.UpdateCart},
-		{"DELETE", "/v1/carts/:pathId", api.DeleteCart},
-		{"OPTIONS", "/v1/carts", api.ping},
-		{"OPTIONS", "/v1/carts/:pathId", api.ping},
+		//order
+		{"POST", "/v1/order", api.CreateOrder},
+		{"OPTIONS", "/v1/order", api.ping},
+		{"OPTIONS", "/v1/order/:pathId", api.ping},
 	}
 }
 
 type API interface {
 	ping(ctx *https.Context)
 	version(ctx *https.Context)
-	//user
-	QueryUser (ctx *https.Context)
-	CreateUser(ctx *https.Context)
-	//token
-	CreateToken(ctx *https.Context)
-	//carts
-	CreateCart(ctx *https.Context)
-	QueryCart(ctx *https.Context)
-	DeleteCart(ctx *https.Context)
-	UpdateCart(ctx *https.Context)
+	//order
+	CreateOrder(ctx *https.Context)
 }
 
 type httpError struct {
@@ -100,6 +82,6 @@ type httpOk struct {
 type Service struct {
 	configService  *config.Service
 	langService    *language.Service
-	userService    *user.Service
+	orderService   *order.Service
 	sessionService *session.Service
 }
