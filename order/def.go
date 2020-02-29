@@ -13,6 +13,9 @@ const (
 
 const (
 	Schema   = "orders"
+	StockSchema = "stocks"
+)
+const (
 	Project   = 0  //show'u
 	TypeOrder  = 0 //订单
 	TypeReturn = 1 //退货单
@@ -31,11 +34,21 @@ const (
 )
 
 type IOrder interface {
+	CreateOrder(o *api.Order) error
 	QueryOrders(user *api.User, where map[string]interface{}, page int, perPage int, sort map[string]interface{}) ([]api.Order, int64, error)
+	IStock
 }
 
 type IStock interface {
-	//加减库存
+	//乐观锁 多版本实现 库存添加version字段属性 自增 核心CAS(compare and set) CAS 原子性由mongodb保证
+	//https://docs.mongodb.com/manual/core/write-operations-atomicity/#update-if-current
+	//https://stackoverflow.com/questions/16523621/atomicity-and-cas-operations-in-mongodb
+	UpdateStock(goods *api.Goods) error
+	QueryStock(goods *api.Goods) (*api.Goods, error)
+}
+
+type IPay interface {
+
 }
 
 type Service struct {

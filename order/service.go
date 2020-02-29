@@ -31,9 +31,37 @@ func (s *Service) ActionShipping(o *api.Order) error {
 	return nil
 }
 
-func (s *Service) CreateOrder(user *api.User, addr *api.Address, goods []api.Goods, credit *api.Transaction) error {
-	//锁定库存
+func (s *Service) CreateOrder(user *api.User, o *api.Order) error {
+	if user == nil || o == nil {
+		return errors.New("user or order is nil")
+	}
+	//TODO 锁定库存
 	//生成订单
+	orderId, err := s.CreateOrderId(user)
+	if err != nil {
+		s.logger.Error(err.Error())
+		return err
+	}
+	o.Id      = orderId
+	o.State   = StateOrdered
+	o.NextState = StatePendingPay
+	o.OrderTime = times.Timestamp()
+	err = s.repo.CreateOrder(o)
+	if err != nil {
+		s.logger.Error(err.Error())
+		return err
+	}
+	//生成订单后交付给自动机处理
+	action, err := s.sm.QueryAction(o.State, o.NextState, EventPay)
+	if err != nil {
+		s.logger.Critical("fsm don't handle %s->%s", o.State, o.NextState)
+		return nil
+	}
+	err = action(o)
+	if err != nil {
+		s.logger.Critical("pay order fail %s", err.Error())
+		return err
+	}
 	//支付订单
 	return nil
 }
@@ -70,8 +98,20 @@ func (s *Service) CreateOrderId(user *api.User) (string, error) {
 		s.logger.Error(err.Error())
 		return "", err
 	}
-	id := fmt.Sprintf("%d%d%s%04d", project, types, datetime, total)
+	id := fmt.Sprintf("%d%d%s%04d", project, types, datetime, total + 1)
 	return id, nil
+}
+
+func (s *Service) QueryStock(goods *api.Goods) (*api.Goods, error) {
+	if goods == nil {
+		return nil, errors.New("goods is nil")
+	}
+	goods, err := s.repo.QueryStock(goods)
+	if err != nil {
+		s.logger.Error(err.Error())
+		return nil, err
+	}
+	return goods, nil
 }
 
 

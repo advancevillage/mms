@@ -11,25 +11,29 @@ import (
 
 const (
 	//用户 user
-	UserCode = 2000
-	UserMsg  = "user"
-	//令牌 token
-	TokenCode = 2100
-	TokenMsg  = "token"
+	OrderCode = 3000
+	OrderMsg  = "order"
+	//结算页令牌 token
+	PayTokenCode = 3100
+	PayTokenMsg  = "pay page token"
 	//Session
 	SessionCode = 2200
 	SessionMsg  = "session"
 	//购物车 cart
-	CartCode    = 2300
-	CartMsg     = "cart"
+	StockCode   = 3300
+	StockMsg    = "stock"
 	//收货地址 address
 	AddressCode = 2400
 	AddressMsg  = "address"
 	//图片 image
-	ImageCode = 1700
-	ImageMsg  = "category"
+	CreditCode  = 2500
+	CreditMsg   = "credit"
 
 	SnowFlakeIdLength = 18
+
+
+	PendingHandle = "pending_handle"
+	Handling      = "handling"
 )
 
 const (
@@ -48,6 +52,9 @@ const (
 	IDErrorMsg      = "id error"
 
 	OperateSuccess = "operate success"
+	StockNotEnough = "stock not enough"
+	InvalidCreditCard = "invalid credit card"
+	InvalidAddress    = "invalid address"
 )
 
 var router = func (api API) []https.Router {

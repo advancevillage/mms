@@ -174,6 +174,14 @@ func (s *Service) sid(ctx *https.Context) (string, error) {
 	return sid, nil
 }
 
+func (s *Service) tid(ctx *https.Context) (string, error) {
+	tid, err := ctx.ReadCookie("tid")
+	if err != nil || len(tid) <= 0 {
+		return "", errors.New("invalid tid")
+	}
+	return tid, nil
+}
+
 func (s *Service) response(items interface{}, total int64) interface{} {
 	response := make(map[string]interface{})
 	response["items"] = items

@@ -21,6 +21,7 @@ type Order struct {
 	ReturnTime   int64  `json:"returnTime,omitempty"`	//退货时间
 	PayTime      int64  `json:"payTime,omitempty"`		//支付时间
 	Goods      []Goods  `json:"goods,omitempty"`		//商品明细
+	Pay    *CreditCard  `json:"pay"`					//支付卡
 
 	SnapshotOrdered     bool `json:"snapshotOrdered,omitempty"`     //是否已经下单
 	SnapshotPendingPay  bool `json:"snapshotPendingPay,omitempty"`  //是否待支付
@@ -35,14 +36,15 @@ type Order struct {
 	//TODO
 }
 
-//交易信息
-type Transaction struct {
-	Id     int 		`json:"id,omitempty"`
+//信用卡
+type CreditCard struct {
 	Bin    string   `json:"bin,omitempty"`  //卡片类型
-	Number string `json:"number"`
-	Expire string `json:"expire"`
-	ImageUrl string `json:"imageUrl"`
+	Number string 	`json:"number"`
+	Expire string   `json:"expire"`
 	CVV      string `json:"cvv"`
+	ImageUrl string `json:"imageUrl"`
 }
+
+//支付交易流水
 
 

@@ -13,8 +13,8 @@ func NewSessionRepo(cache caches.ICache) *Storage {
 	return &Storage{cache: cache}
 }
 
-func (r *Storage) CreateSession(key string, value []byte) error {
-	err := r.cache.CreateCache(key, value, ExpireTime)
+func (r *Storage) CreateSession(key string, value []byte, expire int) error {
+	err := r.cache.CreateCache(key, value, expire)
 	if err != nil {
 		return err
 	}

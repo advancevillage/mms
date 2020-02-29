@@ -23,13 +23,13 @@ func (s *Service) CreateUserSession(user *api.User) (string, error) {
 	if user == nil {
 		return "", errors.New("user is nil")
 	}
-	key := s.CreateKey(user.Username)
+	key := s.CreateUserSessionKey(user.Username)
 	value, err := json.Marshal(user)
 	if err != nil {
 		s.logger.Info(err.Error())
 		return "", err
 	}
-	err = s.repo.CreateSession(key, value)
+	err = s.repo.CreateSession(key, value, ExpireTime)
 	if err != nil {
 		s.logger.Error(err.Error())
 		return "", err
@@ -52,6 +52,38 @@ func (s *Service) QueryUserSession(key string) (*api.User, error) {
 	return &user, nil
 }
 
-func (s *Service) CreateKey(username string) string {
+func (s *Service) CreateTidSession(value []byte) (string, error) {
+	key := s.CreateTidSessionKey()
+    err := s.repo.CreateSession(key, value, 7 * 24 * 3600)
+	if err != nil {
+		s.logger.Error(err.Error())
+		return "", err
+	}
+	return key, nil
+}
+
+func (s *Service) QueryTidSession(key string) (string, error) {
+	buf, err := s.repo.QuerySession(key)
+	if err != nil {
+		s.logger.Info(err.Error())
+		return "", err
+	}
+	return string(buf), nil
+}
+
+func (s *Service) DeleteTidSession(key string) error {
+	err := s.repo.DeleteSession(key)
+	if err != nil {
+		s.logger.Warning(err.Error())
+		return err
+	}
+	return nil
+}
+
+func (s *Service) CreateTidSessionKey() string {
+	return fmt.Sprintf("%s:%s:%s:%s", "paypage", times.TimeFormatString(times.YYYYMMddHHmmss), utils.RandsNumberString(9))
+}
+
+func (s *Service) CreateUserSessionKey(username string) string {
 	return fmt.Sprintf("%s:%s:%s:%s", "session", username, times.TimeFormatString(times.YYYYMMddHHmmss), utils.RandsNumberString(6))
 }
