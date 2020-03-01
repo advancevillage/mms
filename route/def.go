@@ -26,8 +26,8 @@ const (
 	AddressCode = 2400
 	AddressMsg  = "address"
 	//图片 image
-	ImageCode = 1700
-	ImageMsg  = "category"
+	CreditCode  = 2500
+	CreditMsg   = "credit"
 
 	SnowFlakeIdLength = 18
 )
@@ -61,9 +61,11 @@ var router = func (api API) []https.Router {
 		{"OPTIONS", "/v1/users", api.ping},
 		//address
 		{"POST", "/v1/address", api.CreateAddress},
+		{"GET", "/v1/address", api.QueryAddress},
 		{"OPTIONS", "/v1/address", api.ping},
 		//creditCard
 		{"POST", "/v1/credit", api.CreateCreditCard},
+		{"GET", "/v1/credit", api.QueryCreditCard},
 		{"OPTIONS", "/v1/credit", api.ping},
 		//token
 		{"POST", "/v1/tokens", api.CreateToken},
@@ -86,8 +88,10 @@ type API interface {
 	CreateUser(ctx *https.Context)
 	//address
 	CreateAddress(ctx *https.Context)
+	QueryAddress (ctx *https.Context)
 	//creditCard
 	CreateCreditCard(ctx *https.Context)
+	QueryCreditCard (ctx *https.Context)
 	//token
 	CreateToken(ctx *https.Context)
 	//carts

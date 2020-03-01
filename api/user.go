@@ -36,11 +36,11 @@ type Token struct {
 }
 
 type CreditCard struct {
-	Id 	   int64    `json:"id"`
+	Id     int64  `json:"id"`
 	Number string `json:"number"`
 	Expire string `json:"expire"`
 	Bin    string `json:"bin"`
-	CVV      string `json:"cvv"`
+	CVV        string `json:"cvv,omitempty"`
 	IsDefault  bool  `json:"isDefault"`
 	CreateTime int64 `json:"createTime"`
 	UpdateTime int64 `json:"updateTime"`

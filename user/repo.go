@@ -111,7 +111,7 @@ func (r *Mongo) QueryAddress(user *api.User) ([]api.Address, int64, error) {
 		return nil, 0, err
 	}
 	address := make([]api.Address, 0, total)
-	for i := 0; i < len(address); i++ {
+	for i := 0; i < len(items); i++ {
 		addr := api.Address{}
 		err = json.Unmarshal(items[i], &addr)
 		if err != nil {
@@ -144,7 +144,7 @@ func (r *Mongo) QueryCreditCard(user *api.User) ([]api.CreditCard, int64, error)
 		return nil, 0, err
 	}
 	credits := make([]api.CreditCard, 0, total)
-	for i := 0; i < len(credits); i++ {
+	for i := 0; i < len(items); i++ {
 		credit := api.CreditCard{}
 		err = json.Unmarshal(items[i], &credit)
 		if err != nil {

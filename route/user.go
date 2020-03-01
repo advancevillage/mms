@@ -322,6 +322,33 @@ func (s *Service) CreateAddress(ctx *https.Context) {
 	ctx.JSON(http.StatusOK, s.newHttpOk())
 }
 
+//@Summary 查询收货地址
+//@Produce json
+//@Param x-language header string false "语言" default "chinese"
+//@Success 200 {object} route.httpOk
+//@Failure 400 {object} route.httpError
+//@Failure 404 {object} route.httpError
+//@Failure 500 {object} route.httpError
+//@Router /v1/address [get]
+func (s *Service) QueryAddress(ctx *https.Context) {
+	sid, err := s.sid(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusForbidden, s.newHttpError(SessionCode, SessionMsg, QueryErrorCode, err.Error()))
+		return
+	}
+	user, err := s.sessionService.QueryUserSession(sid)
+	if err != nil {
+		ctx.JSON(http.StatusForbidden, s.newHttpError(SessionCode, SessionMsg, QueryErrorCode, err.Error()))
+		return
+	}
+	address, total, err := s.userService.QueryAddress(user)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, s.newHttpError(AddressCode, AddressMsg, QueryErrorCode, err.Error()))
+		return
+	}
+	ctx.JSON(http.StatusOK, s.response(address, int64(total)))
+}
+
 //@Summary 新增卡片
 //@Produce json
 //@Param x-language header string false "语言" default "chinese"
@@ -360,4 +387,31 @@ func (s *Service) CreateCreditCard(ctx *https.Context) {
 		return
 	}
 	ctx.JSON(http.StatusOK, s.newHttpOk())
+}
+
+//@Summary 查询支付信息
+//@Produce json
+//@Param x-language header string false "语言" default "chinese"
+//@Success 200 {object} route.httpOk
+//@Failure 400 {object} route.httpError
+//@Failure 404 {object} route.httpError
+//@Failure 500 {object} route.httpError
+//@Router /v1/address [get]
+func (s *Service) QueryCreditCard(ctx *https.Context) {
+	sid, err := s.sid(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusForbidden, s.newHttpError(SessionCode, SessionMsg, QueryErrorCode, err.Error()))
+		return
+	}
+	user, err := s.sessionService.QueryUserSession(sid)
+	if err != nil {
+		ctx.JSON(http.StatusForbidden, s.newHttpError(SessionCode, SessionMsg, QueryErrorCode, err.Error()))
+		return
+	}
+	credits, total, err := s.userService.QueryCreditCard(user)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, s.newHttpError(CreditCode, CreditMsg, QueryErrorCode, err.Error()))
+		return
+	}
+	ctx.JSON(http.StatusOK, s.response(credits, int64(total)))
 }

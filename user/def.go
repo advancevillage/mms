@@ -27,10 +27,16 @@ type IUser interface {
 	QueryCart(user *api.User) ([]api.Cart, int64, error)
 	UpdateCart(user *api.User, cart *api.Cart) error
 	QueryOneCart(user *api.User, cartId string) (*api.Cart, error)
+	IAddress
+	ICreditCard
+}
 
+type IAddress interface {
 	QueryAddress(user *api.User) ([]api.Address, int64, error)
 	CreateAddress(user *api.User, address *api.Address) error
+}
 
+type ICreditCard interface {
 	QueryCreditCard(user *api.User) ([]api.CreditCard, int64, error)
 	CreateCreditCard(user *api.User, credit *api.CreditCard) error
 }

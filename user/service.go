@@ -341,6 +341,18 @@ func (s *Service) CreateAddress(user *api.User, addr *api.Address) error {
 	return nil
 }
 
+func (s *Service) QueryAddress(user *api.User) ([]api.Address, int, error) {
+	if user == nil {
+		return nil, 0, errors.New("user is nil")
+	}
+	address, total, err := s.repo.QueryAddress(user)
+	if err != nil {
+		s.logger.Error(err.Error())
+		return nil, 0, err
+	}
+	return address, int(total), nil
+}
+
 func (s *Service) CreateCreditCard(user *api.User, credit *api.CreditCard) error {
 	if user == nil || credit == nil {
 		return errors.New("user or credit is nil")
@@ -377,4 +389,22 @@ func (s *Service) CreateCreditCard(user *api.User, credit *api.CreditCard) error
 	}
 
 	return nil
+}
+
+func (s *Service) QueryCreditCard(user *api.User) ([]api.CreditCard, int, error) {
+	if user == nil {
+		return nil, 0, errors.New("user is nil")
+	}
+	credits, total, err := s.repo.QueryCreditCard(user)
+	if err != nil {
+		s.logger.Error(err.Error())
+		return nil, 0, err
+	}
+	//脱敏
+	for i := range credits {
+		length := len(credits[i].Number)
+		credits[i].Number = fmt.Sprintf("%s%s%s", credits[i].Number[:4], "******", credits[i].Number[length-4:length])
+		credits[i].CVV    = ""
+	}
+	return credits, int(total), nil
 }
