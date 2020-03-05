@@ -41,7 +41,7 @@ func (s *Service) version(ctx *https.Context) {
 	ctx.JSON(http.StatusOK, version)
 }
 
-func (s *Service) StartRouter(mode string) error {
+func (s *Service) StartHttpServer(mode string) error {
 	var err error
 	switch mode {
 	case "lambda":

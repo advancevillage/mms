@@ -17,10 +17,12 @@ import (
 	"mms/color"
 	"mms/config"
 	"mms/goods"
+	"mms/internal"
 	"mms/language"
 	"mms/manufacturer"
 	"mms/route"
 	"mms/size"
+	"sync"
 )
 
 var (
@@ -72,14 +74,23 @@ func main() {
 	//init manufacturer service
 	manufacturerService := manufacturer.NewService(configService.Mongo, configService.Logger)
 
-	//init route service
+	//init http service
 	routeService := route.NewService(configService, langService, goodsService, colorService, sizeService, brandService, categoryService, manufacturerService)
 
-	//start route service
-	err = routeService.StartRouter(mode)
-	if err != nil {
-		configService.ExitWithInfo("start route fail: %s", err.Error())
-		return
-	}
+	//init rcp service
+	rpcService := internal.NewService(configService, langService, goodsService, colorService, sizeService, brandService, categoryService, manufacturerService)
+
+	wg := sync.WaitGroup{}
+	wg.Add(2)
+	go func() {
+		//start http server
+		defer wg.Done()
+		err = routeService.StartHttpServer(mode)
+	}()
+	go func() {
+		defer wg.Done()
+		err = rpcService.StartRPCServer()
+	}()
+	wg.Wait()
 	return
 }

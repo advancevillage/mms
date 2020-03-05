@@ -20,15 +20,18 @@ type Goods struct {
 	NewIn     float64  		`json:"newIn"`					//新品售价
 	Sale      float64 		`json:"sale"`					//促销价
 	Clearance float64		`json:"clearance"`				//清仓价
-	Stock     []struct{										//库存
-		ColorId string `json:"colorId"`
-		SizeId  string `json:"sizeId"`
-		Stock   int    `json:"stock"`
-	} `json:"stock"`
+	Stock     []Stocks		`json:"stock"`					//库存
 	Images    []Image 		`json:"images,omitempty"` 		//商品图片
 	CreateTime int64 		`json:"createTime,omitempty"`	//商品创建时间
 	UpdateTime int64 		`json:"updateTime,omitempty"`	//商品更新时间
 	DeleteTime int64 		`json:"deleteTime,omitempty"` 	//商品删除时间
 	Manufacturer  *Manufacturer `json:"manufacturer,omitempty"`  //商品生产商
 	Description   *Languages 	`json:"description,omitempty"`   //商品详细描述
+}
+
+
+type Stocks struct {
+	ColorId string `json:"colorId"`
+	SizeId  string `json:"sizeId"`
+	Stock   int    `json:"stock"`
 }

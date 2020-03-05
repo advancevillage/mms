@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mms>
-	<httpHost>0.0.0.0</httpHost>
+	<httpHost>100.100.20.206</httpHost>
 	<httpPort>13171</httpPort>
+	<rpcHost>100.100.20.206</rpcHost>
+	<rpcPort>13172</rpcPort>
 	<log>log/mms.log</log>
 	<redis>
 		<host>localhost</host>
 		<port>6379</port>
 		<auth></auth>
 		<schema>0</schema>
-	</redis>
+	</redis>ss
 	<mongo>mongodb://admin:password@localhost:27017</mongo>
 	<upload>/Users/sun/work/showyou/images</upload>
 </mms>
