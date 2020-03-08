@@ -10,12 +10,7 @@ import (
 	"mms/api"
 )
 
-type Service struct {
-	repo   IGoods
-	logger logs.Logs
-}
-
-func NewService(storage storages.Storage, logger logs.Logs) *Service {
+func NewService(storage storages.StorageExd, logger logs.Logs) *Service {
 	return &Service{repo:NewRepoMongo(storage), logger:logger}
 }
 
@@ -54,6 +49,10 @@ func (s *Service) QueryGoods(page int, perPage int) ([]api.Goods, int64, error) 
 		return nil, 0, err
 	}
 	return categories, total, nil
+}
+
+func (s *Service) IncreaseStock(stock *api.Stocks) error {
+	return s.repo.IncreaseStock(stock)
 }
 
 func (s *Service) asc() int {

@@ -3,15 +3,16 @@ package goods
 
 import (
 	"encoding/json"
+	"errors"
 	"github.com/advancevillage/3rd/storages"
 	"mms/api"
 )
 
 type Mongo struct {
-	storage storages.Storage
+	storage storages.StorageExd
 }
 
-func NewRepoMongo(storage storages.Storage) *Mongo {
+func NewRepoMongo(storage storages.StorageExd) *Mongo {
 	return &Mongo{storage:storage}
 }
 
@@ -61,4 +62,28 @@ func (s *Mongo) QueryGoods(where map[string]interface{}, page int, perPage int, 
 		}
 	}
 	return values, total, nil
+}
+
+func (s *Mongo) IncreaseStock(stock *api.Stocks) error {
+	if stock == nil {
+		return errors.New("stock is nil")
+	}
+	buf, err := json.Marshal(stock)
+	if err != nil {
+		return err
+	}
+	where := make(map[string]interface{})
+	where["stock.goodsId"] = stock.GoodsId
+	where["stock.colorId"] = stock.ColorId
+	where["stock.sizeId"]  = stock.SizeId
+
+	err = s.storage.UpdateStorageV2Exd(Schema, Schema, where,)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *Mongo) DecreaseStock(stock *api.Stocks) error {
+	return nil
 }

@@ -31,7 +31,12 @@ type Goods struct {
 
 
 type Stocks struct {
+	Id      string `json:"id"`
+	GoodsId string `json:"goodsId"`
 	ColorId string `json:"colorId"`
 	SizeId  string `json:"sizeId"`
 	Stock   int    `json:"stock"`
+	CreateTime int64 `json:"createTime"`
+	UpdateTime int64 `json:"updateTime"`
+	DeleteTime int64 `json:"deleteTime"`
 }

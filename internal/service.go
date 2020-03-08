@@ -37,10 +37,8 @@ func (s *Service) StartRPCServer() error {
 	return nil
 }
 
-
 func (s *Service) UpdateStock(args *api.Stocks, result *api.Stocks) error {
-	s.configService.Logger.Info("%s %s %d", args.ColorId, args.SizeId, args.Stock)
-	return nil
+	return s.goodsService.IncreaseStock(args)
 }
 
 
