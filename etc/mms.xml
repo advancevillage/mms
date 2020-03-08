@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mms>
-	<httpHost>100.100.20.206</httpHost>
+	<httpHost>0.0.0.0</httpHost>
 	<httpPort>13171</httpPort>
-	<rpcHost>100.100.20.206</rpcHost>
-	<rpcPort>13172</rpcPort>
 	<log>log/mms.log</log>
 	<redis>
 		<host>localhost</host>

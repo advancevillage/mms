@@ -12,8 +12,6 @@ type configure struct {
 	XMLName 	xml.Name `xml:"mms"`
 	HttpHost 	string   `xml:"httpHost"`
 	HttpPort	int 	 `xml:"httpPort"`
-	RpcHost     string   `xml:"rpcHost"`
-	RpcPort     int      `xml:"rpcPort"`
 	Redis struct{
 		Host string `xml:"host"`
 		Port int 	`xml:"port"`
