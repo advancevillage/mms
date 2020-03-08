@@ -19,6 +19,9 @@ const (
 	//Session
 	SessionCode = 2200
 	SessionMsg  = "session"
+	//order token
+	OrderTokenCode = 3400
+	OrderTokenMsg  = "orderToken"
 	//购物车 cart
 	StockCode   = 3300
 	StockMsg    = "stock"
@@ -63,9 +66,12 @@ var router = func (api API) []https.Router {
 		{"GET", "/v1/service/ping", api.ping},
 		{"GET", "/v1/service/version", api.version},
 		//order
-		{"POST", "/v1/order", api.CreateOrder},
-		{"OPTIONS", "/v1/order", api.ping},
-		{"OPTIONS", "/v1/order/:pathId", api.ping},
+		{"POST", "/v1/orders", api.CreateOrder},
+		{"OPTIONS", "/v1/orders", api.ping},
+		{"OPTIONS", "/v1/orders/:pathId", api.ping},
+		//orderToken
+		{"POST", "/v1/orderToken", api.CreateOrderToken},
+		{"OPTIONS", "/v1/orderToken", api.ping},
 	}
 }
 
@@ -74,6 +80,8 @@ type API interface {
 	version(ctx *https.Context)
 	//order
 	CreateOrder(ctx *https.Context)
+	//token
+	CreateOrderToken(ctx *https.Context)
 }
 
 type httpError struct {

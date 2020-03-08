@@ -36,3 +36,11 @@ func (r *Storage) DeleteSession(key ...string) error {
 	}
 	return nil
 }
+
+func (r *Storage) UpdateSession(key string, value []byte, expire int) error {
+	err := r.cache.UpdateCache(key, value, expire)
+	if err != nil {
+		return err
+	}
+	return nil
+}

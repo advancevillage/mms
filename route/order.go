@@ -16,7 +16,7 @@ import (
 //@Failure 400 {object} route.httpError
 //@Failure 404 {object} route.httpError
 //@Failure 500 {object} route.httpError
-//@Router /v1/users [post]
+//@Router /v1/orders [post]
 func (s *Service) CreateOrder(ctx *https.Context) {
 	//接口幂等性 原理 令牌 在结算页访问时下方 Cookie
 	body, err := s.body(ctx)
@@ -54,6 +54,8 @@ func (s *Service) CreateOrder(ctx *https.Context) {
 		ctx.JSON(http.StatusOK, s.newHttpOk())
 		return
 	}
+	//TODO
+	err = s.sessionService.UpdateTidSession(tid, []byte(Handling))
 	//查询用户
 	user, err := s.sessionService.QueryUserSession(sid)
 	if err != nil {
@@ -61,26 +63,26 @@ func (s *Service) CreateOrder(ctx *https.Context) {
 		return
 	}
 	//查询库存
-	if len(param.Goods) == 0 {
-		//没有订单商品则
+	if len(param.Stocks) == 0 {
+		//没有订单商品则返回
 		ctx.JSON(http.StatusOK, s.newHttpOk())
 		return
 	}
-	for i := range param.Goods {
-		goods := param.Goods[i]
-		stock, err := s.orderService.QueryStock(&goods)
+	for i := range param.Stocks {
+		s1 := param.Stocks[i]
+		s2, err := s.orderService.QueryStock(&s1)
 		if err != nil {
 			//TODO 库存查询错误
 			ctx.JSON(http.StatusInternalServerError, s.newHttpError(StockCode, StockMsg, QueryErrorCode, err.Error()))
 			return
 		}
 		//下单量 > 库存量
-		if goods.Count > stock.Count {
+		if s1.Stock > s2.Stock {
 			ctx.JSON(http.StatusAccepted, s.newHttpError(StockCode, StockMsg, QueryErrorCode, StockNotEnough))
 			return
 		}
 		//重设版本 CAS
-		goods.Version = stock.Version
+		s1.Version = s2.Version
 	}
 	//TODO 校验支付信息
 	if param.Pay == nil {
@@ -150,3 +152,39 @@ func (s *Service) CreateOrder(ctx *https.Context) {
 //@Failure 404 {object} route.httpError
 //@Failure 500 {object} route.httpError
 //@Router /v1/address [post]
+
+
+//@Summary 订单令牌
+//@Produce json
+//@Param x-language header string false "语言" default "chinese"
+//@Success 200 {object} route.httpOk
+//@Failure 400 {object} route.httpError
+//@Failure 404 {object} route.httpError
+//@Failure 500 {object} route.httpError
+//@Router /v1/orderToken [post]
+func (s *Service) CreateOrderToken(ctx *https.Context) {
+	//验证用户
+	sid, err := s.sid(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, s.newHttpError(SessionCode, SessionMsg, QueryErrorCode, err.Error()))
+		return
+	}
+	//查询用户
+	user, err := s.sessionService.QueryUserSession(sid)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, s.newHttpError(SessionCode, SessionMsg, QueryErrorCode, err.Error()))
+		return
+	}
+	tid, err := s.sessionService.CreateTidSession(user, []byte(PendingHandle))
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, s.newHttpError(OrderTokenCode, OrderTokenMsg, CreateErrorCode, err.Error()))
+		return
+	}
+	//cookie set-cookie
+	err = ctx.WriteCookie("tid", tid, "/", "localhost", false, true)
+	if err != nil {
+		ctx.JSON(http.StatusOK, s.newHttpOk())
+		return
+	}
+	ctx.JSON(http.StatusOK, s.newHttpOk())
+}

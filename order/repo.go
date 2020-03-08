@@ -46,39 +46,34 @@ func (s *Mongo) QueryOrders(user *api.User, where map[string]interface{}, page i
 	return values, total, nil
 }
 
-func (s *Mongo) UpdateStock(goods *api.Goods) error {
+func (s *Mongo) UpdateStock(goods *api.Stocks) error {
 	if goods == nil {
 		return errors.New("goods is nil")
 	}
-	where := make(map[string]interface{})
-	where["goodsId"] = goods.GoodsId
-	where["colorId"] = goods.ColorId
-	where["sizeId"]  = goods.SizeId
-	where["version"] = goods.Version
 	return nil
 }
 
-func (s *Mongo) QueryStock(goods *api.Goods) (*api.Goods, error) {
-	if goods == nil {
-		return nil, errors.New("goods is nil")
+func (s *Mongo) QueryStock(stock *api.Stocks) (*api.Stocks, error) {
+	if stock == nil {
+		return nil, errors.New("stock is nil")
 	}
-	where := make(map[string]interface{})
-	sort  := make(map[string]interface{})
-	where["goodsId"] = goods.GoodsId
-	where["colorId"] = goods.ColorId
-	where["sizeId"]  = goods.SizeId
-	sort["createTime"] = -1
-	items, total, err := s.storage.SearchStorageV2Exd(StockSchema, goods.GoodsId, where, 1, 0, sort)
+	buf, err := s.storage.QueryStorageV2(GoodsSchema, stock.GoodsId)
 	if err != nil {
 		return nil, err
 	}
-	if total <= 0 {
-		return nil, errors.New("total <= 0")
-	}
-	value := api.Goods{}
-	err = json.Unmarshal(items[0], &value)
+	value := &api.Goods{}
+	err = json.Unmarshal(buf, value)
 	if err != nil {
 		return nil, err
 	}
-	return &value, nil
+	i := 0
+	for i = range value.Stock {
+		if value.Stock[i].ColorId == stock.ColorId && value.Stock[i].SizeId == stock.SizeId {
+			break
+		}
+	}
+	if i >= len(value.Stock) {
+		return nil, errors.New("stock query error")
+	}
+	return &value.Stock[i], nil
 }

@@ -52,8 +52,8 @@ func (s *Service) QueryUserSession(key string) (*api.User, error) {
 	return &user, nil
 }
 
-func (s *Service) CreateTidSession(value []byte) (string, error) {
-	key := s.CreateTidSessionKey()
+func (s *Service) CreateTidSession(user *api.User, value []byte) (string, error) {
+	key := s.CreateTidSessionKey(user.Username)
     err := s.repo.CreateSession(key, value, 7 * 24 * 3600)
 	if err != nil {
 		s.logger.Error(err.Error())
@@ -80,8 +80,17 @@ func (s *Service) DeleteTidSession(key string) error {
 	return nil
 }
 
-func (s *Service) CreateTidSessionKey() string {
-	return fmt.Sprintf("%s:%s:%s:%s", "paypage", times.TimeFormatString(times.YYYYMMddHHmmss), utils.RandsNumberString(9))
+func (s *Service) UpdateTidSession(key string, value []byte) error {
+	err := s.repo.UpdateSession(key, value, 7 * 24 * 3600)
+	if err != nil {
+		s.logger.Error(err.Error())
+		return err
+	}
+	return nil
+}
+
+func (s *Service) CreateTidSessionKey(username string) string {
+	return fmt.Sprintf("%s:%s:%s:%s", "orderpage", username, times.TimeFormatString(times.YYYYMMddHHmmss), utils.RandsNumberString(9))
 }
 
 func (s *Service) CreateUserSessionKey(username string) string {

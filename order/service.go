@@ -43,6 +43,7 @@ func (s *Service) CreateOrder(user *api.User, o *api.Order) error {
 		return err
 	}
 	o.Id      = orderId
+	o.User    = user
 	o.State   = StateOrdered
 	o.NextState = StatePendingPay
 	o.OrderTime = times.Timestamp()
@@ -102,16 +103,16 @@ func (s *Service) CreateOrderId(user *api.User) (string, error) {
 	return id, nil
 }
 
-func (s *Service) QueryStock(goods *api.Goods) (*api.Goods, error) {
-	if goods == nil {
-		return nil, errors.New("goods is nil")
+func (s *Service) QueryStock(stock *api.Stocks) (*api.Stocks, error) {
+	if stock == nil {
+		return nil, errors.New("stock is nil")
 	}
-	goods, err := s.repo.QueryStock(goods)
+	org, err := s.repo.QueryStock(stock)
 	if err != nil {
 		s.logger.Error(err.Error())
 		return nil, err
 	}
-	return goods, nil
+	return org, nil
 }
 
 

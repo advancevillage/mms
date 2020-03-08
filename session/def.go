@@ -11,6 +11,7 @@ type ISession interface {
 	CreateSession(key string, value []byte, expire int) error
 	QuerySession(key string) ([]byte, error)
 	DeleteSession(key ...string) error
+	UpdateSession(key string, value []byte, expire int) error
 }
 
 
