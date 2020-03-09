@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mms>
 	<httpHost>0.0.0.0</httpHost>
-	<httpPort>13171</httpPort>
+	<httpPort>13173</httpPort>
 	<log>log/mms.log</log>
 	<redis>
 		<host>localhost</host>
