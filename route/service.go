@@ -65,6 +65,7 @@ func (s *Service) startLambdaRouter() error {
 
 func (s *Service) headerPlugin(ctx *https.Context) {
  	var cors = map[string]bool {
+ 		"http://localhost:13140": true,
  		"http://localhost:8080": true,
 		"http://localhost": true,
 	}
