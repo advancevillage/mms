@@ -211,7 +211,7 @@ func (s *Service) QueryCart(user *api.User) ([]api.Cart, int, error) {
 
 	itemTotal := 0
 	for i := 0; i < len(carts) && i < int(total); i++ {
-		itemTotal += carts[i].Count
+		itemTotal += carts[i].Total
 	}
 
 	return carts, itemTotal, nil
@@ -231,7 +231,7 @@ func (s *Service) CreateCart(user *api.User, cart *api.Cart) error {
 	i := 0
 	for ; i < len(carts) && i < total; i++ {
 		if carts[i].GoodsId == cart.GoodsId && carts[i].SizeId == cart.SizeId && carts[i].ColorId == carts[i].ColorId {
-			carts[i].Count += cart.Count
+			carts[i].Total += cart.Total
 			break
 		} else {
 			continue
@@ -285,7 +285,7 @@ func (s *Service) DeleteCart(user *api.User, cartId string) error {
 	}
 	cart.DeleteTime = times.Timestamp()
 	cart.UpdateTime = times.Timestamp()
-	err = s.UpdateCart(user, cart)
+	err = s.repo.DeleteCart(user, cart)
 	if err != nil {
 		return err
 	}

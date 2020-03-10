@@ -83,7 +83,23 @@ func (r *Mongo) UpdateCart(user *api.User, cart *api.Cart) error {
 	if err != nil {
 		return err
 	}
-	return r.storage.UpdateStorageV2Exd(CartSchema, user.Id, cart.Id, buf)
+	where := make(map[string]interface{})
+	where["goodsId"] = cart.GoodsId
+	where["sizeId"]  = cart.SizeId
+	where["colorId"] = cart.ColorId
+
+	return r.storage.UpdateStorageV2Exd(CartSchema, user.Id, where, cart.Id, buf)
+}
+
+func (r *Mongo) DeleteCart(user *api.User, cart *api.Cart) error {
+	if user == nil || cart == nil {
+		return errors.New("user or cart is nil")
+	}
+	where := make(map[string]interface{})
+	where["goodsId"] = cart.GoodsId
+	where["colorId"] = cart.ColorId
+	where["sizeId"]  = cart.SizeId
+	return r.storage.DeleteStorageV2Exd(CartSchema, user.Id, where, cart.Id)
 }
 
 func (r *Mongo) QueryOneCart(user *api.User, cartId string) (*api.Cart, error) {

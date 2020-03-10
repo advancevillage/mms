@@ -23,12 +23,17 @@ const (
 type IUser interface {
 	CreateUser(u *api.User) error
 	QueryUserByName(username string) (*api.User, error)
+	ICart
+	IAddress
+	ICreditCard
+}
+
+type ICart interface {
 	CreateCart(user *api.User, cart *api.Cart) error
 	QueryCart(user *api.User) ([]api.Cart, int64, error)
 	UpdateCart(user *api.User, cart *api.Cart) error
+	DeleteCart(user *api.User, cart *api.Cart) error
 	QueryOneCart(user *api.User, cartId string) (*api.Cart, error)
-	IAddress
-	ICreditCard
 }
 
 type IAddress interface {

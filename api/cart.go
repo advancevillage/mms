@@ -11,8 +11,8 @@ type Cart struct {
 	ColorName *Languages `json:"colorName"`
 	GoodsName *Languages `json:"goodsName"`
 	GoodsStatus int      `json:"goodsStatus"`
-	GoodsPrice float64   `json:"goodsPrice"`
-	Count      int 	  `json:"count"`
+	GoodsPrice  float64  `json:"goodsPrice"`
+	Total       int 	 `json:"total"`
 	CreateTime int64  `json:"createTime"`
 	UpdateTime int64  `json:"updateTime"`
 	DeleteTime int64  `json:"deleteTime"`
