@@ -103,7 +103,7 @@ func (s *Service) CreateOrderId(user *api.User) (string, error) {
 	return id, nil
 }
 
-func (s *Service) QueryStock(stock *api.Stocks) (*api.Stocks, error) {
+func (s *Service) QueryStock(stock *api.Stock) (*api.Stock, error) {
 	if stock == nil {
 		return nil, errors.New("stock is nil")
 	}

@@ -77,7 +77,7 @@ func (s *Service) CreateOrder(ctx *https.Context) {
 			return
 		}
 		//下单量 > 库存量
-		if s1.Stock > s2.Stock {
+		if s1.Total > s2.Total {
 			ctx.JSON(http.StatusAccepted, s.newHttpError(StockCode, StockMsg, QueryErrorCode, StockNotEnough))
 			return
 		}

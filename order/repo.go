@@ -46,14 +46,14 @@ func (s *Mongo) QueryOrders(user *api.User, where map[string]interface{}, page i
 	return values, total, nil
 }
 
-func (s *Mongo) UpdateStock(goods *api.Stocks) error {
+func (s *Mongo) UpdateStock(goods *api.Stock) error {
 	if goods == nil {
 		return errors.New("goods is nil")
 	}
 	return nil
 }
 
-func (s *Mongo) QueryStock(stock *api.Stocks) (*api.Stocks, error) {
+func (s *Mongo) QueryStock(stock *api.Stock) (*api.Stock, error) {
 	if stock == nil {
 		return nil, errors.New("stock is nil")
 	}
@@ -67,13 +67,13 @@ func (s *Mongo) QueryStock(stock *api.Stocks) (*api.Stocks, error) {
 		return nil, err
 	}
 	i := 0
-	for i = range value.Stock {
-		if value.Stock[i].ColorId == stock.ColorId && value.Stock[i].SizeId == stock.SizeId {
+	for i = range value.Stocks {
+		if value.Stocks[i].ColorId == stock.ColorId && value.Stocks[i].SizeId == stock.SizeId {
 			break
 		}
 	}
-	if i >= len(value.Stock) {
+	if i >= len(value.Stocks) {
 		return nil, errors.New("stock query error")
 	}
-	return &value.Stock[i], nil
+	return &value.Stocks[i], nil
 }

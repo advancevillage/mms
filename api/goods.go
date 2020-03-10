@@ -13,16 +13,16 @@ type Goods struct {
 	NewIn     float64  		`json:"newIn"`					//新品售价
 	Sale      float64 		`json:"sale"`					//促销价
 	Clearance float64		`json:"clearance"`				//清仓价
-	Stock     []Stocks		`json:"stock"`					//库存
+	Stocks    []Stock		`json:"stock"`					//库存
 }
 
 
-type Stocks struct {
+type Stock struct {
 	Id      string `json:"id"`
 	GoodsId string `json:"goodsId"`
 	ColorId string `json:"colorId"`
 	SizeId  string `json:"sizeId"`
-	Stock   int    `json:"stock"`
+	Total   int    `json:"total"`
 	CreateTime int64 `json:"createTime"`
 	UpdateTime int64 `json:"updateTime"`
 	DeleteTime int64 `json:"deleteTime"`

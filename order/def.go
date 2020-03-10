@@ -44,8 +44,8 @@ type IStock interface {
 	//乐观锁 多版本实现 库存添加version字段属性 自增 核心CAS(compare and set) CAS 原子性由mongodb保证
 	//https://docs.mongodb.com/manual/core/write-operations-atomicity/#update-if-current
 	//https://stackoverflow.com/questions/16523621/atomicity-and-cas-operations-in-mongodb
-	UpdateStock(goods *api.Stocks) error
-	QueryStock(goods *api.Stocks) (*api.Stocks, error)
+	UpdateStock(goods *api.Stock) error
+	QueryStock(goods *api.Stock) (*api.Stock, error)
 }
 
 type IPay interface {
