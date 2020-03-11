@@ -22,6 +22,7 @@ type Stock struct {
 	GoodsId string `json:"goodsId"`
 	ColorId string `json:"colorId"`
 	SizeId  string `json:"sizeId"`
+	CartId string  `json:"-"`
 	Total   int    `json:"total"`
 	CreateTime int64 `json:"createTime"`
 	UpdateTime int64 `json:"updateTime"`

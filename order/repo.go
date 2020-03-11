@@ -57,10 +57,19 @@ func (s *Mongo) UpdateStock(stock *api.Stock) error {
 	where["colorId"] = stock.ColorId
 	where["version"] = stock.Version
 
-
-
-
-	return nil
+	buf, err := json.Marshal(&struct {
+		Opt   string `json:"opt"`
+		Total   int  `json:"total"`
+		Version int  `json:"version"`
+	}{
+		Opt: "$inc",
+		Total: -stock.Total,
+		Version: 1,
+	})
+	if err != nil {
+		return err
+	}
+	return s.storage.UpdateStorageV2Exd(StockSchema, stock.GoodsId, where, stock.Id, buf)
 }
 
 func (s *Mongo) QueryStock(stock *api.Stock) (*api.Stock, error) {

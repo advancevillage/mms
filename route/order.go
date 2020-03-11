@@ -69,8 +69,8 @@ func (s *Service) CreateOrder(ctx *https.Context) {
 		return
 	}
 	for i := range param.Stocks {
-		buy := param.Stocks[i] 	//下单量
-		sell, err := s.orderService.QueryStock(&buy) //库存量
+		buy := &param.Stocks[i] 	//下单量
+		sell, err := s.orderService.QueryStock(buy) //库存量
 		if err != nil {
 			//TODO 库存查询错误
 			ctx.JSON(http.StatusInternalServerError, s.newHttpError(StockCode, StockMsg, QueryErrorCode, err.Error()))
@@ -82,6 +82,8 @@ func (s *Service) CreateOrder(ctx *https.Context) {
 			return
 		}
 		//重设版本 CAS
+		buy.CartId  = buy.Id
+		buy.Id      = sell.Id
 		buy.Version = sell.Version
 	}
 	//获取支付信息

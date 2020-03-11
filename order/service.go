@@ -29,14 +29,19 @@ func (s *Service) ActionPayOrder (o *api.Order) error {
 	}
 	cartId := make([]string, len(o.Stocks))
 	for i := range o.Stocks {
-		cartId = append(cartId, o.Stocks[i].Id)
+		cartId = append(cartId, o.Stocks[i].CartId)
 	}
 	err := s.repo.ClearCart(o.User, cartId[:]...)
 	if err != nil {
 		s.logger.Error(err.Error())
 	}
 	//锁定库存
-
+	for i := range o.Stocks {
+		err = s.repo.UpdateStock(&o.Stocks[i])
+		if err != nil {
+			s.logger.Error(err.Error())
+		}
+	}
 	//支付订单
 	return nil
 }
@@ -49,7 +54,7 @@ func (s *Service) CreateOrder(user *api.User, o *api.Order) error {
 	if user == nil || o == nil {
 		return errors.New("user or order is nil")
 	}
-	//TODO 锁定库存
+
 	//生成订单
 	orderId, err := s.CreateOrderId(user)
 	if err != nil {
