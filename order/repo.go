@@ -47,10 +47,19 @@ func (s *Mongo) QueryOrders(user *api.User, where map[string]interface{}, page i
 	return values, total, nil
 }
 
-func (s *Mongo) UpdateStock(goods *api.Stock) error {
-	if goods == nil {
-		return errors.New("goods is nil")
+func (s *Mongo) UpdateStock(stock *api.Stock) error {
+	if stock == nil {
+		return errors.New("stock is nil")
 	}
+	where := make(map[string]interface{})
+	where["goodsId"] = stock.GoodsId
+	where["sizeId"]  = stock.SizeId
+	where["colorId"] = stock.ColorId
+	where["version"] = stock.Version
+
+
+
+
 	return nil
 }
 
@@ -103,4 +112,15 @@ func (s *Mongo) QueryPay(user *api.User, card *api.CreditCard) (*api.CreditCard,
 		return nil, err
 	}
 	return &credit, nil
+}
+
+func (s *Mongo) ClearCart(user *api.User, cartId ...string) error {
+	if user == nil {
+		return errors.New("user is nil")
+	}
+	if len(cartId) <= 0 {
+		return nil
+	}
+	return s.storage.DeleteStorageV2Exd(CartSchema, user.Id, nil, cartId ...)
+
 }

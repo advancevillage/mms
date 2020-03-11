@@ -82,7 +82,6 @@ func (s *Service) CreateOrder(ctx *https.Context) {
 			return
 		}
 		//重设版本 CAS
-		buy.Id = sell.Id
 		buy.Version = sell.Version
 	}
 	//获取支付信息

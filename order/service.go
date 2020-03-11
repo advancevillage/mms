@@ -23,7 +23,21 @@ func NewService(storage storages.StorageExd, logger logs.Logs) *Service {
 }
 
 func (s *Service) ActionPayOrder (o *api.Order) error {
+	//移除购物车
+	if o == nil {
+		return errors.New("order is nil")
+	}
+	cartId := make([]string, len(o.Stocks))
+	for i := range o.Stocks {
+		cartId = append(cartId, o.Stocks[i].Id)
+	}
+	err := s.repo.ClearCart(o.User, cartId[:]...)
+	if err != nil {
+		s.logger.Error(err.Error())
+	}
+	//锁定库存
 
+	//支付订单
 	return nil
 }
 
