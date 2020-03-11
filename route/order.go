@@ -85,11 +85,13 @@ func (s *Service) CreateOrder(ctx *https.Context) {
 		buy.Id = sell.Id
 		buy.Version = sell.Version
 	}
-	//TODO 校验支付信息
-	if param.Pay == nil {
+	//获取支付信息
+	param.Pay, err = s.orderService.QueryCreditCard(user, param.Pay)
+	if err != nil {
 		ctx.JSON(http.StatusAccepted, s.newHttpError(CreditCode, CreditMsg, QueryErrorCode, InvalidCreditCard))
 		return
 	}
+
 	//TODO 校验地址
 	if param.Address == nil {
 		ctx.JSON(http.StatusAccepted, s.newHttpError(AddressCode, AddressMsg, QueryErrorCode, InvalidAddress))

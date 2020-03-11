@@ -115,4 +115,16 @@ func (s *Service) QueryStock(stock *api.Stock) (*api.Stock, error) {
 	return org, nil
 }
 
+func (s *Service) QueryCreditCard(user *api.User, credit *api.CreditCard) (*api.CreditCard, error) {
+	if user == nil || credit == nil {
+		return nil, errors.New("user or credit is nil")
+	}
+	value, err := s.repo.QueryPay(user, credit)
+	if err != nil {
+		s.logger.Error(err.Error())
+		return nil, err
+	}
+	return value, nil
+}
+
 

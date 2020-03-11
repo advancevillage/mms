@@ -38,6 +38,7 @@ type Order struct {
 
 //信用卡
 type CreditCard struct {
+	Id     int      `json:"id"`
 	Bin    string   `json:"bin"`  //卡片类型
 	Number string 	`json:"number"`
 	Expire string   `json:"expire"`

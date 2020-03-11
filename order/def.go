@@ -15,6 +15,7 @@ const (
 	Schema      = "orders"
 	StockSchema = "stocks"
 	GoodsSchema = "goods"
+	CreditSchema = "credit"
 )
 const (
 	Project   = 0  //show'u
@@ -38,6 +39,7 @@ type IOrder interface {
 	CreateOrder(o *api.Order) error
 	QueryOrders(user *api.User, where map[string]interface{}, page int, perPage int, sort map[string]interface{}) ([]api.Order, int64, error)
 	IStock
+	IPay
 }
 
 type IStock interface {
@@ -49,7 +51,7 @@ type IStock interface {
 }
 
 type IPay interface {
-
+	QueryPay(user *api.User, card *api.CreditCard) (*api.CreditCard, error)
 }
 
 type Service struct {

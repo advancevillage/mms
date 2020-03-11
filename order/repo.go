@@ -4,6 +4,7 @@ package order
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"github.com/advancevillage/3rd/storages"
 	"mms/api"
 )
@@ -77,4 +78,29 @@ func (s *Mongo) QueryStock(stock *api.Stock) (*api.Stock, error) {
 		return nil, err
 	}
 	return &value, nil
+}
+
+func (s *Mongo) QueryPay(user *api.User, card *api.CreditCard) (*api.CreditCard, error) {
+	if user == nil || card == nil {
+		return nil, errors.New("user or card is nil")
+	}
+	where := make(map[string]interface{})
+	where["id"] = card.Id
+	where["number"] = map[string]interface{}{
+		"$regex": fmt.Sprintf("^%s[0-9]+%s$", card.Number[:4], card.Number[len(card.Number)-4:]),
+	}
+	items, total, err := s.storage.SearchStorageV2Exd(CreditSchema, user.Id, where, 1, 0, nil)
+	if err != nil {
+		return nil, err
+	}
+	if total > 1 || total < 1 {
+		return nil, errors.New("credit card info error")
+	}
+	total = 0
+	credit := api.CreditCard{}
+	err = json.Unmarshal(items[total], &credit)
+	if err != nil {
+		return nil, err
+	}
+	return &credit, nil
 }
