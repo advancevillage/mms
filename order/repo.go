@@ -57,23 +57,24 @@ func (s *Mongo) QueryStock(stock *api.Stock) (*api.Stock, error) {
 	if stock == nil {
 		return nil, errors.New("stock is nil")
 	}
-	buf, err := s.storage.QueryStorageV2(GoodsSchema, stock.GoodsId)
+	where := make(map[string]interface{})
+	sort  := make(map[string]interface{})
+	where["goodsId"] = stock.GoodsId
+	where["colorId"] = stock.ColorId
+	where["sizeId"]  = stock.SizeId
+	sort["createTime"] = -1
+	items, total, err := s.storage.SearchStorageV2Exd(StockSchema, stock.GoodsId, where, 1, 0, sort)
 	if err != nil {
 		return nil, err
 	}
-	value := &api.Goods{}
-	err = json.Unmarshal(buf, value)
+	if total <= 0 {
+		return nil, errors.New("total <= 0")
+	}
+	total = 0
+	value := api.Stock{}
+	err = json.Unmarshal(items[total], &value)
 	if err != nil {
 		return nil, err
 	}
-	i := 0
-	for i = range value.Stocks {
-		if value.Stocks[i].ColorId == stock.ColorId && value.Stocks[i].SizeId == stock.SizeId {
-			break
-		}
-	}
-	if i >= len(value.Stocks) {
-		return nil, errors.New("stock query error")
-	}
-	return &value.Stocks[i], nil
+	return &value, nil
 }
