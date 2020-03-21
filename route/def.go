@@ -72,6 +72,9 @@ var router = func (api API) []https.Router {
 		//orderToken
 		{"POST", "/v1/orderToken", api.CreateOrderToken},
 		{"OPTIONS", "/v1/orderToken", api.ping},
+		//pay
+		{"POST", "/v1/payToken", api.CreatePayToken},
+		{"OPTIONS", "/v1/payToken", api.ping},
 	}
 }
 
@@ -82,6 +85,8 @@ type API interface {
 	CreateOrder(ctx *https.Context)
 	//token
 	CreateOrderToken(ctx *https.Context)
+	//pay
+	CreatePayToken(ctx *https.Context)
 }
 
 type httpError struct {

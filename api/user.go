@@ -5,11 +5,7 @@ package api
 type User struct {
 	Id			string  `json:"id"`
 	Username	string	`json:"username"`	//email
-	Password 	string 	`json:"password"`	//sha1(password)
 	Gender		int 	`json:"gender"` 	// 0 women 1 man
-	CreateTime  int64 	`json:"createTime,omitempty"`
-	UpdateTime  int64 	`json:"updateTime,omitempty"`
-	DeleteTime  int64   `json:"deleteTime,omitempty"`
 }
 
 type Address struct {
@@ -23,7 +19,4 @@ type Address struct {
 	ZipCode  string `json:"zipCode"`   //邮编
 	Phone    string `json:"phone"`	   //收货人电话
 	IsDefault  bool  `json:"isDefault"`
-	CreateTime int64 `json:"createTime"`
-	UpdateTime int64 `json:"updateTime"`
-	DeleteTime int64 `json:"deleteTime"`
 }

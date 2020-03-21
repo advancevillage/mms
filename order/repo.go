@@ -4,7 +4,6 @@ package order
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"github.com/advancevillage/3rd/storages"
 	"mms/api"
 )
@@ -26,6 +25,19 @@ func (s *Mongo) CreateOrder(o *api.Order) error {
 		return err
 	}
 	return s.storage.CreateStorageV2Exd(Schema, o.User.Id, o.Id, buf)
+}
+
+func (s *Mongo) UpdateOrder(o *api.Order) error {
+	if o == nil {
+		return errors.New("order is nil")
+	}
+	buf, err := json.Marshal(o)
+	if err != nil {
+		return err
+	}
+	where := make(map[string]interface{})
+	where["id"] = o.Id
+	return s.storage.UpdateStorageV2Exd(Schema, o.User.Id, where, o.Id, buf)
 }
 
 func (s *Mongo) QueryOrders(user *api.User, where map[string]interface{}, page int, perPage int, sort map[string]interface{}) ([]api.Order, int64, error) {
@@ -96,31 +108,6 @@ func (s *Mongo) QueryStock(stock *api.Stock) (*api.Stock, error) {
 		return nil, err
 	}
 	return &value, nil
-}
-
-func (s *Mongo) QueryPay(user *api.User, card *api.CreditCard) (*api.CreditCard, error) {
-	if user == nil || card == nil {
-		return nil, errors.New("user or card is nil")
-	}
-	where := make(map[string]interface{})
-	where["id"] = card.Id
-	where["number"] = map[string]interface{}{
-		"$regex": fmt.Sprintf("^%s[0-9]+%s$", card.Number[:4], card.Number[len(card.Number)-4:]),
-	}
-	items, total, err := s.storage.SearchStorageV2Exd(CreditSchema, user.Id, where, 1, 0, nil)
-	if err != nil {
-		return nil, err
-	}
-	if total > 1 || total < 1 {
-		return nil, errors.New("credit card info error")
-	}
-	total = 0
-	credit := api.CreditCard{}
-	err = json.Unmarshal(items[total], &credit)
-	if err != nil {
-		return nil, err
-	}
-	return &credit, nil
 }
 
 func (s *Mongo) ClearCart(user *api.User, cartId ...string) error {

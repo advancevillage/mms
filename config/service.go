@@ -7,6 +7,7 @@ import (
 	"github.com/advancevillage/3rd/caches"
 	"github.com/advancevillage/3rd/files"
 	"github.com/advancevillage/3rd/logs"
+	"github.com/advancevillage/3rd/pay"
 	"github.com/advancevillage/3rd/storages"
 	"os"
 )
@@ -21,23 +22,17 @@ func (s *Service) ExitWithInfo(format string, a ...interface{}) {
 	os.Exit(0)
 }
 
-
 func (s *Service) LoadArgs(commit, buildTime string) error {
 	var args = os.Args
 	var length = len(args)
 	s.Configure.Commit	   = commit
 	s.Configure.BuildTime  = buildTime
-	s.Configure.File 	= "./etc/ums.xml"
-	s.Configure.Upload 	= "./upload"
+	s.Configure.File 	= "./etc/oms.xml"
 	for i := 0; i < length; i += 2 {
 		switch args[i] {
 		case "--config", "-c":
 			if j := i+1; j < length {
 				s.Configure.File = args[j]
-			}
-		case "--upload", "-u":
-			if j := i+1; j < length {
-				s.Configure.Upload = args[j]
 			}
 		case "--version", "-v":
 			s.ExitWithInfo("commit=%s, buildTime=%s", commit, buildTime)
@@ -47,7 +42,6 @@ func (s *Service) LoadArgs(commit, buildTime string) error {
 	}
 	return nil
 }
-
 
 func (s *Service) LoadConfigure() error {
 	buf, err := files.NewXMLFile().ReadFile(s.Configure.File)
@@ -80,5 +74,7 @@ func (s *Service) LoadServices() error {
 		s.ExitWithInfo("init redis cache fail")
 		return err
 	}
+	//@pay
+	s.Pay = pay.NewBrainTree(s.Configure.Braintree.Url, s.Configure.Braintree.Merchant, s.Configure.Braintree.Public, s.Configure.Braintree.Private, s.Logger)
 	return nil
 }

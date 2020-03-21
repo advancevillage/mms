@@ -5,6 +5,7 @@ import (
 	"encoding/xml"
 	"github.com/advancevillage/3rd/caches"
 	"github.com/advancevillage/3rd/logs"
+	"github.com/advancevillage/3rd/pay"
 	"github.com/advancevillage/3rd/storages"
 )
 
@@ -20,7 +21,12 @@ type configure struct {
 	} `xml:"redis"`
 	Mongo string	`xml:"mongo"`
 	Log 		string   `xml:"log"`
-	Upload 		string 	 `xml:"upload"`
+	Braintree struct{
+		Merchant string `xml:"merchant"`
+		Public   string `xml:"public"`
+		Private  string `xml:"private"`
+		Url 	 string `xml:"url"`
+	} `xml:"braintree"`
 	File 	  	string 	 `xml:"-"`
 	Commit 		string   `xml:"-"`
 	BuildTime 	string   `xml:"-"`
@@ -30,5 +36,6 @@ type Service struct {
 	Cache     caches.ICache
 	Logger    logs.Logs
 	Mongo     storages.StorageExd
+	Pay       pay.IPay
 	Configure configure
 }

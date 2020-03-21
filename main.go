@@ -51,7 +51,7 @@ func main() {
 	langService := language.NewService()
 
 	//init order service
-	orderService := order.NewService(configService.Mongo, configService.Logger)
+	orderService := order.NewService(configService.Mongo, configService.Pay, configService.Logger)
 
 	//init session service
 	sessionService := session.NewService(configService.Cache, configService.Logger)

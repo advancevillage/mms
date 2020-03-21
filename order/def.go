@@ -3,6 +3,7 @@ package order
 
 import (
 	"github.com/advancevillage/3rd/logs"
+	"github.com/advancevillage/3rd/pay"
 	"mms/api"
 )
 
@@ -29,7 +30,6 @@ const (
 const (
 	StateOrdered     = "ordered"
 	StatePendingPay  = "pending_pay"
-	StatePaying      = "paying"
 	StatePayed       = "payed"
 	StatePendingShip = "pending_ship"
 	StateShipping    = "shipping"
@@ -38,9 +38,9 @@ const (
 
 type IOrder interface {
 	CreateOrder(o *api.Order) error
+	UpdateOrder(o *api.Order) error
 	QueryOrders(user *api.User, where map[string]interface{}, page int, perPage int, sort map[string]interface{}) ([]api.Order, int64, error)
 	IStock
-	IPay
 	ICart
 }
 
@@ -52,10 +52,6 @@ type IStock interface {
 	QueryStock(stock *api.Stock) (*api.Stock, error)
 }
 
-type IPay interface {
-	QueryPay(user *api.User, card *api.CreditCard) (*api.CreditCard, error)
-}
-
 type ICart interface {
 	ClearCart(user *api.User, cartId ...string) error
 }
@@ -64,5 +60,6 @@ type Service struct {
 	repo IOrder
 	logger logs.Logs
 	sm   *fsm
+	pay  pay.IPay
 }
 

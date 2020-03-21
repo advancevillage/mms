@@ -5,14 +5,16 @@ import (
 	"errors"
 	"fmt"
 	"github.com/advancevillage/3rd/logs"
+	"github.com/advancevillage/3rd/pay"
 	"github.com/advancevillage/3rd/storages"
 	"github.com/advancevillage/3rd/times"
 	"mms/api"
 )
 
-func NewService(storage storages.StorageExd, logger logs.Logs) *Service {
+func NewService(storage storages.StorageExd, pay pay.IPay, logger logs.Logs) *Service {
 	s := &Service{
 		repo: NewRepoMongo(storage),
+		pay: pay,
 		logger: logger,
 		sm: &fsm{},
 	}
@@ -43,6 +45,24 @@ func (s *Service) ActionPayOrder (o *api.Order) error {
 		}
 	}
 	//支付订单
+	callback := make(map[string]string)
+	err = s.pay.Transaction(o.Pay.Nonce, o.Total, &callback)
+	if err != nil {
+		s.logger.Alert(err.Error())
+		return err
+	}
+	o.T = &api.Transaction{}
+	o.T.Id = callback["id"]
+	o.T.Status = callback["status"]
+	o.State = StatePayed
+	o.NextState = StatePendingShip
+	o.UpdateTime = times.Timestamp()
+	o.PayTime    = times.Timestamp()
+	o.SnapshotPayed = true
+	err = s.UpdateOder(o.User, o)
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -65,6 +85,7 @@ func (s *Service) CreateOrder(user *api.User, o *api.Order) error {
 	o.User    = user
 	o.State   = StateOrdered
 	o.NextState = StatePendingPay
+	o.SnapshotOrdered = true
 	o.OrderTime = times.Timestamp()
 	err = s.repo.CreateOrder(o)
 	if err != nil {
@@ -82,7 +103,19 @@ func (s *Service) CreateOrder(user *api.User, o *api.Order) error {
 		s.logger.Critical("pay order fail %s", err.Error())
 		return err
 	}
-	//支付订单
+	return nil
+}
+
+func (s *Service) UpdateOder(user *api.User, o *api.Order) error {
+	if user == nil || o == nil {
+		return errors.New("user or order is nil")
+	}
+	o.User = user
+	err := s.repo.UpdateOrder(o)
+	if err != nil {
+		s.logger.Critical("pay order fail %s", err.Error())
+		return err
+	}
 	return nil
 }
 
@@ -134,16 +167,15 @@ func (s *Service) QueryStock(stock *api.Stock) (*api.Stock, error) {
 	return org, nil
 }
 
-func (s *Service) QueryCreditCard(user *api.User, credit *api.CreditCard) (*api.CreditCard, error) {
-	if user == nil || credit == nil {
-		return nil, errors.New("user or credit is nil")
+func (s *Service) CreatePayToken(user *api.User) (string, error) {
+	if user == nil {
+		return "", errors.New("user is nil")
 	}
-	value, err := s.repo.QueryPay(user, credit)
+	var token string
+	err := s.pay.ClientToken(&token)
 	if err != nil {
 		s.logger.Error(err.Error())
-		return nil, err
+		return "", err
 	}
-	return value, nil
+	return token, nil
 }
-
-

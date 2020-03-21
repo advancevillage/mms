@@ -86,12 +86,6 @@ func (s *Service) CreateOrder(ctx *https.Context) {
 		buy.Id      = sell.Id
 		buy.Version = sell.Version
 	}
-	//获取支付信息
-	param.Pay, err = s.orderService.QueryCreditCard(user, param.Pay)
-	if err != nil {
-		ctx.JSON(http.StatusAccepted, s.newHttpError(CreditCode, CreditMsg, QueryErrorCode, InvalidCreditCard))
-		return
-	}
 
 	//TODO 校验地址
 	if param.Address == nil {
@@ -156,6 +150,22 @@ func (s *Service) CreateOrder(ctx *https.Context) {
 //@Failure 404 {object} route.httpError
 //@Failure 500 {object} route.httpError
 //@Router /v1/address [post]
+func (s *Service) CreatePayToken(ctx *https.Context) {
+	//验证用户
+	sid, err := s.sid(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, s.newHttpError(SessionCode, SessionMsg, QueryErrorCode, err.Error()))
+		return
+	}
+	//查询用户
+	user, err := s.sessionService.QueryUserSession(sid)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, s.newHttpError(SessionCode, SessionMsg, QueryErrorCode, err.Error()))
+		return
+	}
+	token, err := s.orderService.CreatePayToken(user)
+	ctx.JSON(http.StatusOK, token)
+}
 
 
 //@Summary 订单令牌
