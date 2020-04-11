@@ -111,35 +111,36 @@ func (s *Service) CreateOrder(ctx *https.Context) {
 //@Router /v1/carts [post]
 
 
-//@Summary 查询购物车
+//@Summary 查询用户订单列表
 //@Produce json
 //@Param x-language header string false "语言" default "chinese"
 //@Success 200 {object} route.httpOk
 //@Failure 400 {object} route.httpError
 //@Failure 404 {object} route.httpError
 //@Failure 500 {object} route.httpError
-//@Router /v1/carts [get]
-
-
-//@Summary 更新购物车
-//@Produce json
-//@Param x-language header string false "语言" default "chinese"
-//@Success 200 {object} route.httpOk
-//@Failure 400 {object} route.httpError
-//@Failure 404 {object} route.httpError
-//@Failure 500 {object} route.httpError
-//@Router /v1/carts/{pathId} [put]
-
-
-//@Summary 删除购物车
-//@Produce json
-//@Param x-language header string false "语言" default "chinese"
-//@Success 200 {object} route.httpOk
-//@Failure 400 {object} route.httpError
-//@Failure 404 {object} route.httpError
-//@Failure 500 {object} route.httpError
-//@Router /v1/carts/{pathId} [delete]
-
+//@Router /v1/orders [get]
+func (s *Service) QueryOrder(ctx *https.Context) {
+	page := s.page(ctx)
+	perPage := s.perPage(ctx)
+	//验证用户
+	sid, err := s.sid(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusForbidden, s.newHttpError(SessionCode, SessionMsg, QueryErrorCode, err.Error()))
+		return
+	}
+	//查询用户
+	user, err := s.sessionService.QueryUserSession(sid)
+	if err != nil {
+		ctx.JSON(http.StatusForbidden, s.newHttpError(SessionCode, SessionMsg, QueryErrorCode, err.Error()))
+		return
+	}
+	orders, total, err := s.orderService.QueryOrders(user, page, perPage)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, s.newHttpError(OrderCode, OrderMsg, QueryErrorCode, err.Error()))
+		return
+	}
+	ctx.JSON(http.StatusOK, s.response(orders, total))
+}
 
 //@Summary 新增地址
 //@Produce json
@@ -149,7 +150,7 @@ func (s *Service) CreateOrder(ctx *https.Context) {
 //@Failure 400 {object} route.httpError
 //@Failure 404 {object} route.httpError
 //@Failure 500 {object} route.httpError
-//@Router /v1/address [post]
+//@Router /v1/payToken [post]
 func (s *Service) CreatePayToken(ctx *https.Context) {
 	//验证用户
 	sid, err := s.sid(ctx)
@@ -166,7 +167,6 @@ func (s *Service) CreatePayToken(ctx *https.Context) {
 	token, err := s.orderService.CreatePayToken(user)
 	ctx.JSON(http.StatusOK, token)
 }
-
 
 //@Summary 订单令牌
 //@Produce json

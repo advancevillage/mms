@@ -127,7 +127,7 @@ func (s *Service) page(ctx *https.Context) int {
 func (s *Service) perPage(ctx *https.Context) int {
 	value := ctx.Param("perPage")
 	perPage, err := strconv.Atoi(value)
-	if err != nil || perPage < 0 || perPage > 100 {
+	if err != nil || perPage < 0 {
 		perPage = 20
 	}
 	return perPage

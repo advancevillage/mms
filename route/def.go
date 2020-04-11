@@ -67,6 +67,7 @@ var router = func (api API) []https.Router {
 		{"GET", "/v1/service/version", api.version},
 		//order
 		{"POST", "/v1/orders", api.CreateOrder},
+		{"GET", "/v1/orders", api.QueryOrder},
 		{"OPTIONS", "/v1/orders", api.ping},
 		{"OPTIONS", "/v1/orders/:pathId", api.ping},
 		//orderToken
@@ -83,6 +84,7 @@ type API interface {
 	version(ctx *https.Context)
 	//order
 	CreateOrder(ctx *https.Context)
+	QueryOrder (ctx *https.Context)
 	//token
 	CreateOrderToken(ctx *https.Context)
 	//pay

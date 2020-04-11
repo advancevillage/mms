@@ -1,7 +1,7 @@
 FROM golang:1.13.5-alpine  as builder
 WORKDIR /go/src
 ENV GO111MODULE=on
-ENV GOPROXY=https://goproxy.cn
+ENV GOPROXY=https://goproxy.io
 COPY . /go/src
 
 RUN echo "https://mirrors.aliyun.com/alpine/v3.10/main" > /etc/apk/repositories \
@@ -25,10 +25,10 @@ RUN echo "https://mirrors.aliyun.com/alpine/v3.10/main" > /etc/apk/repositories 
     && mkdir -p /app/etc
 
 #拷贝配置文件
-COPY --from=builder /go/src/etc/ums.xml /app/etc/
-COPY --from=builder /go/src/bin/ums /app/
+COPY --from=builder /go/src/etc/oms.xml /app/etc/
+COPY --from=builder /go/src/bin/oms /app/
 
 #暴露的端口号
-EXPOSE 13172
+EXPOSE 13174
 
-ENTRYPOINT /app/ums
+ENTRYPOINT /app/oms
